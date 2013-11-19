@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="nodes-default" namespace="/nodes"
+		extends="struts-default" >
+		<action name="nodes_*" class="NodesAction" method="{1}">
+			<result name="listNodes">
+				/jsp/nodeList.jsp
+			</result>
+			<result name="nodeGroup">
+				/jsp/nodeGroup.jsp
+			</result>
+			<result type="chain" name="_forward">
+				nodes_queryNodes
+			</result> 
+		</action>
+		
+		<action name="nodeGroup_*" class="NodeGroupAction" method="{1}">
+		</action>
+		
+		<action name="event_*" class="EventsHandleAction" method="{1}">
+			<result name="eventsHandle">/jsp/eventsHandle.jsp</result>
+			<result type="chain" name="_forward">
+				event_queryEvents
+			</result> 
+		</action>
+		
+		<action name="users_*" class="UsersAction" method="{1}">
+			<result name="queryUsers">/jsp/usersHandle.jsp</result>
+			<result name="editUser">/jsp/editUser.jsp</result>
+			<result name="queryNUsers">/jsp/queryNUsers.jsp</result>
+			<result name="useNodesList">/jsp/useNodesList.jsp</result>
+			<result name="ok">/ok.jsp</result>
+		</action>
+
+	</package>
+
+</struts>

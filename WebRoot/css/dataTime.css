@@ -1,0 +1,170 @@
+/* 时间控件  start */
+.menu_iframe{position:absolute; visibility:inherit; top:0px; left:0px; width:170px; z-index:-1; filter: Alpha(Opacity=0);}
+.cal_table{ border:#333333 solid 1px; border-collapse:collapse;  background:url(../images/time/con_header_n.jpg) repeat-x top;  font-size:12px;}
+.cal_table td{ font-size:12px; }
+.cal_table input{ height:18px;line-height:16px;}
+.cal_drawdate{ background:#fff;border-collapse:collapse; width:100%}
+.cal_drawdate td{ border:1px #ffffff solid; }
+.cal_drawtime{ border:0px #ffffff solid; font-size:12px}
+.cal_drawdate td{ border:0px #ffffff solid; }
+.m_fieldset {
+	padding: 0,10,5,10;
+	text-align: center;
+	width: 160px;
+}
+.m_legend {
+	font-family: Tahoma;
+	font-size: 11px;
+	padding-bottom: 5px;
+}
+.m_frameborder {
+	width: 80px;
+	height: 16px;
+	background: #FFFFFF; border:1px solid #A7A7A7;
+	overflow: hidden;
+	text-align:left;
+	font-family: "Tahoma";
+	font-size: 11px;
+}
+/*下部按钮*/
+.m_arrow {
+	width: 16px; background:url(../images/time/select_btn.jpg) no-repeat left top;
+	height: 9px;
+	font-family: "Webdings";
+	font-size: 7px;
+	line-height: 2px;
+	padding-left: 4px;
+	cursor: default; border:none; text-align:center; color:#255b9e;
+}
+.m_input {
+	width: 20px;
+	height: 19px;
+	line-height:19px;
+	border: 0px solid black;
+	font-family: "Tahoma";
+	font-size: 9px;
+	text-align: center;
+
+}
+.c_fieldset {
+	padding: 0,10,5,10;
+	text-align: center;
+	width: 180px;
+}
+.c_legend {
+	font-family: Tahoma;
+	font-size: 11px;
+	padding-bottom: 5px;
+}
+.c_frameborder {
+	overflow: hidden;
+	font-family: "Tahoma";
+	font-size: 10px;
+	width:236px;
+	height:130px;
+}
+.c_frameborder td {
+	width: 23px;
+	height: 16px;
+	font-family: "Tahoma";
+	font-size: 11px;
+	text-align: center;
+	cursor: default;
+}
+.c_frameborder .selected {
+	background:url(../images/time/icon99.jpg) no-repeat center top; text-align:center; padding-top:3px;
+	height:16px;
+	color:#fff;
+	display:block;
+}
+.c_frameborder span {
+	text-align:center;
+	padding-top:3px;
+	height:16px;	
+	display:block;
+}
+.c_arrow {
+	width: 16px;
+	height: 9px;
+	background:url(../images/time/select_btn.jpg) no-repeat left top; border:none;
+	font-family: "Webdings";
+	font-size: 7px;
+	line-height: 2px;
+	padding-left: 4px;
+	cursor: default; margin-right:10px;
+}
+.c_year {
+	font-family: "Tahoma";
+	font-size: 11px;
+	cursor: default; height:20px; padding:0px; text-align:center;
+	width:50px;
+	border:#A7A7A7 solid 1px; margin-left:10px;
+}
+.c_year input{ height:18px;}
+.c_month {
+	width:75px; margin-right:10px;
+	height:18px;
+	font:11px "Tahoma";
+	border:#A7A7A7 solid 1px;
+}
+.c_dateHead {
+	background:#F4F4F4; height:20px; margin-top:3px; width:100%;
+	color:#333333;
+	border-collapse:collapse;
+}
+
+.rightmenu{
+	float:left; /* 菜单总体水平位置 */
+	list-style:none;
+	line-height:19px; /* 一级菜单高 */
+	background:#1371A0 ; /* 所有菜单移出色 */
+	font-weight: bold;
+	padding:0px;
+	margin:0px;
+    border: 1px #000000 solid;
+}
+.rightmenu li{
+	float:left; /* 菜单总体水平位置 */
+	list-style:none;
+	line-height:19px; /* 一级菜单高 */
+	background:#1371A0 ; /* 所有菜单移出色 */
+	font-weight: bold;
+    color:#FFFFFF;
+    padding:0px;
+	margin:0px;
+    border: 1px #FFFFFF solid;
+}
+.rightmenu li a{
+	float:left; /* 菜单总体水平位置 */
+	list-style:none;
+	line-height:19px; /* 一级菜单高 */
+	background:#1371A0 ; /* 所有菜单移出色 */
+	font-weight: bold;
+    color:#FFFFFF !important;
+    padding:0px;
+	margin:0px;
+	border-right: 0px;
+    display:block;
+    width:80px;
+}
+.rightmenu li a:hover{
+	float:left; /* 菜单总体水平位置 */
+	list-style:none;
+	line-height:19px; /* 一级菜单高 */
+	background:#B2CFDF ; /* 所有菜单移出色 */
+	font-weight: bold;
+    color:#000000 !important;
+    padding:0px;
+	margin:0px;
+	border-right: 0px;
+    width:80px;
+    text-decoration:none;
+}
+.bcqx{height:53px;font-size:10px}
+.time_boder_top{border-top:1px solid #999999;border-left:1px solid #999999;border-right:1px solid #999999;}
+.time_boder_down{border-bottom:1px solid #999999;border-left:1px solid #999999;border-right:1px solid #999999; background:#F4F4F4; height:24px; padding-top:4px;}
+.red{color:#ff0000}
+
+.time_button_add{height:22px; width:44px;font-size:10px;background:url(../images/time/btn_bg.jpg) no-repeat; margin:0 3px;margin-left:10px;border:none}
+.time_button_close{height:22px; width:44px;font-size:10px;background:url(../images/time/btn_bg.jpg) no-repeat;border:none}
+/* 时间控件 end  */

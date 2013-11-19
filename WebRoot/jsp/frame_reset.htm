@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+	<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+</HEAD>
+<BODY style="padding-top:0px;padding-bottom:0px;border-top:0px;border-bottom:0px;margin-top: 0px;margin-bottom:0px;">
+	<table height="100%" border="0">
+		<tr>
+			<td align="center">
+				<img id="up_top"   style="cursor:hand" onclick="goLeft();" src="..//images/y2.gif"/>
+				<img id="up_middle"  style="cursor:hand;display:none;" onclick="goMiddle();" src="../images/y1.gif"/>
+				<img id="down_bottom" title="" style="cursor:hand" onclick="goRight();" src="..//images/z2.gif"/>
+				<img id="down_middle" title="" style="cursor:hand;display:none;" onclick="goMiddle();" src="../images/z1.gif"/>
+			</td>
+		</tr>
+	</table>
+	
+	
+	<script type="text/javascript">
+		function goLeft(){	
+			hideAll();
+			parent.mainFrame.cols="0,15,*";
+			document.getElementById("down_middle").style.display="inline";
+			document.getElementById("down_bottom").style.display="inline";
+		}
+		function goRight(){
+			hideAll();
+			parent.mainFrame.cols="*,15,0";
+			document.getElementById("up_middle").style.display="inline";
+			document.getElementById("up_top").style.display="inline";
+		}
+		function goMiddle(){
+			hideAll();
+			parent.mainFrame.cols="270,15,*";
+			document.getElementById("down_bottom").style.display="inline";
+			document.getElementById("up_top").style.display="inline";
+		}
+		function hideAll(){
+			document.getElementById("down_middle").style.display="none";
+			document.getElementById("down_bottom").style.display="none";
+			document.getElementById("up_middle").style.display="none";
+			document.getElementById("up_top").style.display="none";
+		}	
+	</script>
+</BODY>
+</HTML>

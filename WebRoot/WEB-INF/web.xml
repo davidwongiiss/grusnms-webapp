@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="GBK" ?>
+<web-app id="sip_auto" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<display-name>BUSINESS</display-name>
+	
+
+<!-- 
+	<filter>
+		<filter-name>AdminAuthenticationFilter</filter-name>
+		<filter-class>com.sohu.fortune.talk.admin.auth.util.servlet.AdminLoginFilter</filter-class>
+		<init-param>
+			<param-name>CanDo</param-name>
+			<param-value>
+				,/admin/auth/apply.sip,/admin/auth/verify.sip,/admin/auth/noright.sip,/admin/login.sip,/admin/changeuser_logout.sip,/admin/auth/index.sip,
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>Noright</param-name>
+			<param-value>/admin/auth/noright.sip</param-value>
+		</init-param>
+		<init-param>
+			<param-name>LogonPage</param-name>
+			<param-value>/admin/login.sip</param-value>
+		</init-param>
+	</filter>
+	
+ -->
+	
+<filter>  
+   <filter-name>SetCharacterEncoding</filter-name>  
+   <filter-class>  
+    org.springframework.web.filter.CharacterEncodingFilter  
+   </filter-class>  
+   <init-param>  
+    <param-name>encoding</param-name>  
+    <param-value>GBK</param-value>  
+   </init-param>  
+   <init-param>  
+    <param-name>forceEncoding</param-name>  
+    <param-value>true</param-value>  
+   </init-param>  
+</filter>  
+	<filter>
+		<filter-name>HibernateFilter</filter-name>
+		<filter-class>com.device.util.servlet.HibernateSessionRequestFilter</filter-class>
+	</filter>
+
+
+	
+<!-- 开启所有sip
+	<filter-mapping>
+		<filter-name>HibernateFilter</filter-name>
+		<url-pattern>/admin/**.sip</url-pattern> <只对admin下filter >
+	</filter-mapping>
+-->
+	<filter-mapping>
+		<filter-name>HibernateFilter</filter-name>
+		<url-pattern>*.sip</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>Struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Struts2</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+ 
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/classes/AuthAppContext.xml
+		</param-value>
+	</context-param>
+
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<session-config>
+		<session-timeout>600</session-timeout>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+</web-app>

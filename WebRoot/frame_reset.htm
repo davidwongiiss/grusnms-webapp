@@ -1,0 +1,51 @@
+
+<html>
+<head>
+<title></title>
+<meta META content="Microsoft FrontPage 4.0" name=GENERATOR>
+<meta http-equiv="Content-Type" content="text/html; charset=GBK"/>	
+<link rel=stylesheet type=text/css href=../stylesheet/cp.css>
+<link rel="stylesheet" type="text/css" href="../js/XMLSelTree/XMLSelTree.css">
+<style type="text/css">
+<!--
+.content {  font-size: 12px; line-height: 22px; color: #000000; text-decoration: none}
+.p9 {  font-size: 12px; line-height: 18px; color: #FFFFFF; text-decoration: none}
+.content01 {  font-size: 12px; line-height: 18px; color: 0100D8; text-decoration: none}
+a:hover {  color: #666666; text-decoration: underline}
+.o1 {	FONT-SIZE: 12px; CURSOR: hand; COLOR: #ffffff; FONT-FAMILY: Webdings; POSITION: absolute; BACKGROUND-COLOR: #255ca9}
+-->
+</style>
+
+<script language="javascript">
+function changeWin(){
+/**
+		hideAll();
+		parent.middle.rows="0,15,*";
+		document.getElementById("down_middle").style.display="inline";
+		document.getElementById("down_bottom").style.display="inline";
+		**/
+	if(parent.middle.cols != "0,15,*"){
+		parent.middle.cols = "0,15,*";
+		document.all.menuSwitch.innerHTML = '<font class=o1>4</font>';
+	}
+	else{
+		parent.middle.cols = "220,15,*";
+		document.all.menuSwitch.innerHTML = '<font class=o1>3</font>';
+	}
+}
+</script>
+
+<base target="main">
+
+</head>
+
+<body bgcolor="#f2f8ff" text="#000000" leftmargin="0" topmargin="0" rightmargin="0">
+<table width="190" border="0" cellspacing="0" cellpadding="0" height="100%" align=right>
+  <tr> 
+    <td id=menuSwitch onclick=changeWin() height="100%" width=15 bgcolor="#DDDDDD">
+    		<FONT class=o1>3</FONT>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
