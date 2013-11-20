@@ -18,16 +18,27 @@
 			function checkFrom()
 			{
 				if(Validator.Validate(document.getElementById('add_form'),2)){
+					var url = "<%= path %>/nodes/users_checkUserExit.sip";
+					var name = $("#user\\.name").val();
 					
+					$.get(url,{"name":name},function(data){
+							if(data == "0") 
+							{
+								$("#add_form").submit();
+							}
+							else 
+							{
+								alert("该用户已存在！");
+								return false;
+							}
+						});
 				}
 				return false;
 			}
-		
 		</script>
 	</head>
 <body>
-  <form action="<%= request.getContextPath() %>/nodes/users_addUser.sip" id="add_form" method="post" onsubmit="return checkFrom();"> 
-  		<input type="hidden" value="" name="user.password"/>
+  <form action="<%= request.getContextPath() %>/nodes/users_addUser.sip" id="add_form" method="post" > 
 		<div class="query_table_d"> 
 		 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="query_table">
 		 <tr class="table_top">
@@ -57,11 +68,13 @@
 			<tr> 
 				<td class="font_text_right"  width="15%">密码</td>
 				<td align="left" width='20%'  >
-					<div class="inpit2_bg" > <input  id="password1"   name="password1"   type="password"  size="16" /></div>
+					<div class="inpit2_bg" > <input  id="password1"   name="user.password"   type="password"  size="16" dataType="Require,LimitB" min="6" max="20"  msg="密码必须输入##密码长度不小于6位不大于20位！"/></div>
+					<font color="red">*</font>
 				</td>
 				<td class="font_text_right"  width="15%">重复密码</td>
 				<td align="left" width='20%'  >
-					<div class="inpit2_bg" > <input  id="password2"   name="password2"   type="password"  size="16" /></div>
+					<div class="inpit2_bg" > <input  id="password2"   name="password2"   type="password"  size="16" require="true" dataType="Repeat" to="user.password" msg="两次输入的密码不一致"/></div>
+					<font color="red">*</font>
 				</td>
 			</tr>
 			<tr> 
@@ -120,8 +133,8 @@
 			</tr>
 				<tr> 
 					<td colspan="6" align="center" style="text-align: center;">
-						<input type="submit" class="btn60"  value='保存' />
-						<input type="reset" class="btn60"  value='取消' />
+						<input type="button" class="btn60"  value='保存' onclick="javascript: checkFrom();" />
+						<input type="button" class="btn60"  value='取消' onclick="javascript: window.returnValue=false;window.close()"/>
 					</td>
 				</tr>
 	

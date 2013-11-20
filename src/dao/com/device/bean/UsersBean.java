@@ -80,8 +80,8 @@ public class UsersBean {
 		String userName = event.getUserName();
 		String moblieNo = event.getMobileNo();
 		Integer isAdmin = event.getIsAdmin();
-		Date beginTime = event.getBeginTime();
-		Date endTime =event.getEndTime();
+		String beginTime = event.getBeginTime();
+		String endTime =event.getEndTime();
 		int pageNO = event.getPageNO();
 		int pageCount = event.getPageCount();
 		Pagination pagination = new Pagination(pageNO, pageCount);
@@ -95,7 +95,7 @@ public class UsersBean {
 				hql.append(" and name = '"+userName+"' ");
 			}
 			if(!"".equals(moblieNo)){
-				hql.append(" and moblie_no = '"+moblieNo+"' ");
+				hql.append(" and mobile_no = '"+moblieNo+"' ");
 			}
 			if(isAdmin != -1){
 				hql.append(" and is_admin = '"+isAdmin+"' ");
@@ -158,5 +158,18 @@ public class UsersBean {
 		}
 		return null;
 	}
+
+	public void changePassword(String userId, String password) {
+		Session session = null;
+		try{
+			session = PeakSessionFactory.instance().getCurrentSession();
+			String queryString = "update Users set password = ? where name = ? ";
+			HibernateHelper.delete(session, queryString, new String[]{password , userId});
+		}catch(HibernateException e){
+			e.printStackTrace();
+		}
+	}
+
+
 
 }

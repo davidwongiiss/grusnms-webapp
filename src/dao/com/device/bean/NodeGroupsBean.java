@@ -73,7 +73,7 @@ public class NodeGroupsBean {
 	 * @return
 	 */
 	public String bulidGroupTree(String rootType) {
-		Collection c = getGroupType();
+		Collection c = getGroupType(rootType);
 		c.add(NodeGroups.getRoot(rootType));
 		String[] treeTab = {"id" , "pId" , "name" , "description" , "groupType" , "latitude" , "longitude" , "createTime" , "updateTime" , "creator" , "updater" , "isSystem"};
 		String result = JSONUtil.listToJson(c, treeTab);
@@ -81,12 +81,12 @@ public class NodeGroupsBean {
 	}
 	
 	
-	public Collection getGroupType(){
+	public Collection getGroupType(String rootType){
 		Collection c = null;
 		Session session = null;
 		try {
 			session = PeakSessionFactory.instance().getCurrentSession();
-			String hql = "select g from NodeGroups g";
+			String hql = "select g from NodeGroups g where g.groupType = '"+rootType+"'";
 			c = HibernateHelper.getQueryResult(session, hql);
 			return c ;
 		} catch (HibernateException e) {
@@ -114,7 +114,13 @@ public class NodeGroupsBean {
 	 * @param nodeGroups
 	 */
 	public void editGroup(NodeGroups nodeGroups){
-		
+		Session session = null;
+		try{
+			session = PeakSessionFactory.instance().getCurrentSession();
+			HibernateHelper.update(session, nodeGroups);
+		}catch(HibernateException e){
+			e.printStackTrace();
+		}
 	}
 	
 	public void deleteGroup(String groupId){

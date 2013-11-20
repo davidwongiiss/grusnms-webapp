@@ -17,6 +17,7 @@ import com.device.po.Users;
 import com.device.util.DataFormat;
 import com.device.util.LoginUtil;
 import com.device.util.ParamUtil;
+import com.device.util.Struts2Utils;
 
 public class UsersAction {
 	private static Log log = LogFactory.getLog(UsersAction.class);
@@ -26,14 +27,14 @@ public class UsersAction {
 			//查询列表
 			HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
 			UsersEvent event = new UsersEvent(); 
-			event.setUserName(ParamUtil.getString(request, "userName"));
+			event.setUserName(ParamUtil.getString(request, "name"));
 			event.setMobileNo(ParamUtil.getString(request, "mobileNo"));
 			event.setIsAdmin(ParamUtil.getInt(request, "isAdmin"));
 			String beginTime = ParamUtil.getString(request, "beginTime");
 			String endTime = ParamUtil.getString(request, "endTime");
 			if(!"".equals(beginTime)&&!"".equals(endTime)){
-				event.setBeginTime(DataFormat.parseDate(beginTime));
-				event.setEndTime(DataFormat.parseDate(endTime));
+				event.setBeginTime(beginTime);
+				event.setEndTime(endTime);
 			}
 			UsersListResult result = UsersBean.getInstance().list(event);
 			request.setAttribute("result", result);
@@ -58,8 +59,8 @@ public class UsersAction {
 			String beginTime = ParamUtil.getString(request, "beginTime");
 			String endTime = ParamUtil.getString(request, "endTime");
 			if(!"".equals(beginTime)&&!"".equals(endTime)){
-				event.setBeginTime(DataFormat.parseDate(beginTime));
-				event.setEndTime(DataFormat.parseDate(endTime));
+				event.setBeginTime(beginTime);
+				event.setEndTime(endTime);
 			}
 			UsersListResult result = UsersBean.getInstance().list(event);
 			request.setAttribute("result", result);
@@ -102,6 +103,37 @@ public class UsersAction {
 		UsersBean.getInstance().updateUser(user);
 		return "ok";
 	}
+	
+	
+	public void checkUserExit(){
+		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
+		String userName = ParamUtil.getString(request, "name");
+		Users u = UsersBean.getInstance().queryUserBean(userName);
+		if(u != null){
+			Struts2Utils.renderText("1");
+		}else{
+			Struts2Utils.renderText("0");
+		}
+	}
+	//密码验证
+	public void checkPassword(){
+		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
+		String password = ParamUtil.getString(request, "password");
+		Users u = UsersBean.getInstance().queryUserBean(LoginUtil.getUserId());
+		if(u != null && u.getPassword().equals(password)){
+			Struts2Utils.renderText("1");
+		}else{
+			Struts2Utils.renderText("0");
+		}
+	}
+	
+	public String changePassword(){
+		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
+		String password = ParamUtil.getString(request, "newPassword");
+		UsersBean.getInstance().changePassword(LoginUtil.getUserId() ,password);
+		return "ok_changePassword";
+	}
+	
 	
 	//查询用户下结点
 	public String queryUserNodes(){

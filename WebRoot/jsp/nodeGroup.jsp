@@ -20,9 +20,17 @@
 		<script type="text/javascript" src="<%= request.getContextPath() %>/js/util.js"></script>
 		<script type="text/javascript">
 			function allocation(){
-				debugger;
 				var gid = $("#gid").val();
+				if(!gid)
+				{
+					alert("请选择要分配结点的类型"); 
+					return;
+				};
 				var ids = getAllValue('nodeid');
+				if(!ids){
+					alert("请选择要分配的结点"); 
+					return;
+				}
 				$("#ids").val(ids);
 				$("#myform").attr("action","<%= request.getContextPath() %>/nodes/nodes_insertNodeToGroup.sip");
 				$("#myform").submit();
@@ -53,24 +61,6 @@
 					<td class="font_text_right"  width="15%">结点名称</td>
 					<td align="left" width='20%'  >
 						<div class="inpit2_bg" > <input  id="name"   name="name"  value="<%= StringUtil.killNull(event.getName())%>"  type="text"  size="16" /></div>
-					</td>
-					<td class="font_text_right"  width="15%">设备类型</td>
-					<td align="left" width='20%'  >
-						<select name="deviceType" class="select152">
-							<option value=''>&nbsp;</option>
-							<%
-								Map type_maps = Constant.deviceTypes;
-								Iterator type_it = type_maps.entrySet().iterator();
-								while (type_it.hasNext()) {
-									Map.Entry entry = (Map.Entry) type_it.next();
-									Object key = entry.getKey();
-									Object value = entry.getValue();
-							%>
-							<option value="<%= key %>" <% if(key.equals(event.getDeviceType())){out.print("selected");}; %>><%= value %></option>
-							<%
-								}
-							%>
-						</select>
 					</td>
 					<td>
 						<input type="submit" class="btn60"  value='查询' />

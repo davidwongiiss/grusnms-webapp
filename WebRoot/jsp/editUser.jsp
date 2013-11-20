@@ -4,6 +4,9 @@
 <%@page import="java.util.Iterator"%>
 <%@page import="com.device.po.Users"%>
 <%@page import="com.device.util.StringUtil"%>
+<%
+	String path = request.getContextPath() ; 
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -11,12 +14,23 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 		<title>修改用户</title>
 		<link rel="stylesheet" type="text/css"	href="../css/style30.css"/>
+		<script type="text/javascript" src="<%= path %>/js/Validator.js"></script>
+		<script type="text/javascript" src="<%= path %>/js/jquery-1.6.2.js"></script>
+		<script type="text/javascript">
+			function checkFrom()
+			{
+				if(Validator.Validate(document.getElementById('add_form'),2)){
+					return true;
+				}
+				return false;
+			}
+		</script>
 	</head>
 <body>
 <%
 	Users user = (Users)request.getAttribute("user");
 %>
-  <form action="<%= request.getContextPath() %>/nodes/users_editUser.sip" id="add_form" method="post" > 
+  <form action="<%= request.getContextPath() %>/nodes/users_editUser.sip" id="update_form" method="post" onsubmit="return checkFrom();"> 
 		<div class="query_table_d"> 
 		 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="query_table">
 		 <tr class="table_top">
@@ -31,17 +45,20 @@
 			<tr> 
 				<td class="font_text_right"  width="15%">用户名</td>
 				<td align="left" width='20%'  >
-					<div class="inpit2_bg" > <input  id="user.name"   name="user.name"  value="<%= StringUtil.killNull(user.getName()) %>"  type="text" size="16" readonly="readonly"/></div>
+					<div class="inpit2_bg" > <input  id="user.name"   name="user.name"  value="<%= StringUtil.killNull(user.getName()) %>"  type="text" size="16" disabled="disabled" readonly="readonly"/></div>
+					<font color="red">*</font>
 				</td>
 				<td class="font_text_right"  width="15%">真实姓名</td>
 				<td align="left" width='20%'  >
-					<div class="inpit2_bg" > <input  id="user.realname"   name="user.realname" value="<%= StringUtil.killNull(user.getRealname()) %>"  type="text"  size="16" /></div>
+					<div class="inpit2_bg" > <input  id="user.realname"   name="user.realname" value="<%= StringUtil.killNull(user.getRealname()) %>"  type="text"  size="16"  require="true" dataType="LimitB"  min="1" max="12"  msg="人员姓名必须输入且长度不超过12位英文字符或汉字不超过6个的中文！"/></div>
+					<font color="red">*</font>
 				</td>
 			</tr>
 			<tr> 
 				<td class="font_text_right"  width="15%">密码</td>
 				<td align="left" width='20%'  >
-					<div class="inpit2_bg" > <input  id="user.password"   name="user.password" value="<%= StringUtil.killNull(user.getPassword()) %>"  type="password" size="16" readonly="readonly" /></div>
+					<div class="inpit2_bg" > <input  id="user.password"   name="user.password" value="<%= StringUtil.killNull(user.getPassword()) %>"  disabled="disabled" type="password" size="16" readonly="readonly" /></div>
+					<font color="red">*</font>
 				</td>
 				<td class="font_text_right"  width="15%">邮箱</td>
 				<td align="left" width='20%'  >
@@ -99,7 +116,7 @@
 				<tr> 
 					<td colspan="6" align="center" style="text-align: center;">
 						<input type="submit" class="btn60"  value='保存' />
-						<input type="reset" class="btn60"  value='取消' />
+						<input type="button" class="btn60"  value='取消' onclick="javascript: window.returnValue=false;window.close()"/>
 					</td>
 				</tr>
 	

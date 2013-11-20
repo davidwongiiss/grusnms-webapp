@@ -19,23 +19,23 @@ public class UsersEvent implements BusinessEvent {
 	private String userName;
 	private String mobileNo ;
 	private Integer isAdmin ;
-	private Date beginTime ;
-	private Date endTime ;
+	private String beginTime ;
+	private String endTime ;
 	
-	
-	public Date getBeginTime() {
+
+	public String getBeginTime() {
 		return beginTime;
 	}
 
-	public void setBeginTime(Date beginTime) {
+	public void setBeginTime(String beginTime) {
 		this.beginTime = beginTime;
 	}
 
-	public Date getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(Date endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 

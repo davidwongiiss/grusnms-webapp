@@ -1,5 +1,7 @@
 package com.device.po;
 
+import java.util.Date;
+
 import com.device.util.Constant;
 
 public class NodeGroups implements java.io.Serializable {
@@ -17,11 +19,11 @@ public class NodeGroups implements java.io.Serializable {
 	private String groupType ;
 	private String latitude ;
 	private String longitude ;
-	private String createTime ;
-	private String updateTime ;
+	private Date createTime ;
+	private Date updateTime ;
 	private String creator ;
 	private String updater ;
-	private String isSystem ;
+	private Integer isSystem ;
 	public String getId() {
 		return id;
 	}
@@ -64,16 +66,17 @@ public class NodeGroups implements java.io.Serializable {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
-	public String getCreateTime() {
+
+	public Date getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(String createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	public String getUpdateTime() {
+	public Date getUpdateTime() {
 		return updateTime;
 	}
-	public void setUpdateTime(String updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 	public String getCreator() {
@@ -88,10 +91,11 @@ public class NodeGroups implements java.io.Serializable {
 	public void setUpdater(String updater) {
 		this.updater = updater;
 	}
-	public String getIsSystem() {
+
+	public Integer getIsSystem() {
 		return isSystem;
 	}
-	public void setIsSystem(String isSystem) {
+	public void setIsSystem(Integer isSystem) {
 		this.isSystem = isSystem;
 	}
 	public static Object getRoot(String rootType) {

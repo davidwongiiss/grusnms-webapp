@@ -3,7 +3,7 @@
 var tree_evet = {
 	 addHoverDom : function(treeId, treeNode) {
 		var sObj = $("#" + treeNode.tId + "_a");
-		if (treeNode.editNameFlag || $("#" + treeNode.id + "_add").length>0) return;
+		if ($("#" + treeNode.id + "_add").length>0) return;
 		var addStr = "<span title='add' class='button add' id='" + treeNode.id + "_add' />";
 		sObj.append(addStr);
 		var btn = $("#" + treeNode.id + "_add");
@@ -19,24 +19,24 @@ var tree_evet = {
 	},
 	//
 	showRemoveBtn:function(treeId, treeNode) {
-		return (treeNode.id!=0)&&(treeNode.isSystem!=1)&&(treeNode.isLastNode);
+		return (treeNode.pId != null )&&(treeNode.isSystem!=1);
 	},
 	showRenameBtn:function(treeId, treeNode) {
-		return (treeNode.id!=0)&&(treeNode.isSystem!=1);;
+		return (treeNode.pId != null )&&(treeNode.isSystem!=1);;
 	},
 	onedit:function(event, treeId, treeNode){
-		
-			if(treeNode.isFirstNode) return;
+			zTree.cancelEditName();
+			if(treeNode.pId == null) return;
 			$("#flag").val("update");
 			$("#pId").val(treeNode.pId);
 			$("#id").val(treeNode.id);
 			$("#title").html("修改--<font color='red'>"+treeNode.name+"</font>--分组");
 			$("input[name=nodeGroups\\.name]").val(treeNode.name);
-			//$("#nodeGroups\\.groupType option[value='"+treeNode.name+"']").attr("selected", true);
+			$("#nodeGroups\\.isSystem option[value='"+treeNode.isSystem+"']").attr("selected", true);
 			$("#nodeGroups\\.groupType").attr("value", treeNode.groupType);
 			$("input[name=nodeGroups\\.latitude]").val(treeNode.latitude);
 			$("input[name=nodeGroups\\.longitude]").val(treeNode.longitude);
-			$("input[name=nodeGroups\\.description]").text(treeNode.description);
+			$("textarea[name=nodeGroups\\.description]").text(treeNode.description);
 			$("input[type=button]").val("修改");
 	},
 	onRemove : function(e, treeId, treeNode) {
@@ -68,10 +68,11 @@ var tree_evet = {
 				editNameSelectAll: true ,
 				showRenameBtn : false,
 				removeTitle : '删除',
+				showRenameBtn: tree_evet.showRenameBtn,
 				showRemoveBtn: tree_evet.showRemoveBtn
 			},
 			callback: {
-				onClick: tree_evet.onedit,
+				onRename: tree_evet.onedit,
 				onRemove: tree_evet.onRemove
 			}
 		};

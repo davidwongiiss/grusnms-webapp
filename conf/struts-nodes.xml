@@ -33,6 +33,7 @@
 			<result name="editUser">/jsp/editUser.jsp</result>
 			<result name="queryNUsers">/jsp/queryNUsers.jsp</result>
 			<result name="useNodesList">/jsp/useNodesList.jsp</result>
+			<result name="ok_changePassword">/jsp/ok_changePassword.jsp</result>
 			<result name="ok">/ok.jsp</result>
 		</action>
 

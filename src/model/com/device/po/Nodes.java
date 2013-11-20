@@ -1,5 +1,7 @@
 package com.device.po;
 
+import java.util.Date;
+
 public class Nodes implements java.io.Serializable {
 
 	// Fields
@@ -14,8 +16,8 @@ public class Nodes implements java.io.Serializable {
 	private String latitude ;
 	private String deviceType ;
 	private String deviceModal ;
-	private String createTime ;
-	private String updateTime ;
+	private Date createTime ;
+	private Date updateTime ;
 	private String creator ;
 	private String updater ;
 	private String isSystem ;
@@ -79,16 +81,17 @@ public class Nodes implements java.io.Serializable {
 	public void setDeviceModal(String deviceModal) {
 		this.deviceModal = deviceModal;
 	}
-	public String getCreateTime() {
+
+	public Date getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(String createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	public String getUpdateTime() {
+	public Date getUpdateTime() {
 		return updateTime;
 	}
-	public void setUpdateTime(String updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 	public String getCreator() {

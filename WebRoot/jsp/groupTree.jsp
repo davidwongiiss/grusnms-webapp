@@ -41,7 +41,6 @@
 			//结点点击事件
 			function zTreeOnClick(event, treeId, treeNode){
 				parent.frames.mainf.location.href="<%= request.getContextPath() %>/nodes/nodes_queryNodes.sip?groupId="+treeNode.id+"&groupName="+treeNode.name;
-				//parent.frames.mainf.location.reload();
 			}
 			
 			//-->

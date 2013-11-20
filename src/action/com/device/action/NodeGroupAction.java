@@ -43,8 +43,8 @@ public class NodeGroupAction {
 		String pId = ParamUtil.getString(request, "pId" , "0");
 		nodeGroups.setpId(pId);
 		nodeGroups.setId(UUIDGenerator.generate());
-		nodeGroups.setCreateTime(DateUtil.formatDate(new Date(System.currentTimeMillis()), "yyyy-MM-dd mm:ss"));
-		nodeGroups.setUpdateTime(DateUtil.formatDate(new Date(System.currentTimeMillis()), "yyyy-MM-dd mm:ss"));
+		nodeGroups.setCreateTime(new Date(System.currentTimeMillis()));
+		nodeGroups.setUpdateTime(new Date(System.currentTimeMillis()));
 		nodeGroups.setCreator(LoginUtil.getUserId());
 		String name = nodeGroups.getName();
 		nodeGroups.setName(StringUtil.unescape(name));
@@ -62,7 +62,7 @@ public class NodeGroupAction {
 		String id = ParamUtil.getString(request, "id");
 		nodeGroups.setId(id);
 		nodeGroups.setUpdater(LoginUtil.getUserId());
-		nodeGroups.setUpdateTime(DateUtil.formatDate(new Date(System.currentTimeMillis()), "yyyy-MM-dd mm:ss"));
+		nodeGroups.setUpdateTime(new Date(System.currentTimeMillis()));
 		NodeGroupsBean.getInstance().editGroup(nodeGroups);
 		Struts2Utils.renderText(nodeGroups.getId());
 	}

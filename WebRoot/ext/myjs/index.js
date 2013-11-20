@@ -42,13 +42,17 @@ var IndexPanel = function() {
 	});
 
 	function addTab(id,name,url) {
-		var n = tabPanel
-				.add( {
-					"id" : id,
-					"title" : name,
-					closable : true,
-					html : "<iframe src='"+url+"'   style='width:100%;height:100%' ></iframe>"
-				});
+		var n = Ext.getCmp(id);
+		if(!n){
+			var n = tabPanel
+					.add( {
+						"id" : id,
+						"title" : name,
+						closable : true,
+						html : "<iframe src='"+url+"'   style='width:100%;height:100%' ></iframe>"
+					});
+			
+		};
 		tabPanel.setActiveTab(n);
 	}
 

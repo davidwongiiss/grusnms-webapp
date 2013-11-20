@@ -10,6 +10,6 @@
 <FRAMESET border=0 name=userNodeFrame frameSpacing=0  cols=270,15,* frameBorder=0>
 <FRAME name=user src="<%= request.getContextPath() %>/jsp/queryNUsers.jsp" noresize="noresize" scrolling="auto">
 <frame name="allows" src="frame_reset.htm" scrolling="no"/>
-<FRAME name=nodes_detailf src="" noresize="noresize" scrolling="no">
+<FRAME name=nodes_detailf src="<%= request.getContextPath() %>/nodes/users_queryUserNodes.sip" noresize="noresize" scrolling="no">
 </FRAMESET>
 </HTML>

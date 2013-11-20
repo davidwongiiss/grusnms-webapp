@@ -17,7 +17,7 @@
 		<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery.ztree.core-3.5.js"></script>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery.ztree.excheck-3.5.js"></script>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery.ztree.exedit-3.5.js"></script>
-		<script type="text/javascript" src="<%= request.getContextPath() %>/js/group/groupEdit.js?rand=31"></script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/js/group/groupEdit.js?rand=45"></script>
 		<style type="text/css">
 			.ztree li span.button.add {margin-right:2px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
 		</style>
@@ -36,6 +36,7 @@
 					<input type="hidden" name="flag" id="flag" value=""/>
 					<input type="hidden" name="pId" id="pId" value=""/>
 					<input type="hidden" name="id" id="id" value=""/>
+					<input type="hidden" name="nodeGroups.groupType" id="nodeGroups.groupType" value="<%= StringUtil.killNull(request.getParameter("type")) %>"/>
 					<table width="100%" border="0" cellspacing="0" cellpadding="0"
 						class="query_table">
 						<tr class="table_top">
@@ -67,28 +68,6 @@
 									</tr>
 									<tr>
 										<td>
-											分组类型
-										</td>
-										<td>
-											<select name="nodeGroups.groupType" id="nodeGroups.groupType">
-												<%
-												Map map = Constant.groupTypes;
-												Iterator it = map.entrySet().iterator();
-												while (it.hasNext()) {
-												Map.Entry entry = (Map.Entry) it.next();
-												Object key = entry.getKey();
-												Object value = entry.getValue();
-												%>
-												<option value="<%= key %>"><%= value %></option>
-												<%
-												}
-												%>
-												
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td>
 											经度
 										</td>
 										<td>
@@ -101,6 +80,17 @@
 										</td>
 										<td>
 												<div class="inpit2_bg" ><input name="nodeGroups.longitude" value="" type="text" /></div>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											是否系统类型
+										</td>
+										<td>
+												<select name="nodeGroups.isSystem" id="nodeGroups.isSystem" class="select152">
+													<option value='0' selected>否</option>
+													<option value='1' >是</option>
+												</select>
 										</td>
 									</tr>
 									<tr>
@@ -154,11 +144,10 @@
 		function submitFrom(){
 			var flag = $("#flag").val();
 			var pId = $("#pId").val();
+			if(!flag){alert("请先选择要修改或添加子类型的结点");return;};
 			var name = $("input[name=nodeGroups\\.name]").val();
 			var url = "<%= request.getContextPath() %>/nodes/nodeGroup_saveGroup.sip";
-			if(flag == "add"){
-				url="<%= request.getContextPath() %>/nodes/nodeGroup_saveGroup.sip";
-			}else if(flag == "edit"){
+			if(flag == "update"){
 				url="<%= request.getContextPath() %>/nodes/nodeGroup_editGroup.sip";
 			}
 			var options = {
@@ -166,25 +155,29 @@
 				url:  url,
 				type: 'POST',
 		   		    success: function(id){
-		   		        alert("添加成功！");
 		   		        restForm();
 						//回调函数
 						if(flag){
 							var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 							if(flag == "add"){
+								alert("添加成功！");
 								var treeNode = zTree.getNodeByParam("id",pId,null);
 								zTree.addNodes(treeNode , {id:id, pId:pId, name:name});
-							}else if(flag == "edit"){
-								//todo rainbow
+							}else if(flag == "update"){
+								 alert("修改成功！");
+								var treeNode = zTree.getNodeByParam("id",id,null); 
+								treeNode.name = name;
+                    			zTree.editName(treeNode);
+                   				zTree.cancelEditName();
 							}
 						}	
 					}
-		              };
-				function showRequest(formData, jqForm, options) { 
-						formData = $(this).param(formData); 
-						return true; 
-				}
-				$("#myform").ajaxSubmit(options);
+		     };
+			function showRequest(formData, jqForm, options) { 
+					formData = $(this).param(formData); 
+					return true; 
+			}
+			$("#myform").ajaxSubmit(options);
 		}
 		
 		function restForm(){

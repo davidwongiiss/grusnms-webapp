@@ -28,7 +28,9 @@
 		function addUser(){
 			var add_url="<%= path %>/jsp/addUser.jsp";
 			var retval = popUpModalDialog(add_url,860,500,"","",'<%=path%>',"增加人员");
-			$("#myform").submit();
+			if(retval == "ok"){
+				$("#myform").submit();
+			}
 		}
 		function delUser(id){
 			var url = "<%= path %>/nodes/users_deleteUser.sip?rand=new Date()";
@@ -64,12 +66,12 @@
 				<tr> 
 					<td class="font_text_right"  width="15%">用户</td>
 					<td align="left" width='20%'>
-						<div class="inpit2_bg" > <input  id="name"   name="name"  value=""  type="text"  size="16" /></div>
+						<div class="inpit2_bg" > <input  id="name"   name="name"  value="<%= StringUtil.killNull(users.getUserName()) %>"  type="text"  size="16" /></div>
 					</td>
 					<td class="font_text_right"  width="15%">电话号码</td>
 					<td align="left" width='20%'  >
 						<div class="inpit2_bg">
-							<input name="mobileNo" value="" type="text" />
+							<input name="mobileNo" value="<%= StringUtil.killNull(users.getMobileNo()) %>"  type="text" />
 						</div>
 					</td>
 				</tr>
@@ -78,12 +80,12 @@
 					<td align="left" width='20%'  >
 					<script src="<%= path %>/js/JSCalendar.js"></script>
 					<script src="<%= path %>/js/CheckDateTime.js"></script>
-					<input name="beginTime" id="beginTime" type="text" size="10" value=""  null readonly  class="inpit_bg" onblur="CheckD('beginTime');" />
+					<input name="beginTime" id="beginTime" type="text" size="10" value="<%= StringUtil.killNull(users.getBeginTime()) %>"  null readonly  class="inpit_bg" onblur="CheckD('beginTime');" />
 					<img  name="loginTimeButton"  src="<%= path %>/images/button/time_btn.jpg"  class="time_btn"   style="cursor:hand" onClick="selectQustion('beginTime',document.getElementById('beginTime').value,'<%= path %>/');" >
 					--至--
 					<script src="<%= path %>/js/JSCalendar.js"></script>
 					<script src="<%= path %>/js/CheckDateTime.js"></script>
-					<input name="endTime" id="endTime" type="text" size="10" value=""  null readonly  class="inpit_bg" onblur="CheckD('endTime');" />
+					<input name="endTime" id="endTime" type="text" size="10" value="<%= StringUtil.killNull(users.getEndTime()) %>"  null readonly  class="inpit_bg" onblur="CheckD('endTime');" />
 					<img  name="loginTimeButton"  src="<%= path %>/images/button/time_btn.jpg"  class="time_btn"   style="cursor:hand" onClick="selectQustion('endTime',document.getElementById('endTime').value,'<%= path %>/');" >
 					
 					</td>
@@ -92,8 +94,8 @@
 					<td align="left" width='20%'  >
 						<select name="isAdmin" class="select152">
 							<option value='' selected>选择</option>
-							<option value='1'>是</option>
-							<option value='0'>否</option>
+							<option value='1' <%if(users.getIsAdmin()!=null && users.getIsAdmin().intValue() ==1)out.print("selected"); %>>是</option>
+							<option value='0' <%if(users.getIsAdmin()!=null && users.getIsAdmin().intValue() ==0)out.print("selected"); %>>否</option>
 						</select>
 					</td>
 				</tr>

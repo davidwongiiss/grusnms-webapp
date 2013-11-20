@@ -54,12 +54,12 @@
                 <comment></comment>
             </column>
         </property>
-		<property name="createTime" type="java.lang.String">
+		<property name="createTime" type="java.util.Date">
             <column name="create_time">
                 <comment></comment>
             </column>
         </property>        
-		<property name="updateTime" type="java.lang.String">
+		<property name="updateTime" type="java.util.Date">
             <column name="update_time">
                 <comment></comment>
             </column>
