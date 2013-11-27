@@ -4,13 +4,13 @@
 		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
-        
+
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/device1?autoReconnect=true&amp;characterEncoding=gbk</property>
+		<property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/grusnms?autoReconnect=true&amp;characterEncoding=gbk</property>
 		<property name="hibernate.connection.username">root</property>
-		<property name="hibernate.connection.password">123</property>
+		<property name="hibernate.connection.password">admin</property>
 		<property name="show_sql">true</property>
-		
+
 		<property name="hibernate.dialect">
 			org.hibernate.dialect.MySQLDialect
 		</property>
@@ -18,31 +18,36 @@
 		<property name="hibernate.current_session_context_class">
 			thread
 		</property>
-		
+
 		<property name="hibernate.cache.provider_class">
 			org.hibernate.cache.HashtableCacheProvider
 		</property>
-		
-		
+
+
 		<property name="hibernate.c3p0.max_size">20</property>
 		<property name="hibernate.c3p0.min_size">20</property>
 		<property name="hibernate.c3p0.timeout">60000</property>
 		<property name="hibernate.c3p0.max_statements">1000</property>
-	    <property name="hibernate.c3p0.idle_test_period">30</property>
-	    <property name="hibernate.c3p0.preferredTestQuery">SELECT 1</property>
-        <property name="hibernate.c3p0.testConnectionOnCheckout">true</property>
-	    <property name="hibernate.c3p0.acquire_increment">1</property>
-	    <property name="hibernate.c3p0.validate">true</property>
-		
-		<!-- 
-		<property name="hibernate.hbm2ddl.auto">create</property>
-		 -->
+		<property name="hibernate.c3p0.idle_test_period">30</property>
+		<property name="hibernate.c3p0.preferredTestQuery">SELECT 1</property>
+		<property name="hibernate.c3p0.testConnectionOnCheckout">true</property>
+		<property name="hibernate.c3p0.acquire_increment">1</property>
+		<property name="hibernate.c3p0.validate">true</property>
+
+<!-- 
+		<property name="hibernate.hbm2ddl.auto">create-drop</property>
+ -->		
 		<mapping resource="com/device/po/Nodes.hbm.xml" />
-		<mapping resource="com/device/po/NodeGroups.hbm.xml"/>
-		<mapping resource="com/device/po/GroupsNodes.hbm.xml"/>
-		<mapping resource="com/device/po/NodeEvents.hbm.xml"/>
-		<mapping resource="com/device/po/Users.hbm.xml"/>
-		<mapping resource="com/device/po/UsersNodes.hbm.xml"/>
+		<mapping resource="com/device/po/NodeGroups.hbm.xml" />
+		<mapping resource="com/device/po/GroupsNodes.hbm.xml" />
+		<mapping resource="com/device/po/NodeEvents.hbm.xml" />
+		<mapping resource="com/device/po/Users.hbm.xml" />
+		<mapping resource="com/device/po/UsersNodes.hbm.xml" />
+		<mapping resource="com/device/po/QamValue.hbm.xml" /> 
+		<mapping resource="com/device/po/GbeValue.hbm.xml" />
+		<mapping resource="com/device/po/NodeStatus.hbm.xml" />
+		<mapping resource="com/device/po/QamDayValue.hbm.xml" />
+		<mapping resource="com/device/po/GbeDayValue.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>
 

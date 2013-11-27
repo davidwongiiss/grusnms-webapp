@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-module
   type="WEB"
-  name="device"
+  name="grusnms-webapp"
   id="myeclipse.1384006429812"
   context-root="/device"
   j2ee-spec="5.0"
-  archive="device.war">
+  archive="grusnms-webapp.war">
   <attributes>
     <attribute name="webrootdir" value="WebRoot" />
   </attributes>

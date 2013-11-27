@@ -75,7 +75,6 @@ public class NodesBean {
 	 */
 	public NodesListResult listUnallocat(NodesListEvent event) {
 		NodesListResult result = new NodesListResult();
-		String deviceType = event.getDeviceType();
 		String name = event.getName();
 		int pageNO = event.getPageNO();
 		int pageCount = event.getPageCount();
@@ -91,7 +90,6 @@ public class NodesBean {
 			result.setPageCount(event.getPageCount());
 			result.setPagination(pagination);
 			result.setC(c);
-			result.setDeviceType(deviceType);
 			result.setParamName(name);
 		} catch (HibernateException e) {
 			//to do something....
@@ -108,8 +106,9 @@ public class NodesBean {
 	 */
 	public NodesListResult list(NodesListEvent event) {
 		NodesListResult result = new NodesListResult();
-		String deviceType = event.getDeviceType();
 		String name = event.getName();
+		String ip = event.getIp();
+		String deviceSn = event.getDeviceSn();
 		int pageNO = event.getPageNO();
 		int pageCount = event.getPageCount();
 		Pagination pagination = new Pagination(pageNO, pageCount);
@@ -118,17 +117,21 @@ public class NodesBean {
 		Session session = null;
 		try {
 			session = PeakSessionFactory.instance().getCurrentSession();
-			StringBuffer hql = new StringBuffer("select * from Nodes where 1=1 ");
+			StringBuffer hql = new StringBuffer("select * from Nodes where deleted = 0 ");
 			if (!name.equals("")) {
 				hql.append(" and name like '%"+name+"%'");
 			} 
-
+			if(!ip.equals("")){
+				hql.append(" and ip like '"+ip+"%'");
+			}
+			if(!"".equals(deviceSn)){
+				hql.append(" and device_sn = '"+deviceSn+"'");
+			}
 			c = HibernateHelper.sqlQuery(session, hql.toString(), pagination, null, Nodes.class);
 			result.setPageNO(event.getPageNO());
 			result.setPageCount(event.getPageCount());
 			result.setPagination(pagination);
 			result.setC(c);
-			result.setDeviceType(deviceType);
 			result.setParamName(name);
 		} catch (HibernateException e) {
 			//to do something....
@@ -138,14 +141,25 @@ public class NodesBean {
 		return result;
 	}
 	
-	public NodesListResult listAllNodes(String groupId) {
+	public NodesListResult listAllNodes(String groupId , String ip) {
 		NodesListResult result = new NodesListResult();
 		Collection c = null;
 
 		Session session = null;
 		try {
 			session = PeakSessionFactory.instance().getCurrentSession();
-			StringBuffer hql = new StringBuffer("select * from Nodes n left join groups_nodes gn on n.id = gn.node_id  ");
+			StringBuffer hql = new StringBuffer("select * from Nodes n left join groups_nodes gn on n.id = gn.node_id where 1 = 1 ");
+			if(!"".equals(ip))
+			{
+				hql.append(" and n.ip = '"+ip+"'");
+			}
+			/**
+			 * 
+			if(!"".equals(groupId))
+			{
+				hql.append(" and gn.group_id = '"+groupId+"'");
+			}
+			 */
 			c = HibernateHelper.queryAllNoPage(session, hql.toString() , null, NodeResult.class);
 			result.setC(c);
 		} catch (Exception e) {
@@ -173,6 +187,23 @@ public class NodesBean {
 
 		return result;
 	}
+	
+	public NodesListResult queryNodesByGroupId(String groupId) {
+		NodesListResult result = new NodesListResult();
+		Collection c = null;
+		Session session = null;
+		try {
+			session = PeakSessionFactory.instance().getCurrentSession();
+			StringBuffer hql = new StringBuffer("select n from Nodes n , GroupsNodes g  where n.id = g.nodeId and g.groupId = '"+groupId+"'  ");
+			c = HibernateHelper.getQueryResult(session, hql.toString());
+			result.setC(c);
+		} catch (HibernateException e) {
+			//to do something....
+			e.printStackTrace();
+		} finally {}
+
+		return result;
+	}
 
 	public void batchInsert(String userName, String[] nids) {
 		Session session = null;
@@ -184,5 +215,45 @@ public class NodesBean {
 			e.printStackTrace();
 		}
 	}
+	
+	public void saveNode(Nodes node){
+		Session session = null;
+		try{
+			session = PeakSessionFactory.instance().getCurrentSession();
+			HibernateHelper.create(session, node);
+		}catch(HibernateException e){
+			e.printStackTrace();
+		}
+	}
+	public void deleteNode(String nodeId){
+		Session session = null;
+		try{
+			session = PeakSessionFactory.instance().getCurrentSession();
+			String queryString = "update Nodes set deleted = 1 where id = ? ";
+			HibernateHelper.update(session, queryString, new String[]{nodeId});
+		}catch(HibernateException e){
+			e.printStackTrace();
+		}
+	}
 
+	public void updateNode(Nodes node) {
+		Session session = null;
+		try{
+			session = PeakSessionFactory.instance().getCurrentSession();
+			HibernateHelper.update(session, node);
+		}catch(HibernateException e){
+			e.printStackTrace();
+		}
+	}
+	//	
+	public Nodes getNodeById(String nodeId) {
+		Session session = null;
+		try{
+			session = PeakSessionFactory.instance().getCurrentSession();
+			return (Nodes) HibernateHelper.get(session, nodeId, Nodes.class);
+		}catch(HibernateException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

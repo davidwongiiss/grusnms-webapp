@@ -13,29 +13,29 @@ import com.device.common.BusinessEvent;
  * Preferences - Java - Code Style - Code Templates
  */
 public class EventsListEvent implements BusinessEvent {
-	private Integer handle;
+	private Boolean handle;
 
-	private String severity;
+	private Integer severity;
+	
+	private String ip ;
 
 	private int pageNO;
 
 	private int pageCount;
 
-
-
-	public String getSeverity() {
+	public Integer getSeverity() {
 		return severity;
 	}
 
-	public void setSeverity(String severity) {
+	public void setSeverity(Integer severity) {
 		this.severity = severity;
 	}
 
-	public Integer getHandle() {
+	public Boolean getHandle() {
 		return handle;
 	}
 
-	public void setHandle(Integer handle) {
+	public void setHandle(Boolean handle) {
 		this.handle = handle;
 	}
 
@@ -46,6 +46,15 @@ public class EventsListEvent implements BusinessEvent {
 
 	public void parse(String str) {
 
+	}
+	
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
 
 	/**
@@ -80,17 +89,5 @@ public class EventsListEvent implements BusinessEvent {
 	public EventsListEvent(){
 		
 	}
-	/**
-	 * @param pattern
-	 * @param name
-	 * @param pageNO
-	 * @param pageCount
-	 */
-	public EventsListEvent(Integer handle, String severity, int pageNO, int pageCount) {
-		super();
-		this.handle = handle;
-		this.severity = severity;
-		this.pageNO = pageNO;
-		this.pageCount = pageCount;
-	}
+
 }

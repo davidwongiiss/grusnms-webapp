@@ -3,9 +3,7 @@ package com.device.common.impl;
 public class NodeResult  {
 
 	// Fields
-
 	private String id;
-	private String deviceId;
 	private String deviceSn;
 	private String name;
 	private String description;
@@ -25,12 +23,6 @@ public class NodeResult  {
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	public String getDeviceId() {
-		return deviceId;
-	}
-	public void setDeviceId(String deviceId) {
-		this.deviceId = deviceId;
 	}
 	public String getDeviceSn() {
 		return deviceSn;

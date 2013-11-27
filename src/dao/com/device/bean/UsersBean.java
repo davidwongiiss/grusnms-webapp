@@ -14,6 +14,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
+import com.device.common.LoginResult;
 import com.device.common.impl.UsersEvent;
 import com.device.common.impl.UsersListResult;
 import com.device.po.Users;
@@ -141,7 +142,7 @@ public class UsersBean {
 		try{
 			session = PeakSessionFactory.instance().getCurrentSession();
 			String queryString = "update Users set isDelete = 1 where name = ? ";
-			HibernateHelper.delete(session, queryString, new String[]{userName});
+			HibernateHelper.update(session, queryString, new String[]{userName});
 		}catch(HibernateException e){
 			e.printStackTrace();
 		}
@@ -164,12 +165,11 @@ public class UsersBean {
 		try{
 			session = PeakSessionFactory.instance().getCurrentSession();
 			String queryString = "update Users set password = ? where name = ? ";
-			HibernateHelper.delete(session, queryString, new String[]{password , userId});
+			HibernateHelper.update(session, queryString, new String[]{password , userId});
 		}catch(HibernateException e){
 			e.printStackTrace();
 		}
 	}
-
 
 
 }

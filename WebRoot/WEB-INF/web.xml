@@ -5,27 +5,23 @@
 
 	<display-name>BUSINESS</display-name>
 	
-
 <!-- 
 	<filter>
-		<filter-name>AdminAuthenticationFilter</filter-name>
-		<filter-class>com.sohu.fortune.talk.admin.auth.util.servlet.AdminLoginFilter</filter-class>
-		<init-param>
-			<param-name>CanDo</param-name>
-			<param-value>
-				,/admin/auth/apply.sip,/admin/auth/verify.sip,/admin/auth/noright.sip,/admin/login.sip,/admin/changeuser_logout.sip,/admin/auth/index.sip,
-			</param-value>
-		</init-param>
-		<init-param>
-			<param-name>Noright</param-name>
-			<param-value>/admin/auth/noright.sip</param-value>
-		</init-param>
-		<init-param>
-			<param-name>LogonPage</param-name>
-			<param-value>/admin/login.sip</param-value>
-		</init-param>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>com.device.util.servlet.LoginFilter</filter-class>
 	</filter>
-	
+   <filter-mapping>
+   <filter-name>LoginFilter</filter-name>
+    <url-pattern>/jsp/*</url-pattern>
+   </filter-mapping>
+   <filter-mapping>
+   <filter-name>LoginFilter</filter-name>
+    <url-pattern>*.sip</url-pattern>
+   </filter-mapping>
+   <filter-mapping>
+   <filter-name>LoginFilter</filter-name>
+    <url-pattern>/ext/*</url-pattern>
+   </filter-mapping>
  -->
 	
 <filter>  
@@ -86,7 +82,7 @@
 	</session-config>
 
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>login.jsp</welcome-file>
 	</welcome-file-list>
 
 </web-app>

@@ -8,6 +8,7 @@ var tree_evet = {
 		sObj.append(addStr);
 		var btn = $("#" + treeNode.id + "_add");
 		if (btn) btn.bind("click", function(event){
+			restForm();
 			$("#flag").val("add");
 			$("#pId").val(treeNode.id);
 			$("#title").html("添加--<font color='red'>"+treeNode.name+"</font>--子分组");
@@ -25,7 +26,6 @@ var tree_evet = {
 		return (treeNode.pId != null )&&(treeNode.isSystem!=1);;
 	},
 	onedit:function(event, treeId, treeNode){
-			zTree.cancelEditName();
 			if(treeNode.pId == null) return;
 			$("#flag").val("update");
 			$("#pId").val(treeNode.pId);
@@ -48,7 +48,18 @@ var tree_evet = {
 					alert("删除"+id+"成功");
 				}
 			});
+		},
+	beforeEditName : function(treeId, treeNode){
+		tree_evet.onedit(null, treeId, treeNode);
+		return false;
+	},
+	beforeClick : function(e, treeId, treeNode){
+		var zTree = $.fn.zTree.getZTreeObj("tree");
+		if (treeNode.isParent) {
+			zTree.expandNode(treeNode);
+			return false;
 		}
+	}
 }
 
 	//树配置
@@ -73,7 +84,9 @@ var tree_evet = {
 			},
 			callback: {
 				onRename: tree_evet.onedit,
-				onRemove: tree_evet.onRemove
+				onRemove: tree_evet.onRemove,
+				beforeEditName:tree_evet.beforeEditName,
+				beforeClick: tree_evet.beforeClick
 			}
 		};
 

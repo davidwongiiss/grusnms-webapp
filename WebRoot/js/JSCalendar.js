@@ -103,6 +103,13 @@ var _dftD = new Date();
 var _dateObjName = "";
 document.write("<IFRAME id=frm name=frm style='display:none'></IFRAME>");
 
+function addEvent(obj,type,fn) {
+	if (obj.addEventListener)
+		obj.addEventListener(type,fn,false);
+	else if (obj.attachEvent)
+		obj.attachEvent('on'+type,function(){return fn.apply(obj,[window.event]);});
+} 
+
 function JSCalendar(rltvO, path, year, month, date){
 	var _sNeededFilePath = path + "images/";
 	_dateObjName = rltvO.name;
@@ -213,8 +220,11 @@ var _imgqx = new Image();
 	//_cldTabFrm.cellSpacing = 1;
 	_cldTabFrm.cellPadding = 1;
 	_cldTabFrm.bgColor = "ffffff";
-	_cldTabFrm.attachEvent("onmouseover", whenMouseOverCldTabFrm);
-	_cldTabFrm.attachEvent("onmouseout", whenMouseOutCldTabFrm);
+	//addEvent($('test_btn'),'click',action);
+	//_cldTabFrm.attachEvent("onmouseover", whenMouseOverCldTabFrm);
+	addEvent(_cldTabFrm,'onmouseover',whenMouseOverCldTabFrm);
+	//_cldTabFrm.attachEvent("onmouseout", whenMouseOutCldTabFrm);
+	addEvent(_cldTabFrm,'onmouseout',whenMouseOutCldTabFrm);
 	// Create Calendar Control header
 	var _TR = _cldTabFrm.insertRow();
 	var _TD = _TR.insertCell();
@@ -233,9 +243,11 @@ var _imgqx = new Image();
 			_TD.innerHTML = "*";
 			if(i != 0){
 				_TD.style.cursor = "hand";
-				_TD.attachEvent("onmouseover", whenMouseOverDateItem);
+				//_TD.attachEvent("onmouseover", whenMouseOverDateItem);
+				addEvent(_TD,'onmouseover',whenMouseOverDateItem);
 				//_TD.attachEvent("onmouseout", whenMouseOutDateItem);
-				_TD.attachEvent("onclick", whenClickDateItem);
+				//_TD.attachEvent("onclick", whenClickDateItem);
+				addEvent(_TD,'onclick',whenClickDateItem);
 			}
 			if(i == 0) _TD.innerHTML = "<b>" + _weeks[j] + "</b>";
 			if(i == 0 && (j == 0 || j == 6)) _TD.className = "tdHoliday";

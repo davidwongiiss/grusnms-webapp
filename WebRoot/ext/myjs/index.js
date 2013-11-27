@@ -1,29 +1,32 @@
 var IndexPanel = function() {
 	var win, wp;
-
-
-
 	//==========头页面
 	var north = new Ext.Panel( {
-		//id : "header",
+		id : "header",
 		region : "north",
 		margins : "2 0 0 0",
 		height : 75,
 		//html : "<img src='../images/header.jpg'>"
-		//bodyStyle:"background:#f1f1f1"
+		bodyStyle: {
+            background: 'yellow',
+            position:'absolute ',
+            'z-index': 10001
+        },
 		contentEl:"header"
 	});
 
 	//==========底部
-	var south = new Ext.Panel( {
-		id : "bottom",
-		region : "south",
-		margins : "5 5 5 0",
-		height : 20,
+	
+	//var south = new Ext.Panel( {
+	//	id : "bottom",
+	//	region : "south",
+	//	margins : "5 5 5 0",
+	//	height : 20,
 		//bodyStyle:"background:#f1f1f1",
-		html : "<p alight=''right>版权所有：---davidwongiiss</p>"
+	//	html : "<p alight=''right>版权所有：</p>"
 	//items:tabPanel
-	});
+	//});
+	
 	
 	var tabPanel = new Ext.TabPanel( {
 		id : 'tabPanel',
@@ -34,9 +37,15 @@ var IndexPanel = function() {
 		defaults : {
 			autoScroll : true
 		},
+		bodyStyle: {
+            background: 'yellow',
+            height:'100% '
+        },
 		items : [ {
-			contentEl : 'center_context_desktop',
-			title : '首页',
+			id:'id1',
+			//contentEl : 'center_context_desktop',
+			html:"<iframe src='"+path+"/jsp/monitor/monitorNodesFrame.jsp'   style='width:100%;height:100%' ></iframe>",
+			title : '监控台',
 			autoScroll : true
 		} ]
 	});
@@ -49,7 +58,8 @@ var IndexPanel = function() {
 						"id" : id,
 						"title" : name,
 						closable : true,
-						html : "<iframe src='"+url+"'   style='width:100%;height:100%' ></iframe>"
+						frame : true ,
+						html : "<iframe src='"+url+"'  height='100%' width='100%' ></iframe>"
 					});
 			
 		};
@@ -63,7 +73,7 @@ var IndexPanel = function() {
 		win = new Ext.Viewport( {
 			layout : 'border',
 			//items:[ north, center, west]
-			items : [ north, south, tabPanel ]
+			items : [ north , tabPanel ]
 		});
 	};
 

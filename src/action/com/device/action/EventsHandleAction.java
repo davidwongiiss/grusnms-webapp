@@ -1,5 +1,7 @@
 package com.device.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -14,6 +16,13 @@ import com.device.util.ParamUtil;
 
 public class EventsHandleAction {
 	private static Log log = LogFactory.getLog(EventsHandleAction.class);
+	
+	public String queryIps(){
+		HttpServletRequest request=org.apache.struts2.ServletActionContext.getRequest();
+		List ipList = GroupsNodesBean.getInstance().getAllIps();
+		request.setAttribute("ipList", ipList);
+		return "ipList";
+	}
 	/**
 	 * 查询列表2
 	 * @return
@@ -22,12 +31,25 @@ public class EventsHandleAction {
 		try{
 			//查询列表
 			HttpServletRequest request=org.apache.struts2.ServletActionContext.getRequest();
-			EventsListEvent event = new EventsListEvent(ParamUtil.getInt(request, "handle"),
-					ParamUtil.getString(request, "severity"),
-					ParamUtil.getInt(request, "pagination.pageNO", 1).intValue(),
-					ParamUtil.getInt(request, "pageCount", 10).intValue());
+			EventsListEvent event = new EventsListEvent();
+			int severity = ParamUtil.getInt(request, "severity");
+			event.setSeverity(severity);
+			int pageNo = ParamUtil.getInt(request, "pagination.pageNO", 1).intValue();
+			event.setPageNO(pageNo);
+			int pageCount = ParamUtil.getInt(request, "pageCount", 10).intValue();
+			event.setPageCount(pageCount);
+			String handle = request.getParameter("handle");
+			if(handle != null){
+				event.setHandle(Boolean.getBoolean(handle));
+			}
+			
 			EventsListResult result = EventsBean.getInstance().list(event);
+			
+			String groupId = ParamUtil.getString(request, "groupId");
+			List ipList = GroupsNodesBean.getInstance().getGroupIps(groupId);
+			request.setAttribute("ipList", ipList);
 			request.setAttribute("result", result);
+			request.setAttribute("groupId", groupId);
 			request.setAttribute("pagination", result.getPagination());
 			request.setAttribute("event", event);
 			return "eventsHandle";
@@ -36,6 +58,7 @@ public class EventsHandleAction {
 			return "failure";
 		}
 	}
+	
 	/**
 	 * 修改结点所在组
 	 * @return

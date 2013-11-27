@@ -7,6 +7,7 @@
 package com.device.bean;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -75,12 +76,63 @@ public class GroupsNodesBean {
 		Session session = null;
 		try {
 			session = PeakSessionFactory.instance().getCurrentSession();
-			String queryString = "insert into groups_nodes (node_id , group_id) values (?,'"+gid+"')";
-			HibernateHelper.insertBatch(session, queryString, nidArray);
+			String sql = "insert into groups_nodes (node_id , group_id) values (?,'"+gid+"')";
+			HibernateHelper.insertBatch(session, sql, nidArray);
 		} catch (HibernateException e) {
 			//to do something....
 			e.printStackTrace();
 		} finally {}
+	}
+	
+	public List getGroupIps(String groupId){
+		List c = null;
+		Session session = null;
+		try {
+			session = PeakSessionFactory.instance().getCurrentSession();
+			String queryString = "select n.ip from nodes n , groups_nodes g where n.Id = g.node_id and g.group_id = ? ";
+			c = HibernateHelper.querySql(session, queryString, new String[]{groupId});
+			return c ;
+		} catch (HibernateException e) {
+			//to do something....
+			e.printStackTrace();
+		} finally {}
+		return null;
+	}
+	
+	public List getAllIps(){
+		List c = null;
+		Session session = null;
+		try {
+			session = PeakSessionFactory.instance().getCurrentSession();
+			String queryString = "select n.ip from nodes n  ";
+			c = HibernateHelper.querySql(session, queryString, null);
+			return c ;
+		} catch (HibernateException e) {
+			//to do something....
+			e.printStackTrace();
+		} finally {}
+		return null;
+	}
+
+	public List getIpsByGroupIds(String[] idArray) {
+		List c = null;
+		Session session = null;
+		try {
+			session = PeakSessionFactory.instance().getCurrentSession();
+			StringBuffer queryString = new StringBuffer("select n.ip from nodes n , groups_nodes g where n.Id = g.node_id and g.group_id in (#");
+				for(String id : idArray){
+					queryString.append(",'"+id+"'");
+				}	
+				queryString.append(")");
+				
+			String sql = queryString.toString().replaceAll("#,", "");
+			c = HibernateHelper.querySql(session, sql,null);
+			return c ;
+		} catch (HibernateException e) {
+			//to do something....
+			e.printStackTrace();
+		} finally {}
+		return null;
 	}
 
 }

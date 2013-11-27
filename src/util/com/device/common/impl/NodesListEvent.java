@@ -13,10 +13,42 @@ import com.device.common.BusinessEvent;
  * Preferences - Java - Code Style - Code Templates
  */
 public class NodesListEvent implements BusinessEvent {
-	private String deviceType;
+	private String deviceSn;
+	private String ip ;
+	private String name ;
+	private String beginTime ;
+	private String endTime ;	
+	public String getDeviceSn() {
+		return deviceSn;
+	}
 
-	private String name;
-	
+	public void setDeviceSn(String deviceSn) {
+		this.deviceSn = deviceSn;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public String getBeginTime() {
+		return beginTime;
+	}
+
+	public void setBeginTime(String beginTime) {
+		this.beginTime = beginTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
 	private int pageNO;
 
 	private int pageCount;
@@ -34,21 +66,6 @@ public class NodesListEvent implements BusinessEvent {
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	/**
-	 * @return Returns the pattern.
-	 */
-	public String getDeviceType() {
-		return deviceType;
-	}
-
-	/**
-	 * @param pattern
-	 *            The pattern to set.
-	 */
-	public void setDeviceType(String pattern) {
-		this.deviceType = pattern;
 	}
 
 	public String toString() {
@@ -98,9 +115,8 @@ public class NodesListEvent implements BusinessEvent {
 	 * @param pageNO
 	 * @param pageCount
 	 */
-	public NodesListEvent(String deviceType, String name, int pageNO, int pageCount) {
+	public NodesListEvent(String name, int pageNO, int pageCount) {
 		super();
-		this.deviceType = deviceType;
 		this.name = name;
 		this.pageNO = pageNO;
 		this.pageCount = pageCount;

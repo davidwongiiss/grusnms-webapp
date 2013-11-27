@@ -82,7 +82,7 @@
 				<div class="table_header_r" id="groupdiv">
 				</div>
 			</div>
-			<table width="99.6%" border="0" cellpadding="0"
+			<table width="99.6%" height="70%" border="0" cellpadding="0"
 				cellspacing="0" class="ls_list1">
 				<tr>
 					<td>

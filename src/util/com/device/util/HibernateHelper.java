@@ -565,7 +565,62 @@ public class HibernateHelper {
 		return query.list();
 
 	}
-	
+	/**
+	 * 联合查询返回自定义的bean文件
+	 * @param session
+	 * @param queryString
+	 * @param values
+	 * @param clas
+	 * @return
+	 * @throws Exception
+	 */
+	public static Collection queryBeanList(Session session,
+			String queryString,Pagination pagination, final Object[] values, Class clas )
+			throws Exception {
+		Connection con = session.connection();
+		
+		if (queryString.contains("union")) {
+			queryString = queryString.replaceAll("`order`", "");// 去除
+		} else if (queryString.contains("`order`")){
+			queryString = queryString.replace("`order`", "order by date desc limit "
+					+ (pagination.getStartIndex() - 1) + ","
+					+ pagination.getPageCount() + " ");
+		}else{
+			queryString = queryString + " limit "
+					+ (pagination.getStartIndex() - 1) + ","
+					+ pagination.getPageCount() + " ";
+		}
+		
+		PreparedStatement pstmt=con.prepareStatement(queryString );
+		
+		if (values != null && values.length != 0) {
+			for (int i = 0; i < values.length; i++) {
+				pstmt.setObject(i, values[i]);
+			}
+		}
+		
+		ResultSet result = pstmt.executeQuery();
+		
+		ResultSetMetaData metadata = (ResultSetMetaData) result.getMetaData();
+		List list = new ArrayList();
+		while (result.next()) {
+		    Object obj = getObject(result, clas);
+		    list.add(obj);
+		   }
+
+		return list;
+
+	}
+
+	/**
+	 * 联合查询返回自定义的bean文件
+	 * @param session
+	 * @param queryString
+	 * @param values
+	 * @param clas
+	 * @return
+	 * @throws Exception
+	 */
 	public static Collection queryAllNoPage(Session session,
 			final String queryString, final Object[] values, Class clas )
 			throws Exception {
@@ -610,7 +665,7 @@ public class HibernateHelper {
 		return list;
 
 	}
-
+	
 
 	 private  static Object getObject(ResultSet rs, Class cls) throws SQLException, IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException {
 		  Field[] fields = cls.getDeclaredFields();
@@ -623,8 +678,10 @@ public class HibernateHelper {
 		  
 		  
 		  Object value = rs.getObject(columnName);
+		  
+		  String fileName =   fieldConvert(columnName); 
 			   
-		   BeanUtils.setProperty(dest, columnName, value);
+		   BeanUtils.setProperty(dest, fileName, value);
 //		   Field field = getField(fields, columnName);
 //		   if (field != null) {
 //		    if (object==null) {
@@ -650,6 +707,27 @@ public class HibernateHelper {
 		  if (value == null) {
 		   return;
 		  }
+		 }
+		  
+		  private static String fieldConvert(String dbFieldName){
+			    if(dbFieldName==null){
+			        System.out.println("dbFieldName is null");
+			        return null;
+			    }
+
+			    //不包含_,将直接返回原来的name
+			    if(!dbFieldName.contains("_")){
+			        return dbFieldName;
+			    }
+
+
+			    String[] ss = dbFieldName.split("_");
+			    StringBuilder sb = new StringBuilder(ss[0]);
+			    for(int i=1; i< ss.length; i++){
+			        sb.append(ss[i].substring(0,1).toUpperCase()).append(ss[i].substring(1));
+			    }
+			    return sb.toString();
+			}
 		  
 		 // BeanUtils.setProperty(dest, alias[i].getName(), res[i]);
 //		  if (field.getType() == Long.class) {
@@ -663,7 +741,6 @@ public class HibernateHelper {
 //		  } else {
 //		   field.set(obj, StringUtil.toString(value));
 //		  }
-		 }
 		 
 
 	@SuppressWarnings("unchecked")

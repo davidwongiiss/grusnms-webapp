@@ -7,6 +7,10 @@ public class Constant {
 	public static String AREA = "area";
 	public static String DEPT = "dept";
 	public static String DEFINE = "define";
+	
+	public static String DEVICENO = "NSG9000-6G";
+	public static String DEVICETYPE = "IPQAM";
+	
 	//分组类型
 	public static Map<String,String> groupTypes = new HashMap<String,String>();
 	//设备类型

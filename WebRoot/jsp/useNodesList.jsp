@@ -42,7 +42,7 @@
  					<a href="javascript:void(0);" onclick="allocatNodes();return false;" > <img src="<%= request.getContextPath() %>/images/button/icon1.gif"  />添加关联结点</a>
 				</div>
 			</div>
-			<table width="99.6%" height="75%" border="0" cellpadding="0"
+			<table width="99.6%" height="88%" border="0" cellpadding="0"
 				cellspacing="0" class="ls_list1">
 				<tr>
 					<td>
@@ -84,29 +84,7 @@
 					</td>
 				</tr>
 			</table>
-			<script language="javascript">
-				if (document.getElementById('hollylistTable') != null) {
-					var Ptr = document.getElementById("hollylistTable").getElementsByTagName(
-							'tr');
-					if (Ptr != null) {
-						function addcss() {
-							for (i = 1; i < Ptr.length; i++) {
-								Ptr[i].className = (i % 2 > 0) ? 't1' : 't2';
-							}
-						}
-						window.onload = addcss;
-						for ( var i = 0; i < Ptr.length; i++) {
-							Ptr[i].onmouseover = function() {
-								this.tmpClass = this.className;
-								this.className = 't3';
-							};
-							Ptr[i].onmouseout = function() {
-								this.className = this.tmpClass;
-							};
-						}
-					}
-				}
-				</script>
+			<script language="javascript" src="<%= request.getContextPath() %>/js/table_util.js"></script>
 			<jsp:include page="include/pagination.jsp">
 				<jsp:param name="baseurl" value="/nodes/nodes_listNodes.sip" />
 			</jsp:include>

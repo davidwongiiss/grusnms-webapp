@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.device.bean.NodeGroupsBean;
 import com.device.po.NodeGroups;
+import com.device.util.JSONUtil;
 import com.device.util.LoginUtil;
 import com.device.util.ParamUtil;
 import com.device.util.StringUtil;
@@ -49,7 +50,8 @@ public class NodeGroupAction {
 		String name = nodeGroups.getName();
 		nodeGroups.setName(StringUtil.unescape(name));
 		NodeGroupsBean.getInstance().saveGroup(nodeGroups);
-		Struts2Utils.renderText(nodeGroups.getId());
+		String node = JSONUtil.objectToJson(nodeGroups);
+		Struts2Utils.renderJson(node);
 	}
 	/**
 	 * 结点组修改
@@ -64,7 +66,8 @@ public class NodeGroupAction {
 		nodeGroups.setUpdater(LoginUtil.getUserId());
 		nodeGroups.setUpdateTime(new Date(System.currentTimeMillis()));
 		NodeGroupsBean.getInstance().editGroup(nodeGroups);
-		Struts2Utils.renderText(nodeGroups.getId());
+		String node = JSONUtil.objectToJson(nodeGroups);
+		Struts2Utils.renderJson(node);
 	}
 	/**
 	 * 删除结点

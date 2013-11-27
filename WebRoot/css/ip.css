@@ -1,0 +1,6 @@
+.textiploghidden { 
+    BORDER-RIGHT: 2px; BORDER-TOP: 2px; FONT-SIZE: 12px; BORDER-LEFT: 2px; WIDTH: 30px; COLOR: #ffffff; BORDER-BOTTOM: 2px; FONT-FAMILY: sans-serif; HEIGHT: 22px; border: 1 solid #000000 
+} 
+.textipinput { 
+    BORDER-RIGHT: 0px; BORDER-TOP: 0px; FONT-SIZE: 11px; BORDER-LEFT: 0px; WIDTH: 30px; COLOR: #000000; BORDER-BOTTOM: 0px; FONT-FAMILY: sans-serif; HEIGHT: 19px; BACKGROUND-COLOR: #ffffff; TEXT-ALIGN: center 
+} 
