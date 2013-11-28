@@ -56,7 +56,7 @@
 							<td><%=item.getName()%></td>
 							<td><%=item.getDescription()%></td>
 							<td><a
-								href="javascript:top._addTab('<%=item.getIp()%>','Á÷Á¿¼à¿Ø-<%=item.getIp()%>','<%=request.getContextPath()%>/nodes/monitor_query_showNodeBitrate.sip?address=<%=item.getIp()%>')"><%=item.getIp()%></a></td>
+								href="javascript:top._addTab('<%=item.getIp()%>','×´Ì¬¼à¿Ø-<%=item.getIp()%>','<%=request.getContextPath()%>/nodes/monitor_query_showNodeBitrate.sip?address=<%=item.getIp()%>')"><%=item.getIp()%></a></td>
 							<!-- 
 							<td><!!%= item.getLongitude() %></td>
 							<td><!!%= item.getLatitude() %></td>

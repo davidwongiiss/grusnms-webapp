@@ -4,14 +4,14 @@ var IndexPanel = function() {
 	var north = new Ext.Panel( {
 		id : "header",
 		region : "north",
-		margins : "0 0 0 0",
-		height : 78,
+		margins : "2 0 0 0",
+		height : 75,
 		//html : "<img src='../images/header.jpg'>"
-		/*bodyStyle: {
+		bodyStyle: {
             background: 'yellow',
             position:'absolute ',
             'z-index': 10001
-        },*/
+        },
 		contentEl:"header"
 	});
 
@@ -37,17 +37,16 @@ var IndexPanel = function() {
 		defaults : {
 			autoScroll : true
 		},
-		/*bodyStyle: {
-			background: 'black',
-            height:'100%'
-        },*/
+		bodyStyle: {
+            background: 'yellow',
+            height:'100% '
+        },
 		items : [ {
 			id:'id1',
 			//contentEl : 'center_context_desktop',
 			html:"<iframe src='"+path+"/jsp/monitor/monitorNodesFrame.jsp'   style='width:100%;height:100%' ></iframe>",
 			title : '监控台',
-			autoScroll : true,
-			height:200
+			autoScroll : true
 		} ]
 	});
 

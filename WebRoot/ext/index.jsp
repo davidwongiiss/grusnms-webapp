@@ -25,9 +25,15 @@
 <script type="text/javascript" src="<%=path%>/ext/myjs/index.js?rand=1115v44"></script>
 </head>
 <body>
+<!-- 
 <div class="menucontainer" id="header" style="position:fixed;z-index:999;left:1px;top:1px;z-index: 1000;width:100%">
 <div class="menu" style="height:76px">
 <ul>
+ -->
+	<div class="menucontainer" id="header">
+		<div class="logo"></div>
+		<div class="menu">
+			<ul>
 <!-- 
 <li><a href="javascript:void(0)" onclick="_addTab('home','首页','<%= path %>/nodes/nodes_queryNodes.sip')">首页</a></li> //nodesHandle.jsp
  <li><a href="javascript:void(0)" onclick="_addTab('home','首页','<%= path %>/nodes/nodes_searchNodes.sip')">首页</a></li>

@@ -8,13 +8,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.device.bean.GroupsNodesBean;
-import com.device.bean.UsersBean;
-import com.device.common.LoginResult;
-import com.device.po.Users;
-import com.device.util.ParamUtil;
 
 public class StatisticsAction {
-	private static Log log = LogFactory.getLog(StatisticsAction.class);
+	private static Log logger = LogFactory.getLog(StatisticsAction.class);
+	
 	//查询跳转到下个页面
 	public String goGroup(){
 		return "goGroup";
@@ -23,14 +20,16 @@ public class StatisticsAction {
 	public String goipList(){
 		HttpServletRequest request=org.apache.struts2.ServletActionContext.getRequest();
 		String[] idArray = gids.split(",");
-		List ipList = GroupsNodesBean.getInstance().getIpsByGroupIds(idArray);
+		@SuppressWarnings("unchecked")
+		List<String> ipList = GroupsNodesBean.getInstance().getIpsByGroupIds(idArray);
 		request.setAttribute("ipList", ipList);
 		return "goipList";
 	}
 	
 	public String goDeviceipList(){
 		HttpServletRequest request=org.apache.struts2.ServletActionContext.getRequest();
-		List ipList = GroupsNodesBean.getInstance().getGroupIps(groupId);
+		@SuppressWarnings("unchecked")
+		List<String> ipList = GroupsNodesBean.getInstance().getGroupIps(groupId);
 		request.setAttribute("ipList", ipList);
 		return "goipList2";
 	}
@@ -39,9 +38,8 @@ public class StatisticsAction {
 		return "goFrist";
 	}
 	
-	//统计查询
-	public String getStatics(){
-		
+	// 统计查询
+	public String getStatics() {
 		return "";
 	}
 	
@@ -52,7 +50,7 @@ public class StatisticsAction {
 	private String type ;
 	private String gids ;
 	private String groupId ;
-	
+	private Integer graphType; // 线类型	
 	
 	public String getGroupId() {
 		return groupId;
@@ -103,8 +101,11 @@ public class StatisticsAction {
 		this.gids = gids;
 	}
 
+	public Integer getGraphType() {
+		return graphType;
+	}
 
-	
-	
-
+	public void setGraphType(Integer graphType) {
+		this.graphType = graphType;
+	}
 }

@@ -31,6 +31,9 @@
     	<result name="monitorList">/jsp/monitor/monitorList.jsp</result>
     	<result name="monitorNodeBitrate">/jsp/monitor/monitorNodeBitrate.jsp</result>
     </action>
+    
+    <action name="report_*" class="ReportAction" method="{1}">
+    </action>
 		
 		<action name="event_*" class="EventsHandleAction" method="{1}">
 			<result name="eventsHandle">/jsp/event/eventsHandle.jsp</result>

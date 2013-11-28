@@ -22,6 +22,7 @@
 	<bean id="UsersAction" class="com.device.action.UsersAction"></bean>
 	
 	<bean id="MonitorAction" class="com.grus.nms.monitor.action.MonitorAction"></bean>
-	
+	<bean id="ReportAction" class="com.grus.nms.report.action.ReportAction"></bean>
+
 	<bean id="StatisticsAction" class="com.device.action.StatisticsAction"></bean>
 </beans>

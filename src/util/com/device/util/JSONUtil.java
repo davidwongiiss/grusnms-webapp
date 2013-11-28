@@ -164,6 +164,33 @@ public class JSONUtil {
 		return str;
 	}
 
+	/**
+	 * 
+	 * 功能说明:将集合中的对象按指定字段进行JSON化(可以满足基本需求，对特殊的需求需要进一步进行扩展)
+	 * @param: @param obj
+	 * @param: @param ignorableFieldNames
+	 * @param: @return      
+	 * @return: String     
+	 * @author:童贝
+	 * @date: 2011 12 1 09:50:33
+	 */
+	public static String listToJson2(Collection obj, String[] ignorableFieldNames) {
+		String str=null;
+		try {     
+			FilterProvider filters = new SimpleFilterProvider().addFilter(PropertyFilterMixIn.MODEL_FILTER, SimpleBeanPropertyFilter.serializeAllExcept(ignorableFieldNames));      
+			ObjectMapper mapper = new ObjectMapper().setVisibility(JsonMethod.FIELD, Visibility.DEFAULT); 
+			mapper.getSerializationConfig().addMixInAnnotations(Object.class, PropertyFilterMixIn.class);     
+			ObjectWriter writer = mapper.writer(filters); 
+			str=writer.writeValueAsString(obj);
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return str;
+	}		
 
 	
 	/**
