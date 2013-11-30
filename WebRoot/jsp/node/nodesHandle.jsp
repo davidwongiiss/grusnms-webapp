@@ -26,6 +26,7 @@
 		<script type="text/javascript" src="<%= request.getContextPath() %>/js/util.js"></script>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/js/frame.js"></script>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/js/ip.js"></script>
+		<script language="javascript" type="text/javascript" src="<%=path%>/My97DatePicker/WdatePicker.js?rand=3"></script>
 		<script type="text/javascript">
 		function addNodes(){
 			var add_url="<%= path %>/jsp/node/addNode.jsp";
@@ -42,6 +43,9 @@
 			var url = "<%= path %>/nodes/nodes_queryNodeBean.sip?id="+id;
 			var retval = popUpModalDialog(url,860,500,"","",'<%=path%>',"修改设备");
 			$("#myform").submit();
+		}
+		function day(element){
+			WdatePicker({el:element,dateFmt:"yyyy-MM-dd"});
 		}
 		</script>
 	</HEAD>
@@ -79,16 +83,9 @@
 				<tr> 
 					<td class="font_text_right"  width="15%">创建时间</td>
 					<td align="left" width='20%'  >
-					<script src="<%= path %>/js/JSCalendar.js"></script>
-					<script src="<%= path %>/js/CheckDateTime.js"></script>
-					<input name="beginTime" id="beginTime" type="text" size="10" value="<%= StringUtil.killNull(nodes.getBeginTime()) %>"  null readonly  class="inpit_bg" onblur="CheckD('beginTime');" />
-					<img  name="loginTimeButton"  src="<%= path %>/images/button/time_btn.jpg"  class="time_btn"   style="cursor:hand" onClick="selectQustion('beginTime',document.getElementById('beginTime').value,'<%= path %>/');" >
-					--至--
-					<script src="<%= path %>/js/JSCalendar.js"></script>
-					<script src="<%= path %>/js/CheckDateTime.js"></script>
-					<input name="endTime" id="endTime" type="text" size="10" value="<%= StringUtil.killNull(nodes.getEndTime()) %>"  null readonly  class="inpit_bg" onblur="CheckD('endTime');" />
-					<img  name="loginTimeButton"  src="<%= path %>/images/button/time_btn.jpg"  class="time_btn"   style="cursor:hand" onClick="selectQustion('endTime',document.getElementById('endTime').value,'<%= path %>/');" >
-					
+						<input id="beginTime" name="beginTime" type="text" size="16" value="<%= StringUtil.killNull(nodes.getBeginTime()) %>" onclick="day(this)" class="Wdate"/>
+						--至--
+						<input id="endTime" name="endTime" type="text" size="16" value="<%= StringUtil.killNull(nodes.getEndTime()) %>" onclick="day(this)" class="Wdate"/>
 					</td>
 
 					<td class="font_text_right"  width="15%">Ip地址</td>

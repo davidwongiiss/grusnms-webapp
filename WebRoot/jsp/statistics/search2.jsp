@@ -37,10 +37,12 @@
 		function check(){
 			var bt = $("#beginTime").val();
 			var et = $("#endTime").val();
-			if(bt == "" || et == ""){
-				alert("请选择开始时间和结束时间");
+			var chartType = $('input[name=chartType_p]:checked').val();
+			if(bt == "" || et == "" || !chartType){
+				alert("请选择开始时间和结束时间,统计类型");
 				return false;
 			}else{
+				$("#chartType").val(chartType);
 				return true ;
 			}
 		}
@@ -51,8 +53,10 @@
 		String cycle = (String)request.getAttribute("cycle");
 		String beginTime = (String)request.getAttribute("beginTime");
 		String endTime = (String)request.getAttribute("endTime");
+		String chartType = (String)request.getAttribute("chartType");
 	%>
 		<form action="<%=request.getContextPath()%>/jsp/statistics/staticDeviceFrame.jsp" id="query_form" method="post" target="_self" onsubmit="return check();">
+			<input type="hidden" name="chartType" id="chartType" value=""/>
 			<div class="query_table_d" >
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="query_table">
@@ -125,6 +129,12 @@
 											&nbsp;<input id="endTime5" name="endTime5" type="text" size="16" value="<%= StringUtil.killNull(endTime) %>" onclick="year(this,'endTime')" class="Wdate"/>
 										</div>
 									</td>
+								</tr>
+								<tr>
+									<td class="font_text_right" height="40px">统计方式：</td>
+									<td><input type="radio" value="chart" name="chartType_p" <%if("chart".equals(chartType))out.print("checked"); %>/>
+									走势图  
+									<input type="radio" value="total" name="chartType_p" <%if("total".equals(chartType))out.print("checked"); %>/>合计</td>
 								</tr>
 								<tr>
 									<td colspan="6" align="center" style="text-align: center;">

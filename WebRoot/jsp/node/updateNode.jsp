@@ -38,7 +38,7 @@
 	Nodes node = (Nodes)request.getAttribute("node");
 	if(node == null) node = new Nodes();
 %>
-  <form action="<%= request.getContextPath() %>/nodes/nodes_updateNodes.sip" name="form1" id="form1" method="post" > 
+  <form action="<%= request.getContextPath() %>/nodes/nodes_updateNodes.sip" name="form1" id="form1" method="post" onsubmit ="return checkFrom();" > 
   		<input type="hidden" name="node.ip" id="node.ip"/>
   		<input type="hidden" name="node.id" id="node.id" value="<%= node.getId() %>"/>
   		<input type="hidden" name="node.createTime" id="node.createTime" value="<%= node.getCreateTime() %>"/>
@@ -58,14 +58,14 @@
 				<td class="font_text_right"  width="15%">设备名</td>
 				<td align="left" width='20%'  >
 					<div class="inpit2_bg" > 
-					<input  id="node.name"   name="node.name" value="<%= StringUtil.killNull(node.getName()) %>"  readonly="readonly" type="text"  size="16" require="true" dataType="LimitB"  min="1" max="12"  msg="设备名称必须输入且长度不超过12位英文字符或6个汉字！"/>
+					<input  id="node.name"   name="node.name" value="<%= StringUtil.killNull(node.getName()) %>"  type="text" disabled="disabled"  readonly="readonly" />
 					</div>
 					<font color="red">*</font>
 				</td>
 				<td class="font_text_right"  width="15%">设备型号</td>
 				<td align="left" width='20%'  >
 					<div class="inpit2_bg" > 
-					<input type="text" name="node.deviceType" value="<%=Constant.DEVICETYPE %>" readonly="readonly" />
+					<input type="text" name="node.deviceType" value="<%=Constant.DEVICETYPE %>" disabled="disabled"  readonly="readonly" />
 					</div>
 					<font color="red">*</font>
 				</td>
@@ -129,7 +129,7 @@
 			</tr>
 				<tr> 
 					<td colspan="6" align="center" style="text-align: center;">
-						<input type="submit" class="btn60"  value='修改' onclick="javascript: checkFrom();" />
+						<input type="submit" class="btn60"  value='修改' />
 						<input type="button" class="btn60"  value='取消' onclick="javascript: window.returnValue=false;window.close()"/>
 					</td>
 				</tr>

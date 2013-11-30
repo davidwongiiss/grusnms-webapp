@@ -164,16 +164,6 @@ public class JSONUtil {
 		return str;
 	}
 
-	/**
-	 * 
-	 * 功能说明:将集合中的对象按指定字段进行JSON化(可以满足基本需求，对特殊的需求需要进一步进行扩展)
-	 * @param: @param obj
-	 * @param: @param ignorableFieldNames
-	 * @param: @return      
-	 * @return: String     
-	 * @author:童贝
-	 * @date: 2011 12 1 09:50:33
-	 */
 	public static String listToJson2(Collection obj, String[] ignorableFieldNames) {
 		String str=null;
 		try {     
@@ -190,7 +180,8 @@ public class JSONUtil {
 			e.printStackTrace();
 		}
 		return str;
-	}		
+	}
+	
 
 	
 	/**

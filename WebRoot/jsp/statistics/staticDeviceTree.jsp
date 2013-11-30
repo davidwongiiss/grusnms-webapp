@@ -3,6 +3,8 @@
 <%@page import="com.device.util.Constant"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Iterator"%>
+<%@page import="java.util.Enumeration"%>
+<%@page import="java.net.URLEncoder"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -16,11 +18,21 @@
 		<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery.ztree.core-3.5.js"></script>
 	</head>
 <body style="width: 98%;height: 100%;border: 1px #95b6d9 solid;margin-right:2px;">
-	<%
+<%
+	String param = "";
+  	Enumeration xenum=request.getParameterNames();
+  	while(xenum.hasMoreElements()){
+    	String name=(String)xenum.nextElement();
+     	String value=URLEncoder.encode(request.getParameter( name));
+     	param+=name+"="+value+"&";
+  	}
+  	System.out.println(param);
+%>
+	<%--
 		String cycle = (String)request.getAttribute("cycle");
 		String beginTime = (String)request.getAttribute("beginTime");
 		String endTime = (String)request.getAttribute("endTime");
-	%>
+	--%>
 	<table>
 		<tr>
 			<td height="20px;">
@@ -91,7 +103,7 @@
 			
 			//结点点击事件
 			function zTreeOnClick(event, treeId, treeNode){
-				parent.frames.mainf.location.href="<%= request.getContextPath() %>/nodes/statis_goDeviceipList.sip?groupId="+treeNode.id;
+				parent.frames.mainf.location.href="<%= request.getContextPath() %>/nodes/statis_goDeviceipList.sip?<%= param %>&gids="+treeNode.id;
 			}
 			//-->
 		</script>

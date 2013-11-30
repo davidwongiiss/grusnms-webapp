@@ -1,11 +1,8 @@
 package com.grus.nms.monitor.action;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,8 +11,11 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
+
+
 import com.device.bean.NodesBean;
 import com.device.common.impl.NodesListResult;
+import com.device.po.MonitorBean;
 import com.device.po.NodeStatus;
 import com.device.po.QamValue;
 import com.device.util.HibernateHelper;
@@ -24,45 +24,38 @@ import com.device.util.ParamUtil;
 import com.device.util.PeakSessionFactory;
 import com.device.util.Struts2Utils;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class MonitorAction {
 	private static Log logger = LogFactory.getLog(MonitorAction.class);
-
+	
 	private String addresses;
-
+	
 	@SuppressWarnings("unchecked")
 	public void queryDevicesCurrentBitrates() {
 		logger.debug("queryDevicesCurrentBitrates-begin");
-
+		
 		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
 		String addresses = ParamUtil.getString(request, "addresses");
 		if (addresses == null || addresses.isEmpty()) {
 			addresses = this.addresses;
 		}
-
+		
 		String addresses1[] = addresses.split(",");
-
+		
 		Collection<QamValue> c = null;
 		Session session = null;
 		try {
 			session = PeakSessionFactory.instance().getCurrentSession();
-
+			
 			StringBuffer sb = new StringBuffer();
 			sb.append("[");
-
+			
 			for (int i = 0; i < addresses1.length; i++) {
-				String hql = "select qam from QamValue qam where qam.nodeId = (select id from Nodes node where node.ip = '"
-						+ addresses1[i] + "') order by qam.blade asc";
+				String hql = "select qam from QamValue qam where qam.nodeId = (select id from Nodes node where node.ip = '" + addresses1[i] + "') order by qam.blade asc";
 				c = HibernateHelper.getQueryResult(session, hql);
-
+				
 				if (c.size() == 0)
 					continue;
-
+				
 				logger.debug("获取c");
 
 				sb.append("{");
@@ -71,17 +64,17 @@ public class MonitorAction {
 				sb.append(addresses1[i]);
 				sb.append("\"");
 				sb.append(",\"slots\":[");
-
+				
 				StringBuffer[] sbs = new StringBuffer[9];
-
+				
 				for (QamValue qam : c) {
 					int n = qam.getBlade() - 1;
 					if (sbs[n] == null) {
 						sbs[n] = new StringBuffer();
 						sbs[n].append("{\"slotNo\":");
-						sbs[n].append(qam.getBlade());
+						sbs[n].append(qam.getBlade());						
 					}
-
+					
 					sbs[n].append(",\"qams\":[[");
 					sbs[n].append(qam.getQam1() ? 1 : 0);
 					sbs[n].append(",");
@@ -115,7 +108,7 @@ public class MonitorAction {
 					sbs[n].append(",");
 					sbs[n].append(qam.getQam16() ? 1 : 0);
 					sbs[n].append("]]");
-
+					
 					sbs[n].append(",\"bitrates\":[[");
 					sbs[n].append(qam.getBitrate1());
 					sbs[n].append(",");
@@ -147,7 +140,7 @@ public class MonitorAction {
 					sbs[n].append(",");
 					sbs[n].append(qam.getBitrate15());
 					sbs[n].append(",");
-					sbs[n].append(qam.getBitrate16());
+					sbs[n].append(qam.getBitrate16());					
 					sbs[n].append("]]");
 
 					sbs[n].append(",\"numOfServices\":[[");
@@ -181,62 +174,61 @@ public class MonitorAction {
 					sbs[n].append(",");
 					sbs[n].append(qam.getNumOfServices15());
 					sbs[n].append(",");
-					sbs[n].append(qam.getNumOfServices16());
+					sbs[n].append(qam.getNumOfServices16());					
 					sbs[n].append("]]");
 					sbs[n].append("},");
 				}
-
+				
 				// 组装slots
 				for (int j = 0; j < 9; j++) {
 					if (sbs[j] == null)
 						continue;
-
+					
 					sb.append(sbs[j].toString());
 					sb.deleteCharAt(sb.length() - 1);
 					sb.append("]"); // slots
 				}
 				sb.append("},");
 			}
-
+			
 			sb.deleteCharAt(sb.length() - 1);
 			sb.append("]");
-
+			
 			String s = sb.toString();
 			Struts2Utils.renderJson(s);
-
+			
 			logger.debug("queryDevicesCurrentBitrates:" + s);
-		}
+		} 
 		catch (HibernateException e) {
-			// to do something....
+			//to do something....
 			e.printStackTrace();
 			logger.debug(e.getMessage());
-		}
+		} 
 		finally {
 			logger.debug("queryDevicesCurrentBitrates-end");
 		}
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public void queryDevicesCurrentStatus() {
 		logger.debug("queryDevicesCurrentStatus-begin");
-
+		
 		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
 		String addresses = ParamUtil.getString(request, "addresses");
 		String addresses1[] = addresses.split(",");
-
+		
 		Collection<NodeStatus> c = null;
 		Session session = null;
 		try {
 			session = PeakSessionFactory.instance().getCurrentSession();
-
+			
 			StringBuffer sb = new StringBuffer();
 			sb.append("[");
-
+			
 			for (int i = 0; i < addresses1.length; i++) {
-				String hql = "select status from NodeStatus s where s.nodeId = (select id from Nodes node where node.ip = '"
-						+ addresses1[i] + "')";
+				String hql = "select status from NodeStatus s where s.nodeId = (select id from Nodes node where node.ip = '" + addresses1[i] + "')";
 				c = HibernateHelper.getQueryResult(session, hql);
-
+				
 				if (c.size() == 0)
 					continue;
 
@@ -245,7 +237,7 @@ public class MonitorAction {
 				sb.append(",\"ip\":\"");
 				sb.append(addresses1[i]);
 				sb.append("\"");
-
+				
 				for (NodeStatus status : c) {
 					sb.append(",\"gbeBitrate\":");
 					sb.append(status.getGbeBitrate());
@@ -263,45 +255,63 @@ public class MonitorAction {
 					// 防止IP有重复只处理一组
 					break;
 				}
-
+				
 				sb.append("},");
 			}
-
+			
 			sb.deleteCharAt(sb.length() - 1);
-			sb.append("]");
-
+			sb.append("]"); 
+			
 			String s = sb.toString();
 			Struts2Utils.renderJson(s);
-
+			
 			logger.debug("queryDevicesCurrentStatus:" + s);
-		}
+		} 
 		catch (HibernateException e) {
-			// to do something....
+			//to do something....
 			e.printStackTrace();
 			logger.debug(e.getMessage());
-		}
+		} 
 		finally {
 			logger.debug("queryDevicesCurrentStatus-end");
 		}
 	}
-
-	// 设备监控列表
-	public String monitorList() {
+	
+	//设备监控列表
+	public String monitorList(){
 		logger.debug("querylist-begin");
 		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
 		String groupId = ParamUtil.getString(request, "groupId");
 		NodesListResult result = NodesBean.getInstance().queryNodesByGroupId(groupId);
 		request.setAttribute("result", result);
+		logger.debug("querylist-end");
 		return "monitorList";
 	}
-
+	
+	public void updateView(){
+		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
+		String ips = ParamUtil.getString(request, "ips");
+		String nodes = ParamUtil.getString(request, "nodes");
+		//测试数据
+		MonitorBean bean = new MonitorBean();
+		bean.setIp(ips);
+		bean.setStatus(1);
+		bean.setAlarm(true);
+		bean.setWarning(false);
+		List<MonitorBean> list = new ArrayList<MonitorBean>();
+		list.add(bean);
+		String json = JSONUtil.listToJson(list, new String[]{"nodeid","ip","status","alarm","warning"});//objectToJson(bean);
+		Struts2Utils.renderJson(json);
+		
+	}
+	
 	/**
 	 * 
 	 * @return
 	 */
 	public String showNodeBitrate() {
-		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
+		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();		
 		this.addresses = ParamUtil.getString(request, "address");
 		return "monitorNodeBitrate";
-	}
+	}	
 }

@@ -36,19 +36,21 @@ var IndexPanel = function() {
 		enableTabScroll : true,
 		defaults : {
 			autoScroll : true
-		},
-		/*bodyStyle: {
+		}
+		/*
+			,
+		 * bodyStyle: {
 			background: 'black',
             height:'100%'
-        },*/
 		items : [ {
 			id:'id1',
-			//contentEl : 'center_context_desktop',
-			html:"<iframe src='"+path+"/jsp/monitor/monitorNodesFrame.jsp'   style='width:100%;height:100%' ></iframe>",
+			contentEl : 'center_context_desktop',
+			//html:"<iframe src='"+path+"/jsp/monitor/monitorNodesFrame.jsp'  height='100%' width='100%' ></iframe>",
 			title : '监控台',
 			autoScroll : true,
 			height:200
 		} ]
+        },*/
 	});
 
 	function addTab(id,name,url) {
@@ -60,14 +62,20 @@ var IndexPanel = function() {
 						"title" : name,
 						closable : true,
 						frame : true ,
-						html : "<iframe src='"+url+"'  height='100%' width='100%' ></iframe>"
+						//autoLoad: true,
+						html : "<iframe id='iframe_"+id+"' src='"+url+"'  height='100%' width='100%' ></iframe>"//,
+						//listeners: { "beforeadd": function (obj, component, index) {
+                        //	frames['iframe_' + id].location.reload();
+                   		//}}
 					});
 			
+		}else{
+			frames["iframe_"+id].location.href = url;
 		};
 		tabPanel.setActiveTab(n);
 	}
 
-	//addTab();
+	addTab("id1" , "监控台" , path+"/jsp/monitor/monitorNodesFrame.jsp");
 
 	//==========建立视图2
 	var createWin = function() {

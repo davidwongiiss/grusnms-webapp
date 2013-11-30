@@ -194,7 +194,7 @@ public class NodesBean {
 		Session session = null;
 		try {
 			session = PeakSessionFactory.instance().getCurrentSession();
-			StringBuffer hql = new StringBuffer("select n from Nodes n , GroupsNodes g  where n.id = g.nodeId and g.groupId = '"+groupId+"'  ");
+			StringBuffer hql = new StringBuffer("select n.id , n.ip from Nodes n , GroupsNodes g  where n.id = g.nodeId and g.groupId = '"+groupId+"'  ");
 			c = HibernateHelper.getQueryResult(session, hql.toString());
 			result.setC(c);
 		} catch (HibernateException e) {

@@ -40,23 +40,22 @@
 			<result type="chain" name="_forward">
 				event_queryEvents
 			</result> 
-			<result name="ipList">
-				/jsp/statistics/ipList.jsp
-			</result>
 		</action>
 		
 		<action name="users_*" class="UsersAction" method="{1}">
 			<result name="queryUsers">/jsp/users/usersHandle.jsp</result>
 			<result name="editUser">/jsp/users/editUser.jsp</result>
-			<result name="queryNUsers">/jsp/queryNUsers.jsp</result>
-			<result name="useNodesList">/jsp/useNodesList.jsp</result>
-			<result name="ok_changePassword">/jsp/ok_changePassword.jsp</result>
+			<result name="queryNUsers">/jsp/users/queryNUsers.jsp</result>
+			<result name="useNodesList">/jsp/users/useNodesList.jsp</result>
+			<result name="ok_changePassword">/jsp/users/ok_changePassword.jsp</result>
 			<result name="ok">/ok.jsp</result>
 		</action>
 		
 		<action name="statis_*" class="StatisticsAction" method="{1}">
 			<result name="goGroup">/jsp/statistics/groupTree.jsp</result>
+			<!-- 
 			<result name="goipList">/jsp/statistics/iplist.jsp</result>
+			 -->
 			<result name="goipList2">/jsp/statistics/iplist2.jsp</result>
 			<result name="goFrist">/jsp/statistics/search.jsp</result>
 		</action>

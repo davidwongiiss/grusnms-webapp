@@ -89,7 +89,7 @@ public class GroupsNodesBean {
 		Session session = null;
 		try {
 			session = PeakSessionFactory.instance().getCurrentSession();
-			String queryString = "select n.ip from nodes n , groups_nodes g where n.Id = g.node_id and g.group_id = ? ";
+			String queryString = "select n.ip , n.id from nodes n , groups_nodes g where n.Id = g.node_id and g.group_id = ? ";
 			c = HibernateHelper.querySql(session, queryString, new String[]{groupId});
 			return c ;
 		} catch (HibernateException e) {

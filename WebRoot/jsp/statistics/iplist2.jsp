@@ -16,9 +16,20 @@
 		<script type="text/javascript"	src="<%=request.getContextPath()%>/js/util.js"></script>
 		<script type="text/javascript">
 			function selectIps(){
-				var ids = getAllValue('ip');
-				$("#ips").val(ids);
-				$("#myform").attr('action', "<%=request.getContextPath()%>/nodes/statis_getStatics.sip");
+				debugger;
+				var ids = getAllValue('_id');
+				if(!ids){alert("请选择要统计的设备！");return}
+				var array = ids.split(",");
+				var ips = new Array();
+				var nids = new Array() ;
+				for(var i= 0; i < array.length ; i++)
+				{
+					var a = array[i].split("_");
+					ips[i] = a[0];
+					nids[i] = a[1];
+				}
+				$("#ips").val(ips.join(","));
+				$("#nids").val(nids.join(","));
 				$("#myform").submit();
 			}
 			function goStep(){
@@ -28,13 +39,14 @@
 		</script>
 	</HEAD>
 	<%
-	List<String> result = (List<String>)request.getAttribute("ipList");
+	List<Object[]> result = (List<Object[]>)request.getAttribute("ipList");
 	%>	
 	<BODY class="tab" >
 	<%
 		String cycle = (String)request.getAttribute("cycle");
 		String beginTime = (String)request.getAttribute("beginTime");
 		String endTime = (String)request.getAttribute("endTime");
+		String chartType = (String)request.getAttribute("chartType");
 		
 		String groupType = (String)request.getAttribute("groupType");
 		if(groupType == null || "null".equals(groupType) || "".equals(groupType.trim()))
@@ -43,20 +55,21 @@
 		}
 		String gids = (String)request.getAttribute("gids");
 	%>		
-		<form action="" method="post" name="myform" id="myform">
+		<form action="<%= request.getContextPath() %>/jsp/statistics/chart.jsp" method="post" name="myform" id="myform" target="_blank">
 			<input type="hidden" value="<%= StringUtil.killNull(cycle) %>" name="cycle" id="cycle" />
 			<input type="hidden" value="<%= StringUtil.killNull(beginTime) %>" name="beginTime" id="beginTime" />
 			<input type="hidden" value="<%= StringUtil.killNull(endTime) %>" name="endTime" id="endTime"/>
-			
+			<input type="hidden" value="<%= StringUtil.killNull(chartType) %>" name="chartType" id="chartType"/>
 			<input type="hidden" value="<%= StringUtil.killNull(gids) %>" name="gids" id="gids"/>
 			<input type="hidden" value="" name="ips" id="ips">
+			<input type="hidden" value="" name="nids" id="nids">
 			<div class="table_header" height="99%">
 				<h2>
 					IP列表
 				</h2>
 				<div class="table_list_right"></div>
 				<div class="table_header_r">
-				<input type="button" name="确定" class="btn60" onclick="selectIps();" value="确定">
+				
 				</div>
 			</div>
 			<table width="99.6%" height="80%" border="0" cellpadding="0"
@@ -75,12 +88,12 @@
 							      </tr>
 								  <%	
 								  if(result != null){
-									for(String ip : result){
+									for(Object[] obj : result){
 								           
 									%>
 							        <tr>
-							          <td><input type="checkbox" name="ip"	value="<%=ip%>" /></td>
-							          <td align="left"><%= ip %></td>
+							          <td><input type="checkbox" name="_id"	value="<%= obj[0] %>_<%= obj[1] %>" /></td>
+							          <td align="left"><%= obj[0] %></td>
 							        </tr>
 								     <%
 								  	}
@@ -91,7 +104,11 @@
 						</div>
 					</td>
 				</tr>
-		
+			</table>
+			<table width="88%">
+				<tr>
+					<td align="right"><input type="button" name="确定" class="btn90" onclick="selectIps();" value="确定"></td>
+				</tr>
 			</table>
 			<script language="javascript" src="<%= request.getContextPath() %>/js/table_util.js"></script>
 		</form>

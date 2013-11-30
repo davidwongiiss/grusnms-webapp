@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+	<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
+	<link rel="stylesheet" type="text/css" href="../../../third_party/fvlogger/logger.css" />
+	<link rel="icon" type="image/png" href="../../../third_party/fvlogger/magnet.png" />
+	<!--<script type="text/javascript" src="../sea-debug-1.2.1-with-res.js"></script>-->
+	<script type="text/javascript" src="../../../third_party/sea-1.2.1.js"></script>
+</head>
+<body>
+	<div id="fvlogger">
+		<dl>
+			<dt>fvlogger</dt>
+			<dd class="all">
+				<a href="#fvlogger" onclick="showAll();" title="show all" id="abcdef">all</a></dd>
+			<dd class="debug">
+				<a href="#fvlogger" onclick="showDebug();" title="show debug" id="showDebug">debug</a></dd>
+			<dd class="info">
+				<a href="#fvlogger" title="show info" id="showInfo">info</a></dd>
+			<dd class="warn">
+				<a href="#fvlogger" onclick="showWarn();" title="show warnings" id="showWarn">warn</a></dd>
+			<dd class="error">
+				<a href="#fvlogger" onclick="showError();" title="show errors" id="showError">error</a></dd>
+			<dd class="fatal">
+				<a href="#fvlogger" onclick="showFatal();" title="show fatals" id="showFatal">fatal</a></dd>
+			<dd>
+				<a href="#fvlogger" onclick="eraseLog(true);" title="erase">erase</a></dd>
+		</dl>
+	</div>
+	<script type="text/javascript">
+		seajs.use('../async.js', function(async) {
+			debugger;
+			var i = 0;
+			// 循环2次
+			async.tick(function() {
+				alert(i);
+				++i;
+			}, 500, 2).done(function() {
+				alert('end i');
+				// 循环5次
+				var j = 0;
+				async.tick(function() {
+					alert(j);
+					++j;
+				}, 500, -1, function() { return j < 5; }).done(function() {
+					alert('end j');
+				});
+			});
+		});
+	</script>
+</body>
+</html>
