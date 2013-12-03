@@ -46,7 +46,7 @@ public class NodeGroupAction {
 		nodeGroups.setId(UUIDGenerator.generate());
 		nodeGroups.setCreateTime(new Date(System.currentTimeMillis()));
 		nodeGroups.setUpdateTime(new Date(System.currentTimeMillis()));
-		nodeGroups.setCreator(LoginUtil.getUserId());
+		nodeGroups.setCreator(LoginUtil.getUserId(request));
 		String name = nodeGroups.getName();
 		nodeGroups.setName(StringUtil.unescape(name));
 		NodeGroupsBean.getInstance().saveGroup(nodeGroups);
@@ -63,7 +63,9 @@ public class NodeGroupAction {
 		nodeGroups.setpId(pId);
 		String id = ParamUtil.getString(request, "id");
 		nodeGroups.setId(id);
-		nodeGroups.setUpdater(LoginUtil.getUserId());
+		String name = nodeGroups.getName();
+		nodeGroups.setName(StringUtil.unescape(name));
+		nodeGroups.setUpdater(LoginUtil.getUserId(request));
 		nodeGroups.setUpdateTime(new Date(System.currentTimeMillis()));
 		NodeGroupsBean.getInstance().editGroup(nodeGroups);
 		String node = JSONUtil.objectToJson(nodeGroups);

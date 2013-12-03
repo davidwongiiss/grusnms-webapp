@@ -10,7 +10,7 @@
 				/jsp/node/nodeList.jsp
 			</result>
 			<result name="nodeGroup">
-				/jsp/node/nodeGroup.jsp
+				/jsp/group/nodeGroup.jsp
 			</result>
 			<result type="chain" name="_forward">
 				nodes_queryNodes
@@ -58,6 +58,9 @@
 			 -->
 			<result name="goipList2">/jsp/statistics/iplist2.jsp</result>
 			<result name="goFrist">/jsp/statistics/search.jsp</result>
+		</action>
+		
+		<action name="n_*" class="LoginAction" method="{1}">
 		</action>
 
 	</package>

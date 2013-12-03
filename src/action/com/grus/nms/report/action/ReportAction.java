@@ -66,11 +66,12 @@ public class ReportAction {
 		Connection conn = session.connection();
 		PreparedStatement stmt;
 		try {
-			stmt = (PreparedStatement) conn.prepareStatement("call grusnms.ip_gbe_statistics(?,?,?,?)");
+			stmt = (PreparedStatement) conn.prepareStatement("call grusnms.ip_gbe_statistics(?,?,?,?,?)");
 			stmt.setString(1, nodeId);
 			stmt.setTimestamp(2, new Timestamp(DateUtil.str2Date(lhs, "yyyy/MM/dd HH:mm").getTime()));
 			stmt.setTimestamp(3, new Timestamp(DateUtil.str2Date(rhs, "yyyy/MM/dd HH:mm").getTime()));
 			stmt.setInt(4, Integer.parseInt(period));
+			stmt.setBoolean(5, Integer.parseInt(chartType) == 0 ? false : true);
 			ResultSet rs = stmt.executeQuery();
 
 			Map<String, ip_statistics> records = new HashMap<String, ip_statistics>();
@@ -130,11 +131,12 @@ public class ReportAction {
 				p.gbe.add(r);
 			}
 
-			stmt = (PreparedStatement) conn.prepareStatement("call grusnms.ip_qam_statistics(?,?,?,?)");
+			stmt = (PreparedStatement) conn.prepareStatement("call grusnms.ip_qam_statistics(?,?,?,?,?)");
 			stmt.setString(1, nodeId);
 			stmt.setTimestamp(2, new Timestamp(DateUtil.str2Date(lhs, "yyyy/MM/dd HH:mm").getTime()));
 			stmt.setTimestamp(3, new Timestamp(DateUtil.str2Date(rhs, "yyyy/MM/dd HH:mm").getTime()));
 			stmt.setInt(4, Integer.parseInt(period));
+			stmt.setBoolean(5, Integer.parseInt(chartType) == 0 ? false : true);
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {
@@ -213,12 +215,14 @@ public class ReportAction {
 	 * http://localhost:8080/grusnms/nodes/report_queryMultiIpsStatistics.sip?params={"nodeId":"a89c0829-9d2d-4d1a-996e-07bbdcfdd246,a89c0829-9d2d-4d1a-996e-07bbdcfdd247","start":"1970/01/01 00:00:00","end":"2015/01/01 00:00:00","period":"0","chartType":"0"}
 	 */
 	public class ip_gbe_total_record {
-		public String b = "0", n = "0";
+		public BigInteger b = BigInteger.ZERO;
+		public BigInteger n = BigInteger.ZERO;
 		public String ct = "";
 	};
 
 	public class ip_qam_total_record {
-		public String b = "0", n = "0";
+		public BigInteger b = BigInteger.ZERO;
+		public BigInteger n = BigInteger.ZERO;
 		public String ct = "";
 	};
 	
@@ -232,15 +236,12 @@ public class ReportAction {
 	
 	public void queryMultiIpsStatistics() {
 		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
-		String params = ParamUtil.getString(request, "params");
-		@SuppressWarnings("unchecked")
-		Map<String, String> map = JSONUtil.fromJson(params, HashMap.class);
-
-		String nodeId = map.get("nodeIds");
-		String lhs = map.get("start");
-		String rhs = map.get("end");
-		String period = map.get("period");
-		String chartType = map.get("chartType");
+		
+		String nodeIds = ParamUtil.getString(request, "nodeIds");
+		String lhs = ParamUtil.getString(request, "start");
+		String rhs = ParamUtil.getString(request, "end");
+		String period = ParamUtil.getString(request, "period");
+		String chartType = ParamUtil.getString(request, "chartType");
 
 		Session session = null;
 		session = PeakSessionFactory.instance().getCurrentSession();
@@ -250,7 +251,7 @@ public class ReportAction {
 		PreparedStatement stmt;
 		try {
 			stmt = (PreparedStatement) conn.prepareStatement("call grusnms.multi_ips_gbe_statistics(?,?,?,?,?)");
-			stmt.setString(1, nodeId);
+			stmt.setString(1, nodeIds);
 			stmt.setTimestamp(2, new Timestamp(DateUtil.str2Date(lhs, "yyyy/MM/dd HH:mm").getTime()));
 			stmt.setTimestamp(3, new Timestamp(DateUtil.str2Date(rhs, "yyyy/MM/dd HH:mm").getTime()));
 			stmt.setInt(4, Integer.parseInt(period));
@@ -274,15 +275,19 @@ public class ReportAction {
 				p.ip = rs.getString(++i);
 				
 				ip_gbe_total_record r = new ip_gbe_total_record();
+				/*
 				r.b = rs.getBigDecimal(++i).toString();
 				r.n = rs.getBigDecimal(++i).toString();
+				*/
+				r.b = rs.getBigDecimal(++i).toBigInteger();
+				r.n = rs.getBigDecimal(++i).toBigInteger();				
 				r.ct = DateUtil.date2Str(rs.getTimestamp(++i), "yyyy/MM/dd HH:mm");
 
 				p.gbe.add(r);
 			}
 
 			stmt = (PreparedStatement) conn.prepareStatement("call grusnms.multi_ips_qam_statistics(?,?,?,?,?)");
-			stmt.setString(1, nodeId);
+			stmt.setString(1, nodeIds);
 			stmt.setTimestamp(2, new Timestamp(DateUtil.str2Date(lhs, "yyyy/MM/dd HH:mm").getTime()));
 			stmt.setTimestamp(3, new Timestamp(DateUtil.str2Date(rhs, "yyyy/MM/dd HH:mm").getTime()));
 			stmt.setInt(4, Integer.parseInt(period));
@@ -304,8 +309,13 @@ public class ReportAction {
 				p.ip = rs.getString(++i);
 
 				ip_qam_total_record r = new ip_qam_total_record();
+				/*
 				r.b = rs.getBigDecimal(++i).toString();
 				r.n = rs.getBigDecimal(++i).toString();
+				*/
+				r.b = rs.getBigDecimal(++i).toBigInteger();
+				r.n = rs.getBigDecimal(++i).toBigInteger();
+				
 				r.ct = DateUtil.date2Str(rs.getTimestamp(++i), "yyyy/MM/dd HH:mm");
 
 				p.qam.add(r);
@@ -330,12 +340,13 @@ public class ReportAction {
 	 * http://localhost:8080/grusnms/nodes/report_queryGroupsStatistics.sip?params={"groupIds":"40288b394283bac5014283bb76b60001","start":"1970/01/01 00:00:00","end":"2015/01/01 00:00:00","period":"0","chartType":"0"}
 	 */
 	public class group_gbe_record {
-		public String b = "0", n = "0";
+		public BigInteger b = BigInteger.ZERO;
+		public BigInteger n = BigInteger.ZERO;
 		public String ct = "";
 	};
 
 	public class group_qam_record {
-		public String b = "0", n = "0";
+		public BigInteger b = BigInteger.ZERO, n = BigInteger.ZERO;
 		public String ct = "";
 	};
 	
@@ -349,15 +360,11 @@ public class ReportAction {
 	
 	public void queryGroupsStatistics() {
 		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
-		String params = ParamUtil.getString(request, "params");
-		@SuppressWarnings("unchecked")
-		Map<String, String> map = JSONUtil.fromJson(params, HashMap.class);
-
-		String groupIds = map.get("groupIds");
-		String lhs = map.get("start");
-		String rhs = map.get("end");
-		String period = map.get("period");
-		String chartType = map.get("chartType");
+		String groupIds = ParamUtil.getString(request, "groupIds");
+		String lhs = ParamUtil.getString(request, "start");
+		String rhs = ParamUtil.getString(request, "end");
+		String period = ParamUtil.getString(request, "period");
+		String chartType = ParamUtil.getString(request, "chartType");		
 
 		Session session = null;
 		session = PeakSessionFactory.instance().getCurrentSession();
@@ -394,8 +401,13 @@ public class ReportAction {
 
 				i = 2;
 				group_gbe_record r = new group_gbe_record();
+				/*
 				r.b = rs.getBigDecimal(++i).toString();
 				r.n = rs.getBigDecimal(++i).toString();
+				*/
+				r.b = rs.getBigDecimal(++i).toBigInteger();
+				r.n = rs.getBigDecimal(++i).toBigInteger();
+				
 				r.ct = DateUtil.date2Str(rs.getTimestamp(++i), "yyyy/MM/dd HH:mm");
 
 				p.gbe.add(r);
@@ -427,8 +439,13 @@ public class ReportAction {
 
 				i = 2;
 				group_qam_record r = new group_qam_record();
+				/*
 				r.b = rs.getBigDecimal(++i).toString();
 				r.n = rs.getBigDecimal(++i).toString();
+				*/
+				r.b = rs.getBigDecimal(++i).toBigInteger();
+				r.n = rs.getBigDecimal(++i).toBigInteger();
+				
 				r.ct = DateUtil.date2Str(rs.getTimestamp(++i), "yyyy/MM/dd HH:mm");
 
 				p.qam.add(r);
@@ -446,5 +463,4 @@ public class ReportAction {
 			e.printStackTrace();
 		}
 	}	
-	
 }

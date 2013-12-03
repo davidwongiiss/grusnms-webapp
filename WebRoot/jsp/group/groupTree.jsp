@@ -30,7 +30,7 @@
 			$(document).ready(function(){
 					$.ajax({
 						type: "GET",
-				  		url: "<%= request.getContextPath() %>/nodes/nodeGroup_bulidGroupTree.sip?groupType=<%= StringUtil.killNull(request.getParameter("groupType")) %>",
+				  		url: "<%= request.getContextPath() %>/nodes/nodeGroup_bulidGroupTree.sip?type=<%= StringUtil.killNull(request.getParameter("type")) %>",
 						success: function(msg){
 									var array = eval(msg);
 									var zNodes = array || [];
@@ -40,7 +40,12 @@
 			});
 			//结点点击事件
 			function zTreeOnClick(event, treeId, treeNode){
-				parent.frames.mainf.location.href="<%= request.getContextPath() %>/nodes/nodes_queryNodes.sip?groupId="+treeNode.id+"&groupName="+treeNode.name;
+				if(treeNode.pId != null)
+				{
+					parent.frames.mainf.location.href="<%= request.getContextPath() %>/nodes/nodes_queryNodes.sip?groupId="+treeNode.id+"&groupName="+treeNode.name;
+				}else{
+					alert("跟分组无法绑定结点");
+				}
 			}
 			
 			//-->

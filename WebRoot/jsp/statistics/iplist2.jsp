@@ -16,7 +16,6 @@
 		<script type="text/javascript"	src="<%=request.getContextPath()%>/js/util.js"></script>
 		<script type="text/javascript">
 			function selectIps(){
-				debugger;
 				var ids = getAllValue('_id');
 				if(!ids){alert("请选择要统计的设备！");return}
 				var array = ids.split(",");
@@ -28,9 +27,9 @@
 					ips[i] = a[0];
 					nids[i] = a[1];
 				}
-				$("#ips").val(ips.join(","));
-				$("#nids").val(nids.join(","));
-				$("#myform").submit();
+				var ipstr = ips.join(",");
+				var nidstr = nids.join(",");
+				parent.dosubmit(ipstr , nidstr);
 			}
 			function goStep(){
 				$("#myform").attr('action', "<%=request.getContextPath()%>/nodes/statis_goGroup.sip");
@@ -42,27 +41,8 @@
 	List<Object[]> result = (List<Object[]>)request.getAttribute("ipList");
 	%>	
 	<BODY class="tab" >
-	<%
-		String cycle = (String)request.getAttribute("cycle");
-		String beginTime = (String)request.getAttribute("beginTime");
-		String endTime = (String)request.getAttribute("endTime");
-		String chartType = (String)request.getAttribute("chartType");
-		
-		String groupType = (String)request.getAttribute("groupType");
-		if(groupType == null || "null".equals(groupType) || "".equals(groupType.trim()))
-		{
-			groupType = "";
-		}
-		String gids = (String)request.getAttribute("gids");
-	%>		
 		<form action="<%= request.getContextPath() %>/jsp/statistics/chart.jsp" method="post" name="myform" id="myform" target="_blank">
-			<input type="hidden" value="<%= StringUtil.killNull(cycle) %>" name="cycle" id="cycle" />
-			<input type="hidden" value="<%= StringUtil.killNull(beginTime) %>" name="beginTime" id="beginTime" />
-			<input type="hidden" value="<%= StringUtil.killNull(endTime) %>" name="endTime" id="endTime"/>
-			<input type="hidden" value="<%= StringUtil.killNull(chartType) %>" name="chartType" id="chartType"/>
-			<input type="hidden" value="<%= StringUtil.killNull(gids) %>" name="gids" id="gids"/>
-			<input type="hidden" value="" name="ips" id="ips">
-			<input type="hidden" value="" name="nids" id="nids">
+			<input type="hidden" value="<%= StringUtil.killNull(request.getAttribute("groupId")) %>" name="groupId" id="groupId"/>
 			<div class="table_header" height="99%">
 				<h2>
 					IP列表

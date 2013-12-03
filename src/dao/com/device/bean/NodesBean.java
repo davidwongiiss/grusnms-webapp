@@ -18,6 +18,7 @@ import com.device.common.impl.NodesListEvent;
 import com.device.common.impl.NodesListResult;
 import com.device.po.Nodes;
 import com.device.util.HibernateHelper;
+import com.device.util.LoginUtil;
 import com.device.util.Pagination;
 import com.device.util.PeakSessionFactory;
 
@@ -104,7 +105,7 @@ public class NodesBean {
 	 * @param event
 	 * @return
 	 */
-	public NodesListResult list(NodesListEvent event) {
+	public NodesListResult list(NodesListEvent event , String username , boolean isAdmin) {
 		NodesListResult result = new NodesListResult();
 		String name = event.getName();
 		String ip = event.getIp();
@@ -117,15 +118,27 @@ public class NodesBean {
 		Session session = null;
 		try {
 			session = PeakSessionFactory.instance().getCurrentSession();
-			StringBuffer hql = new StringBuffer("select * from Nodes where deleted = 0 ");
+			
+			StringBuffer hql = new StringBuffer("select * from Nodes n ") ;
+			//添加权限筛选
+			if(!isAdmin){
+				hql.append(", users_nodes un where n.id = un.node_id and ");
+			}else{
+				hql.append(" where ");
+			}
+			hql.append(" n.deleted = 0 ");
 			if (!name.equals("")) {
-				hql.append(" and name like '%"+name+"%'");
+				hql.append(" and n.name like '%"+name+"%'");
 			} 
 			if(!ip.equals("")){
-				hql.append(" and ip like '"+ip+"%'");
+				hql.append(" and n.ip like '"+ip+"%'");
 			}
 			if(!"".equals(deviceSn)){
-				hql.append(" and device_sn = '"+deviceSn+"'");
+				hql.append(" and n.device_sn = '"+deviceSn+"'");
+			}
+			//添加权限
+			if(!isAdmin){
+				hql.append(" and un.user_name = '"+username+"'");
 			}
 			c = HibernateHelper.sqlQuery(session, hql.toString(), pagination, null, Nodes.class);
 			result.setPageNO(event.getPageNO());
@@ -154,12 +167,12 @@ public class NodesBean {
 				hql.append(" and n.ip = '"+ip+"'");
 			}
 			/**
-			 * 
 			if(!"".equals(groupId))
 			{
 				hql.append(" and gn.group_id = '"+groupId+"'");
 			}
-			 */
+			**/
+			 
 			c = HibernateHelper.queryAllNoPage(session, hql.toString() , null, NodeResult.class);
 			result.setC(c);
 		} catch (Exception e) {
@@ -194,7 +207,7 @@ public class NodesBean {
 		Session session = null;
 		try {
 			session = PeakSessionFactory.instance().getCurrentSession();
-			StringBuffer hql = new StringBuffer("select n.id , n.ip from Nodes n , GroupsNodes g  where n.id = g.nodeId and g.groupId = '"+groupId+"'  ");
+			StringBuffer hql = new StringBuffer("select n.id , n.ip , n.name from Nodes n , GroupsNodes g  where n.id = g.nodeId and g.groupId = '"+groupId+"'  ");
 			c = HibernateHelper.getQueryResult(session, hql.toString());
 			result.setC(c);
 		} catch (HibernateException e) {
@@ -210,7 +223,7 @@ public class NodesBean {
 		try{
 			session = PeakSessionFactory.instance().getCurrentSession();
 			String queryString = "insert into users_nodes (user_name , node_id) values ('"+userName+"',?)";
-			HibernateHelper.insertBatch(session, queryString, nids);
+			HibernateHelper.executeBatch(session, queryString, nids);
 		}catch(HibernateException e){
 			e.printStackTrace();
 		}
@@ -255,5 +268,16 @@ public class NodesBean {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public void delRelateNode(String nid , String name) {
+		Session session = null;
+		try{
+			session = PeakSessionFactory.instance().getCurrentSession();
+			String queryString = "delete from UsersNodes un where un.userName = ? and un.nodeId = ?";
+			HibernateHelper.delete(session, queryString , new Object[]{name , nid});
+		}catch(HibernateException e){
+			e.printStackTrace();
+		}
 	}
 }

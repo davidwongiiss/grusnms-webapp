@@ -14,13 +14,7 @@
 		<link rel="stylesheet" type="text/css"	href="<%= request.getContextPath() %>/css/style30.css">
 		<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.6.2.js"></script>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/js/util.js"></script>
-		<script type="text/javascript">
-			function allocation(){
-				var ids = getAllValue('eventId');
-				$("#nids").val(ids);
-				$("#myform").submit();
-			}
-		</script>
+		<script type="text/javascript" src="<%= request.getContextPath() %>/js/frame.js"></script>
 	</HEAD>
 	<%
 	NodesListResult result = (NodesListResult)request.getAttribute("result");
@@ -30,19 +24,18 @@
 	}
 	%>	
 	<BODY class="tab" >
-		<form name="form1" id="myform" action="<%= request.getContextPath() %>/nodes/users_allocatNodes.sip">
-			<input type="hidden" name="id" value="<%= StringUtil.killNull(request.getAttribute("name")) %>">
-			<input type="hidden" name="nids" id="nids"/>
+		<form name="myform" id="myform" action="<%= request.getContextPath() %>/nodes/users_queryUserNodes.sip">
+			<input type="hidden" name="id" id="id" value="<%= StringUtil.killNull(request.getAttribute("id")) %>">
 			<div class="table_header" height="99%">
 				<h2>
 					结点列表
 				</h2>
 				<div class="table_list_right"></div>
 				<div class="table_header_r">
- 					<a href="javascript:void(0);" onclick="allocation();" > <img src="<%= request.getContextPath() %>/images/button/icon2.gif"  />分配</a>
+ 					<a href="javascript:void(0);" onclick="allocatNodes();" > <img src="<%= request.getContextPath() %>/images/button/icon1.gif"  />添加关联结点</a>
 				</div>
 			</div>
-			<table width="99.6%" height="75%" border="0" cellpadding="0"
+			<table width="99.6%" height="88%" border="0" cellpadding="0"
 				cellspacing="0" class="ls_list1">
 				<tr>
 					<td>
@@ -52,12 +45,12 @@
 								<table width="100%" class="ls_list" border="0" cellpadding="0"	cellspacing="0" id="hollylistTable">
 									<tr
 										style="position: relative; top: expression(this.offsetParent.scrollTop); z-index: 10;">
-									<th scope="col"><input type="checkbox" id="checkAll" value="_all" onclick="selectAll('checkAll','eventId')"/>全选</a></th>     
+									      
 							        <th scope="col">名称</th>
 							        <th scope="col">类型</th>
 							        <th scope="col">日期</th>
-							        <th scope="col">描述</th>
 							        <th scope="col" class="list_bor_no">创建人</th>
+							        <th>操作</th>
 							      </tr>
 								  <%	
 								  		if (c != null && c.size() > 0 ) {
@@ -67,13 +60,12 @@
 								       	Nodes item = it.next();
 								           
 									%>
-							        <tr>
-							          <td><input type="checkbox" name="eventId" value="<%= item.getId() %>"/></td>
-							          <td><%= item.getName() %></td>
-							          <td><%= item.getDeviceType() %></td>
+							        <tr id="tr_<%= item.getId() %>">
+							          <td class="text_right"><%= item.getName() %></td>
+							          <td class="text_right"><%= item.getDeviceType() %></td>
 							          <td><%= item.getCreateTime() %></td>
-							          <td><%= item.getDescription() %></td>
 							          <td><%= item.getCreator() %></td>
+							          <td><a href="javascript:delRelate('<%= item.getId() %>');void(0)">删除</a></td>
 							        </tr>
 								     <%}
 								      }
@@ -89,5 +81,22 @@
 				<jsp:param name="baseurl" value="/nodes/nodes_listNodes.sip" />
 			</jsp:include>
 		</form>
+	<script type="text/javascript">
+		function delRelate(nid){
+			var name = $("#id").val();
+			$.post("<%= request.getContextPath()%>/nodes/users_delRelateNode.sip", { id: nid , name: name } ,function(data){
+				$("#tr_"+nid).remove();
+			});
+		}
+		function allocatNodes(){
+			var id = $("input [name=id]").val();
+			if(id){alert("请选择要给哪个用户分配"); return ;}
+			var url = "<%= request.getContextPath()%>/nodes/nodes_listNodes.sip?name=<%= StringUtil.killNull(request.getAttribute("id")) %>";
+			var retval = popUpModalDialog(url,860,500,"","",'<%=request.getContextPath()%>',"分配设备");
+			if(retval == "ok"){
+				$("#myform").submit();
+			}
+		}
+	</script>
 	</BODY>
 </HTML>

@@ -20,6 +20,11 @@
 </style>
 </HEAD>
 <%
+	String path = request.getContextPath();
+	String groupType = request.getParameter("groupType");
+	if(groupType == null) groupType = "";
+	String groupId = request.getParameter("groupId");
+	if(groupId == null) groupId = "";
 	NodesListResult result = (NodesListResult) request.getAttribute("result");
 	Collection<Object[]> c = null;
 	if (result != null) {
@@ -40,6 +45,7 @@
 					<table width="100%" class="ls_list" border="0" cellpadding="0" cellspacing="0" id="hollylistTable">
 						<tr style="position: relative; top: expression(this.offsetParent.scrollTop); z-index: 10;">
 							<th scope="col">IP</th>
+							<th scope="col">名称</th>
 							<th scope="col">状态</th>
 							<th scope="col">告警</th>
 							<th scope="col">gbe流量</th>
@@ -62,9 +68,10 @@
 							nodes.push('<%= item[0] %>');
 						</script>
 						<tr id="tr<%= item[0] %>">
-							<td><%= item[0] %></td>
+							<td><a href="javascript:top._addTab('id2','报警管理','<%= path %>/jsp/event/eventsFrame.jsp');void(0)"><%= item[1] %></a></td>
+							<td><%= item[2] %></td>
 							<td></td>
-							<td></td>
+							<td><a href="javascript:top._addTab('id2','报警管理','<%= path %>/jsp/event/eventsFrame.jsp?groupType=<%= groupType %>&groupId=<%= groupId %>');void(0)">告警</a></td>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -82,7 +89,6 @@
 	</table>
 	<script type="text/javascript">
   		$(document).ready(function(){
-  			debugger;
   			var _ips = ips.join(",");
   			var _nodes = nodes.join(",");
   			if(_ips && _nodes){

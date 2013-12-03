@@ -25,4 +25,6 @@
 	<bean id="ReportAction" class="com.grus.nms.report.action.ReportAction"></bean>
 
 	<bean id="StatisticsAction" class="com.device.action.StatisticsAction"></bean>
+	
+	<bean id="LoginAction" class="com.device.action.LoginAction"></bean>
 </beans>

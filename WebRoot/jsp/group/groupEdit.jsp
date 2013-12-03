@@ -162,11 +162,13 @@
 							var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 							if(flag == "add"){
 								alert("添加成功！");
+								debugger;
 								var treeNode = zTree.getNodeByParam("id",pId,null);
 								zTree.addNodes(treeNode , node);
+								var znode= zTree.getNodeByParam("id",node.id,null); 
+								zTree.selectNode(znode);
 							}else if(flag == "update"){
 								alert("修改成功！");
-								debugger;
 								//var treeNode = zTree.getNodeByParam("id",node.id,null); 
 								//treeNode.name = name;
                     			zTree.editName(treeNode);

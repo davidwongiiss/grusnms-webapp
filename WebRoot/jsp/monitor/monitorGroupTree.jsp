@@ -86,7 +86,8 @@
 			
 			//结点点击事件
 			function zTreeOnClick(event, treeId, treeNode){
-				parent.frames.mainf.location.href="<%= request.getContextPath() %>/nodes/monitor_query_monitorList.sip?groupId="+treeNode.id;
+				var groupType = $("#tree_id").val();
+				parent.frames.mainf.location.href="<%= request.getContextPath() %>/nodes/monitor_query_monitorList.sip?groupType="+groupType+"&groupId="+treeNode.id;
 			}
 			//-->
 		</script>

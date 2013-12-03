@@ -51,7 +51,7 @@ public class LoginFilter implements Filter {
         httpRequest.setCharacterEncoding("GBK");
         HttpSession session = httpRequest.getSession();
         
-        if(session.getAttribute("user")==null){
+        if(session.getAttribute("user")==null ){
         	httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.jsp"); 
         	return ;
         }else{

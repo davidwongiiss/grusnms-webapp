@@ -24,6 +24,15 @@ public class NodeGroups implements java.io.Serializable {
 	private String creator ;
 	private String updater ;
 	private Integer isSystem ;
+	private Boolean open = false ;
+	
+	
+	public Boolean getOpen() {
+		return open;
+	}
+	public void setOpen(Boolean open) {
+		this.open = open;
+	}
 	public String getId() {
 		return id;
 	}
@@ -102,6 +111,7 @@ public class NodeGroups implements java.io.Serializable {
 		NodeGroups root = new NodeGroups();
 		root.setId(rootType);
 		root.setName(Constant.groupTypes.get(rootType));
+		root.setOpen(true);
 		return root;
 	}
 

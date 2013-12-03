@@ -75,7 +75,7 @@ public class NodeGroupsBean {
 	public String bulidGroupTree(String rootType) {
 		Collection c = getGroupType(rootType);
 		c.add(NodeGroups.getRoot(rootType));
-		String[] treeTab = {"id" , "pId" , "name" , "description" , "groupType" , "latitude" , "longitude" , "createTime" , "updateTime" , "creator" , "updater" , "isSystem"};
+		String[] treeTab = {"id" , "pId" , "name" , "description" , "groupType" , "latitude" , "longitude" , "createTime" , "updateTime" , "creator" , "updater" , "isSystem", "open"};
 		String result = JSONUtil.listToJson(c, treeTab);
 		return result ;
 	}

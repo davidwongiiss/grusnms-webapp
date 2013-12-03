@@ -78,7 +78,8 @@ public class EventsBean {
 	public EventsListResult list(EventsListEvent event) {
 		EventsListResult result = new EventsListResult();
 		// String groupTypes = event.getGroupTypes();
-		Boolean handle = event.getHandle();
+		Integer handle = event.getHandle();
+		String ip = event.getIp();
 		Integer severity = event.getSeverity();
 		int pageNO = event.getPageNO();
 		int pageCount = event.getPageCount();
@@ -100,7 +101,10 @@ public class EventsBean {
 			if (handle != null) {
 				hql.append(" and e.handled = " + handle);
 			}
-			hql.append("");
+			if(ip != null && !"".equals(ip)){
+				hql.append(" and n.ip like '"+ip+"%'");
+			}
+			hql.append(" order by e.create_time desc ");
 			
 			c = HibernateHelper.queryBeanList(session, hql.toString(), pagination, null, NodeEventsResult.class);
 			result.setPageNO(event.getPageNO());

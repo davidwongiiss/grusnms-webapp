@@ -6,6 +6,7 @@ define(function(require, exports) {
   var $util = require('../../vendor/jsfx/util.js');
   var $jq = require('../../vendor/jsfx/jquery-1.8.2-sea.js');
   var $json = require('../../vendor/jsfx/json2.js');
+  var $string = require('../../vendor/jsfx/string.js');
 
   // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423   
   // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18   
@@ -60,8 +61,8 @@ define(function(require, exports) {
      * 12:00:00','01/01/2011 13:30:00','seconds');
      */
     var second = 1000, minute = second * 60, hour = minute * 60, day = hour * 24, week = day * 7;
-    fromDate = new Date(fromDate);
-    toDate = new Date(toDate);
+    fromDate = convertToDate(fromDate);
+    toDate = convertToDate(toDate);
     var timediff = toDate - fromDate;
     if (isNaN(timediff)) return NaN;
     switch (interval) {
@@ -89,6 +90,9 @@ define(function(require, exports) {
     this.elementId_ = elementId;
     this.chartType_ = chartType;    // 图类型
 
+    if (this.scales_ === undefined)
+      this.scales_ = null;  // x轴刻度
+
     this.createCharts();
   }
 
@@ -106,9 +110,11 @@ define(function(require, exports) {
     var ids = ['gbeb', 'gben', 'qamb', 'qamn'];
 
     for (var i = 0; i < 4; i++) {
+      $jq('#' + ids[i] + this.elementId_).html('');
+    	
       this.charts_[i] = new Highcharts.Chart({
         chart: {
-          type: this.chartType_ == Chart.STYLE.LINE ? 'line' :'column',
+          type: this.chartType_ == Chart.STYLE.LINE ? 'line' : 'column',
           zoomType: 'xy',
           renderTo: ids[i] + this.elementId_
         },
@@ -124,7 +130,7 @@ define(function(require, exports) {
           text: ''
         },
         xAxis: [{
-          categories: this.scales_
+          categories: this.getScales(i)
         }],
         yAxis: { // Primary yAxis
           title: {
@@ -150,10 +156,14 @@ define(function(require, exports) {
     }
   }
 
+  Chart.prototype.getScales = function(idx) {
+    return this.scales_;
+  }
+
   function BarChart(elementId, lhs, rhs) {
+    this.lhs_ = lhs.replaceAll('-', '/');
+    this.rhs_ = rhs.replaceAll('-', '/');
     $pattern.base(this, elementId, Chart.STYLE.BAR);
-    this.lhs_ = lhs;
-    this.rhs_ = rhs;
   }
 
   $pattern.inherit(BarChart, Chart);
@@ -161,10 +171,8 @@ define(function(require, exports) {
   /**
   */
   function LineChart(elementId, lhs, rhs, period) {
-    this.scales_ = null;
-
-    this.lhs_ = lhs;
-    this.rhs_ = rhs;
+    this.lhs_ = lhs.replaceAll('-', '/');
+    this.rhs_ = rhs.replaceAll('-', '/');
 
     this.interval_ = 1;
     this.period_ = 'minutes';
@@ -332,42 +340,69 @@ define(function(require, exports) {
       this.charts_[i].redraw();
   }
 
-  /*
-  [{"nid":"a89c0829-9d2d-4d1a-996e-07bbdcfdd246","ip":"","gbe":{"b":"1","n":"0","ct":"2013/11/2314:18:24"},"qam":{"b":"0","n":"0","ct":"2013/11/23"}}]
-   */
-  /*
-  NodeDetailChart.prototype.buildBars = function(data) {
-    // 因为ip详细数据较多，仅支持一个ip
-    if ($jq.isArray(data)) {
-      return;
-    }
-  
-    // 填充数据
-    var obj = JSON.parse(data);
-    this.nodeId_ = obj.nid;
-    this.ip_ = obj.ip_;
-    var gbe = obj.gbs;
-    var qam = obj.qbs;
-  
-    for (var i = 0; i < 8; ++i) {
-      this.gbs_[i] = obj.gbe.b[j];
-      this.gns_[j] = obj.gbe.n[j];
-    }
-  
-    for (var i = 0; i < 9; ++i) {
-      this.qbs_[i] = obj.qam.b[j];
-      this.qns_[j] = obj.qam.n[j];
-    }
-  }*/
+  function IpBarChart(elementId, lhs, rhs) {
+    $pattern.base(this, elementId, lhs, rhs);
 
-  /**
-   * 构建走势图表
-   */
-  /*
-  NodeDetailChart.prototype.build = function(data) {
-    this.buildLines(data);
+    this.nodeId_ = "";
+    this.ip_ = "";
+    this.gbs_ = new Array(8); // gbe流量图显示8线
+    this.gns_ = new Array(8);
+    this.qbs_ = new Array(9); // slot流量图显示9线
+    this.qns_ = new Array(9);
   }
-  */
+
+  $pattern.inherit(IpBarChart, BarChart);
+
+  IpBarChart.prototype.build = function(data) {
+    if (data == null)
+      return;
+
+    // 填充数据
+    var obj = data;//$json.parse(data);
+    this.nodeId_ = obj.id;
+    this.ip_ = obj.ip;
+
+    var gbeScales = new Array(8);
+    for (var i = 0; i < 8; ++i) {
+      gbeScales[i] = 'gbe' + (i + 1);
+      this.gbs_[i] = 0;
+      this.gns_[i] = 0;
+    }
+  
+    var qamScales = new Array(9);
+    for (var i = 0; i < 9; ++i) {
+      qamScales[i] = 'qam' + (i + 1);
+      this.qbs_[i] = 0;
+      this.qns_[i] = 0;
+    }
+
+    for (var i = 0; i < 8; ++i) {
+      if (obj.gbe.length > 0) {
+        this.gbs_[i] = obj.gbe[0].b[i]
+        this.gns_[i] = obj.gbe[0].n[i];
+      }
+    }
+
+    for (var i = 0; i < 9; ++i) {
+      if (obj.qam.length > 0) {
+        this.qbs_[i] = obj.qam[0].b[i];
+        this.qns_[i] = obj.qam[0].n[i];
+      }
+    }
+
+    this.charts_[0].xAxis[0].setCategories(gbeScales, false);
+    this.charts_[1].xAxis[0].setCategories(gbeScales, false);
+    this.charts_[2].xAxis[0].setCategories(qamScales, false);
+    this.charts_[3].xAxis[0].setCategories(qamScales, false);
+
+    this.charts_[0].addSeries({ name: 'gbe流量', data: this.gbs_ }, false);
+    this.charts_[1].addSeries({ name: 'gbe服务数', data: this.gns_ }, false);
+    this.charts_[2].addSeries({ name: 'qam流量', data: this.qbs_ }, false);
+    this.charts_[3].addSeries({ name: 'qam服务数', data: this.qns_ }, false);
+
+    for (var i = 0; i < 4; ++i)
+      this.charts_[i].redraw();
+  }
 
   /*
    * 定义ip和group线，此时共画四个图，gbe流量+gbe服务数+qam流量+qam服务数，每ip或group各一线 走势图：
@@ -375,16 +410,16 @@ define(function(require, exports) {
    * gbs_,gns_,qbs_,qns_是每个设备或group按时间的总汇总，数组长度是1
    */
   function TargetLine() {
-    this.targetId_;   /* nodeid或者groupid */
-    this.targetName_; /* ip或者组名 */
+    this.id_;   /* nodeid或者groupid */
+    this.name_; /* ip或者组名 */
     this.gbs_ = null;
     this.gns_ = null;
     this.qbs_ = null;
     this.qns_ = null;
   }
 
-  function MultiTargetsLineChart(elementId, lhs, rhs, period, chartType) {
-    $pattern.base(this, elementId, lhs, rhs, period, chartType);
+  function MultiTargetsLineChart(elementId, lhs, rhs, period) {
+    $pattern.base(this, elementId, lhs, rhs, period);
     this.targets_ = null; // TargetLine的数组，指定多个设备时，显示在一张图，用于比较
   };
 
@@ -420,26 +455,38 @@ define(function(require, exports) {
 
       var target = obj[i];
 
-      this.targets_[i].targetId_ = target.id;
-      this.targets_[i].targetName_ = target.name;
+      this.targets_[i].id_ = target.id;
+      this.targets_[i].name_ = target.name != null ? target.name : ((target.ip != null) ? target.ip : '');
 
       for (var j = 0; j < target.gbe.length; ++j) {
-        var idx = this.getTimeScaleIndex(target.gbe.ct);
-        this.targets_[i].gbs_[j][idx] = target.gbe.b;
-        this.targets_[i].gns_[j][idx] = target.gbe.n;
-        this.targets_[i].qbs_[j][idx] = target.qam.b;
-        this.targets_[i].qns_[j][idx] = target.qam.n;
+        var idx = this.getTimeScaleIndex(target.gbe[j].ct);
+        this.targets_[i].gbs_[idx] = target.gbe[j].b;
+        this.targets_[i].gns_[idx] = target.gbe[j].n;
       }
+
+      for (var j = 0; j < target.qam.length; ++j) {
+        var idx = this.getTimeScaleIndex(target.qam[j].ct);
+        this.targets_[i].qbs_[idx] = target.qam[j].b;
+        this.targets_[i].qns_[idx] = target.qam[j].n;
+      }
+
+
+      this.charts_[0].addSeries({ name: this.targets_[i].name_, data: this.targets_[i].gbs_ }, false);
+      this.charts_[1].addSeries({ name: this.targets_[i].name_, data: this.targets_[i].gns_ }, false);
+
+      this.charts_[2].addSeries({ name: this.targets_[i].name_, data: this.targets_[i].qbs_ }, false);
+      this.charts_[3].addSeries({ name: this.targets_[i].name_, data: this.targets_[i].qns_ }, false);
     }
+
+    for (var i = 0; i < 4; ++i)
+      this.charts_[i].redraw();
   }
 
   /*
   || 直方图（汇总+比较）
-  ||
   */
-  function MultiTargetsBarChart(elementId) {
-    $pattern.base(this, elementId);
-    this.targets_ = null; // TargetLine的数组，指定多个设备时，显示在一张图，用于比较
+  function MultiTargetsBarChart(elementId, lhs, rhs) {
+    $pattern.base(this, elementId, lhs, rhs);
   };
 
   $pattern.inherit(MultiTargetsBarChart, BarChart);
@@ -461,11 +508,36 @@ define(function(require, exports) {
     for (var i = 0; i < obj.length; ++i) {
       var target = obj[i];
       this.scales_[i] = target.name != null ? target.name : ((target.ip != null) ? target.ip : '');
-      this.gbs_[i] = target.gbe.b;
-      this.gns_[i] = target.gbe.n;
-      this.qbs_[i] = target.qam.b;
-      this.qns_[i] = target.qam.n;
+
+      this.gbs_[i] = 0;
+      this.gns_[i] = 0;
+      this.qbs_[i] = 0;
+      this.qns_[i] = 0;
+
+      if (target.gbe.length > 0) {
+        this.gbs_[i] = target.gbe[0].b;
+        this.gns_[i] = target.gbe[0].n;
+      }
+
+      if (target.qam.length > 0) {
+        this.qbs_[i] = target.qam[0].b;
+        this.qns_[i] = target.qam[0].n;
+      }
     }
+
+    this.charts_[0].xAxis[0].setCategories(this.scales_, false);
+    this.charts_[1].xAxis[0].setCategories(this.scales_, false);
+    this.charts_[2].xAxis[0].setCategories(this.scales_, false);
+    this.charts_[3].xAxis[0].setCategories(this.scales_, false);
+
+    this.charts_[0].addSeries({ name: 'gbe流量总数', data: this.gbs_ }, false);
+    this.charts_[1].addSeries({ name: 'gbe服务总数', data: this.gns_ }, false);
+
+    this.charts_[2].addSeries({ name: 'qam流量总数', data: this.qbs_ }, false);
+    this.charts_[3].addSeries({ name: 'qam服务总数', data: this.qns_ }, false);
+
+    for (var i = 0; i < 4; ++i)
+      this.charts_[i].redraw();
   }
 
   // 导出对象
@@ -475,9 +547,11 @@ define(function(require, exports) {
   exports.MultiTargetsBarChart = MultiTargetsBarChart;
 
   exports.runIp = function(nodes, ips, lhs, rhs, period, chartType) {
-    debugger;
+    lhs = lhs.replaceAll('-', '/');
+    rhs = rhs.replaceAll('-', '/');
+
     var ct = chartType.toLowerCase();
-    if (ct == 'line') {
+    if (ct == 'device-detail-line') {
       var ss = nodes.split(',');
       if (ss.length == 0)
         return;
@@ -502,10 +576,11 @@ define(function(require, exports) {
             chartType: 0
           },
           success: function(data) {
-            chart.build(data[0]);
+            if (data != null && $jq.isArray(data) && data.length > 0)
+              chart.build(data[0]);
 
-            if (idx < ss.length - 1) {
-              setTimeout(0, fn, ++idx);
+            if (idx++ < ss.length - 1) {
+              setTimeout(fn, 0);
             }
           }
         });
@@ -513,37 +588,55 @@ define(function(require, exports) {
 
       setTimeout(fn, 0);
     }
-    else if (ct == 'bar') {
-      var chart = new MultiTargetsLineChart(targets, lhs, rhs, period);
+    else if (ct == 'device-detail-bar') {
+      debugger;
+      var ss = nodes.split(',');
+      if (ss.length == 0)
+        return;
+
+      var ipss = ips.split(',');
+      var self = this;
+
+      var idx = 0;
+      var fn = function() {
+        var chart = new IpBarChart(ipss[idx], lhs, rhs);
+        $jq.ajax({
+          type: 'post',
+          url: exports.host + '/nodes/report_querySingleIpStatistics.sip',
+          // '"nodeId":"a89c0829-9d2d-4d1a-996e-07bbdcfdd246","start":"2013/11/23 14:00","end":"2013/11/23 14:35","period":"0","chartType":"0"',
+          dataType: 'json',
+          data: {
+            nodeId: ss[idx],
+            ip: ipss[idx],
+            start: lhs,
+            end: rhs,
+            period: period,
+            chartType: 1
+          },
+          success: function(data) {
+            if (data != null && $jq.isArray(data) && data.length > 0)
+              chart.build(data[0]);
+
+            if (idx++ < ss.length - 1) {
+              setTimeout(fn, 0);
+            }
+          }
+        });
+      }
+
+      setTimeout(fn, 0);
+    }    
+    else if (ct == 'line') {
+      var chart = new MultiTargetsLineChart('', lhs, rhs, period);
       $jq.ajax({
         type: 'POST',
         url: exports.host + '/nodes/report_queryMultiIpsStatistics.sip',
-        data: '"nodeIds":"a89c0829-9d2d-4d1a-996e-07bbdcfdd246,a89c0829-9d2d-4d1a-996e-07bbdcfdd247","start":"2013/11/23 14:00","end":"2013/11/23 14:35","period":"0","chartType":"1"',
-        success: function(data) {
-          if (data == '') {
-
-          }
-          else {
-            chart.build(data);
-          }
-        }
-      });
-    }
-  }
-
-  exports.runGroup = function(groups, gnames, lhs, rhs, period, chartType) {
-    debugger;
-    var ct = chartType.toLowerCase();
-    if (ct == 'line') {
-      var chart = new MultiTargetsLineChart("", lhs, rhs, period);
-      $jq.ajax({
-        type: 'POST',
-        url: exports.host + '/nodes/report_queryGroupsStatistics.sip',
-        //data: '"groupIds":"40288b394283bac5014283bb76b60001","start":"2013/11/23 14:00","end":"2013/11/23 14:35","period":"0","chartType":"0"',
+        dataType: 'json',
+        //data: '"nodeIds":"a89c0829-9d2d-4d1a-996e-07bbdcfdd246,a89c0829-9d2d-4d1a-996e-07bbdcfdd247","start":"2013/11/23 14:00","end":"2013/11/23 14:35","period":"0","chartType":"1"',
         data: {
-          groupIds: groups,
+          nodeIds: nodes,
           start: lhs,
-          end: lhs,
+          end: rhs,
           period: period,
           chartType: 0
         },
@@ -555,16 +648,72 @@ define(function(require, exports) {
       });
     }
     else if (ct == 'bar') {
-      var chart = new MultiTargetsBarChart("", lhs, rhs);
+      var chart = new MultiTargetsBarChart('', lhs, rhs);
+      $jq.ajax({
+        type: 'POST',
+        url: exports.host + '/nodes/report_queryMultiIpsStatistics.sip',
+        dataType: 'json',
+        //data: '"nodeIds":"a89c0829-9d2d-4d1a-996e-07bbdcfdd246,a89c0829-9d2d-4d1a-996e-07bbdcfdd247","start":"2013/11/23 14:00","end":"2013/11/23 14:35","period":"0","chartType":"1"',
+        data: {
+          nodeIds: nodes,
+          start: lhs,
+          end: rhs,
+          period: period,
+          chartType: 1
+        },
+        success: function(data) {
+          if (data != null) {
+            chart.build(data);
+          }
+        }
+      });
+    }
+  }
+
+  /**
+  */
+  exports.runGroup = function(groups, gnames, lhs, rhs, period, chartType) {
+    lhs = lhs.replaceAll('-', '/');
+    rhs = rhs.replaceAll('-', '/');
+
+    var ct = chartType.toLowerCase();
+    if (ct == 'line') {
+      var chart = new MultiTargetsLineChart('', lhs, rhs, period);
       $jq.ajax({
         type: 'POST',
         url: exports.host + '/nodes/report_queryGroupsStatistics.sip',
-        data: '"groupIds":"40288b394283bac5014283bb76b60001","start":"2013/11/23 14:00","end":"2013/11/23 14:35","period":"0","chartType":"1"',
+        dataType: 'json',
+        //data: '"groupIds":"40288b394283bac5014283bb76b60001","start":"2013/11/23 14:00","end":"2013/11/23 14:35","period":"0","chartType":"0"',
+        data: {
+          groupIds: groups,
+          start: lhs,
+          end: rhs,
+          period: period,
+          chartType: 0
+        },
         success: function(data) {
-          if (data == '') {
-
+          if (data != null) {
+            chart.build(data);
           }
-          else {
+        }
+      });
+    }
+    else if (ct == 'bar') {
+      var chart = new MultiTargetsBarChart('', lhs, rhs);
+      $jq.ajax({
+        type: 'POST',
+        url: exports.host + '/nodes/report_queryGroupsStatistics.sip',
+        dataType: 'json',
+        //data: '"groupIds":"40288b394283bac5014283bb76b60001","start":"2013/11/23 14:00","end":"2013/11/23 14:35","period":"0","chartType":"1"',
+        data: {
+          groupIds: groups,
+          start: lhs,
+          end: rhs,
+          period: period,
+          chartType: 1
+        },
+        success: function(data) {
+          if (data != null) {
             chart.build(data);
           }
         }
@@ -609,3 +758,4 @@ define(function(require, exports) {
     chart.build(data);
   }
 });
+

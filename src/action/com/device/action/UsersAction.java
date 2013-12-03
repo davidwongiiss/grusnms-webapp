@@ -81,10 +81,11 @@ public class UsersAction {
 	}
 	//添加用户
 	public String addUser(){	
+		HttpServletRequest request=org.apache.struts2.ServletActionContext.getRequest();
 		user.setUpdateTime(new Date(System.currentTimeMillis()));
 		user.setCreateTime(new Date(System.currentTimeMillis()));
-		user.setUpdater(LoginUtil.getUserId());
-		user.setCreator(LoginUtil.getUserId());
+		user.setUpdater(LoginUtil.getUserId(request));
+		user.setCreator(LoginUtil.getUserId(request));
 		user.setIsDelete(0);
 		UsersBean.getInstance().saveUser(user);
 		return "ok";
@@ -98,8 +99,9 @@ public class UsersAction {
 	}
 	//编辑用户
 	public String editUser(){	
+		HttpServletRequest request=org.apache.struts2.ServletActionContext.getRequest();
 		user.setUpdateTime(new Date(System.currentTimeMillis()));
-		user.setUpdater(LoginUtil.getUserId());
+		user.setUpdater(LoginUtil.getUserId(request));
 		UsersBean.getInstance().updateUser(user);
 		return "ok";
 	}
@@ -119,7 +121,7 @@ public class UsersAction {
 	public void checkPassword(){
 		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
 		String password = ParamUtil.getString(request, "password");
-		Users u = UsersBean.getInstance().queryUserBean(LoginUtil.getUserId());
+		Users u = UsersBean.getInstance().queryUserBean(LoginUtil.getUserId(request));
 		if(u != null && u.getPassword().equals(password)){
 			Struts2Utils.renderText("1");
 		}else{
@@ -130,7 +132,7 @@ public class UsersAction {
 	public String changePassword(){
 		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
 		String password = ParamUtil.getString(request, "newPassword");
-		UsersBean.getInstance().changePassword(LoginUtil.getUserId() ,password);
+		UsersBean.getInstance().changePassword(LoginUtil.getUserId(request) ,password);
 		return "ok_changePassword";
 	}
 	
@@ -154,6 +156,12 @@ public class UsersAction {
 		return "ok";
 	}
 
+	public void delRelateNode(){
+		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
+		String id = (String)ParamUtil.getString(request, "id");
+		String name = (String)ParamUtil.getString(request, "name");
+		NodesBean.getInstance().delRelateNode(id , name);
+	}
 	
 	public Users user;
 

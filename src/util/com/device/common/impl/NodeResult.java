@@ -17,7 +17,7 @@ public class NodeResult  {
 	private String creator ;
 	private String updater ;
 	private String isSystem ;
-	private String nodeId ;
+	private String groupId ;
 	public String getId() {
 		return id;
 	}
@@ -102,12 +102,11 @@ public class NodeResult  {
 	public void setIsSystem(String isSystem) {
 		this.isSystem = isSystem;
 	}
-	public String getNodeId() {
-		return nodeId;
+	public String getGroupId() {
+		return groupId;
 	}
-	public void setNodeId(String nodeId) {
-		this.nodeId = nodeId;
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
 	}
-	
 }
 	

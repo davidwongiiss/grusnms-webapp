@@ -43,10 +43,10 @@
 <li><a href="#" >报表</a>
 <table><tr><td>
 <ul class="on_on ul_on" ><li>
-<a href="javascript:void(0)" onclick="_addTab('id31','按设备统计','<%=path%>/jsp/statistics/search2.jsp')">按设备统计</a></li>
-<li><a href="javascript:void(0)" onclick="_addTab('id32','按地域统计','<%=path%>/nodes/statis_goFrist.sip?type=<%= Constant.AREA %>')" >按地域统计</a></li>
-<li><a href="javascript:void(0)" onclick="_addTab('id33','按部门统计','<%=path%>/nodes/statis_goFrist.sip?type=<%= Constant.DEPT %>')">按部门统计</a></li>
-<li><a href="javascript:void(0)" onclick="_addTab('id34','按自定义统计','<%=path%>/nodes/statis_goFrist.sip?type=<%= Constant.DEFINE %>')">按自定义统计</a></li>
+<a href="javascript:void(0)" onclick="_addTab('id31','按设备统计','<%=path%>/jsp/statistics/statStep.jsp')">按设备统计</a></li>
+<li><a href="javascript:void(0)" onclick="_addTab('id33','按部门统计','<%=path%>/jsp/statistics/groupStatStep.jsp?type=<%= Constant.DEPT %>')">按部门统计</a></li>
+<li><a href="javascript:void(0)" onclick="_addTab('id32','按地域统计','<%=path%>/jsp/statistics/groupStatStep.jsp?type=<%= Constant.AREA %>')" >按地域统计</a></li>
+<li><a href="javascript:void(0)" onclick="_addTab('id34','按自定义统计','<%=path%>/jsp/statistics/groupStatStep.jsp?type=<%= Constant.DEFINE %>')">按自定义统计</a></li>
 </ul></td></tr></table>
 
 </li>
@@ -55,12 +55,12 @@
 <li><a class="on_on menu_on" href="#" >分组管理</a>
 <table><tr><td>
 <ul class="on_on ul_on" ><li>
-<a href="javascript:void(0)" onclick="_addTab('id51','地域组','<%=path%>/jsp/group/groupEdit.jsp?type=<%= Constant.AREA %>')">地域组</a></li>
-<li><a href="javascript:void(0)" onclick="_addTab('id52','部门组','<%=path%>/jsp/group/groupEdit.jsp?type=<%= Constant.DEPT %>')" >部门组</a></li>
+<a href="javascript:void(0)" onclick="_addTab('id52','部门组','<%=path%>/jsp/group/groupEdit.jsp?type=<%= Constant.DEPT %>')" >部门组</a></li>
+<li><a href="javascript:void(0)" onclick="_addTab('id51','地域组','<%=path%>/jsp/group/groupEdit.jsp?type=<%= Constant.AREA %>')">地域组</a></li>
 <li><a href="javascript:void(0)" onclick="_addTab('id53','自定义组','<%=path%>/jsp/group/groupEdit.jsp?type=<%= Constant.DEFINE %>')">自定义组</a></li>
-<li><a href="javascript:void(0)" onclick="_addTab('id54','地域分组','<%=path%>/jsp/groupNodesFrame.jsp?type=<%= Constant.AREA %>')">地域分组</a></li>
-<li><a href="javascript:void(0)" onclick="_addTab('id55','部门分组','<%=path%>/jsp/groupNodesFrame.jsp?type=<%= Constant.DEPT %>')" >部门分组</a></li>
-<li><a href="javascript:void(0)" onclick="_addTab('id56','自定义分组','<%=path%>/jsp/groupNodesFrame.jsp?type=<%= Constant.DEFINE %>')" >自定义分组</a></li>
+<li><a href="javascript:void(0)" onclick="_addTab('id55','部门分组','<%=path%>/jsp/group/groupNodesFrame.jsp?type=<%= Constant.DEPT %>')" >部门分组</a></li>
+<li><a href="javascript:void(0)" onclick="_addTab('id54','地域分组','<%=path%>/jsp/group/groupNodesFrame.jsp?type=<%= Constant.AREA %>')">地域分组</a></li>
+<li><a href="javascript:void(0)" onclick="_addTab('id56','自定义分组','<%=path%>/jsp/group/groupNodesFrame.jsp?type=<%= Constant.DEFINE %>')" >自定义分组</a></li>
 </ul></td></tr></table>
 
 </li>

@@ -49,7 +49,7 @@
 						<table width="100%" border="0" cellspacing="0" cellpadding="0"
 							class="query_table_in">
 							<tr>
-								<td class="font_text_right" width="15%">等级</td>
+								<td class="font_text_right" width="15%">等级:</td>
 								<td align="left" width='20%'><select name="severity">
 										<option value='0'>全部</option>
 										<option value='4'
@@ -57,28 +57,18 @@
 										<option value='6'
 											<%if(("6").equals(event.getSeverity()))out.print("selected");%>>报警</option>
 								</select></td>
-								<td class="font_text_right" width="15%">处理</td>
+								<td class="font_text_right" width="15%">处理:</td>
 								<td align="left" width='20%'><select name="handle">
-										<option value="-1">全部</option>
+										<option value="">全部</option>
 										<option value="1"
-											<%if(event.getHandle()!= null && event.getHandle())out.print("selected");%>>已处理</option>
+											<%if(event.getHandle()!= null && event.getHandle()==1)out.print("selected");%>>已处理</option>
 										<option value="0"
-											<%if(event.getHandle()!= null && event.getHandle()==false)out.print("selected");%>>未处理</option>
+											<%if(event.getHandle()!= null && event.getHandle()==0)out.print("selected");%>>未处理</option>
 								</select></td>
-								<td class="font_text_right" width="15%">IP</td>
-								<td align="left" width='20%'><select name="ip">
-										<option value="-1">全部</option>
-										<%
-											List ips = (List)request.getAttribute("ipList");
-											for(int i =0 ; ips != null && i < ips.size() ; i++)
-											{
-												String ip = (String)ips.get(i);
-										%>
-											<option value="<%=ip%>"><%= ip %></option>
-										<%
-											}
-										%>
-								</select></td>
+								<td class="font_text_right" width="15%">IP:</td>
+								<td align="left" width='20%'>
+									<input type="text" name="ip" value="<%= StringUtil.killNull(event.getIp()) %>">
+								</td>
 							</tr>
 							<tr>
 								<td colspan="6" align="center" style="text-align: center;"><input

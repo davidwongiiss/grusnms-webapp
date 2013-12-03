@@ -20,17 +20,17 @@
 		<script type="text/javascript" src="<%= request.getContextPath() %>/js/util.js"></script>
 		<script type="text/javascript">
 			function allocation(){
-				var gid = $("#gid").val();
+				var gid = $("#groupId").val();
 				if(!gid)
 				{
 					alert("请选择要分配结点的类型"); 
 					return;
 				};
 				var ids = getAllValue('nodeid');
-				if(!ids){
-					alert("请选择要分配的结点"); 
-					return;
-				}
+				//if(!ids){
+				//	alert("请选择要分配的结点"); 
+				//	return;
+				//}
 				$("#ids").val(ids);
 				$("#myform").attr("action","<%= request.getContextPath() %>/nodes/nodes_insertNodeToGroup.sip");
 				$("#myform").submit();
@@ -41,11 +41,14 @@
 	<%
 		NodesListEvent event = (NodesListEvent)request.getAttribute("event");
 		if(event == null) event = new NodesListEvent();
+		String groupId = (String)request.getAttribute("groupId");
+		
 	%>
 	<!-- 查询表单开始 -->
 		<form name="form1" id="myform" action="<%= request.getContextPath() %>/nodes/nodes_queryNodes.sip" method="post">
 		<input type="hidden" value="" id="ids" name="ids">
-		<input type="hidden" value="<%= request.getAttribute("groupId") %>" id="gid" name="gid">
+		<input type="hidden" value="<%= request.getAttribute("groupName") %>" id="groupName" name="groupName">
+		<input type="hidden" value="<%= groupId %>" id="groupId" name="groupId">
 		<div class="query_table_d"> 
 			 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="query_table">
 			 <tr class="table_top">
@@ -58,7 +61,7 @@
 			 	<td class="border_b">
 			 	<table  width="100%" border="0" cellspacing="0" cellpadding="0" class="query_table_in">     
 				<tr> 
-					<td class="font_text_right"  width="15%">IP</td>
+					<td class="font_text_right"  width="15%">IP:</td>
 					<td align="left" width='20%'  >
 						<div class="inpit2_bg" > <input  id="ip"   name="ip"  value="<%= StringUtil.killNull(event.getIp())%>"  type="text"  size="16" /></div>
 					</td>
@@ -75,12 +78,12 @@
 
 			<div class="table_header">
 				<h2>
-					<font color="red"><%= request.getAttribute("groupName") %></font>结点列表
+					<font color="red"><%= StringUtil.killNull(request.getAttribute("groupName")) %></font>结点列表
 				</h2>
 				<div class="table_list_right">
 				</div>
 				<div class="table_header_r" id="groupdiv">
-					<a href="javascript:void(0);" onclick= allocation();return false;" > <img src="<%= request.getContextPath() %>/images/button/icon2.gif"  />分配</a>
+					<a href="javascript:void(0);" onclick= allocation();> <img src="<%= request.getContextPath() %>/images/button/icon2.gif"  />分配</a>
 				</div>
 			</div>
 			<table width="99.6%" height="75%" border="0" cellpadding="0"
@@ -117,7 +120,7 @@
 								           
 									%>
 							        <tr>
-							          <td><input type="checkbox" name="nodeid" value="<%= item.getId() %>" <% if(item.getNodeId() != null) out.print("checked"); %>/></td>
+							          <td><input type="checkbox" name="nodeid" value="<%= item.getId() %>" <% if(groupId.equals(item.getGroupId())) out.print("checked"); %>/></td>
 							          <td class="text_right"><%= item.getName() %></td>
 							          <td><%= item.getIp() %></td>
 							          <td class="text_right"><%= item.getDeviceType() %></td>

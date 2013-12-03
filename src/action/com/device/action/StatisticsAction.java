@@ -30,7 +30,7 @@ public class StatisticsAction {
 	public String goDeviceipList(){
 		HttpServletRequest request=org.apache.struts2.ServletActionContext.getRequest();
 		@SuppressWarnings("unchecked")
-		List<Object> ipList = GroupsNodesBean.getInstance().getGroupIps(groupId);
+		List<Object> ipList = GroupsNodesBean.getInstance().getGroupNodeIps(groupId);
 		request.setAttribute("ipList", ipList);
 		return "goipList2";
 	}
@@ -53,7 +53,16 @@ public class StatisticsAction {
 	private String groupId ;
 	private Integer graphType; // œﬂ¿‡–Õ	
 	private String chartType ;
+	private String lineWithDetail ;
 	
+	
+	
+	public String getLineWithDetail() {
+		return lineWithDetail;
+	}
+	public void setLineWithDetail(String lineWithDetail) {
+		this.lineWithDetail = lineWithDetail;
+	}
 	public String getChartType() {
 		return chartType;
 	}
@@ -93,6 +102,7 @@ public class StatisticsAction {
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
+
 
 	public String getType() {
 		return type;

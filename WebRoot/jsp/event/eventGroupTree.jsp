@@ -15,6 +15,12 @@
 		<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.6.2.js"></script>
 		<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery.ztree.core-3.5.js"></script>
 	</head>
+<%
+	String groupType = (String)request.getParameter("groupType");
+	if(groupType == null ) groupType = "";
+	String groupId = (String)request.getParameter("groupId");
+	if(groupId == null) groupId = "";
+%>
 <body style="width: 98%;height: 100%;border: 1px #95b6d9 solid;margin-right:2px;">
 	<table>
 		<tr>
@@ -78,9 +84,21 @@
 						}
 					});
 				}
+				debugger
 				//默认加载第一个
-				var codeType = $("#tree_id option[index=0]").val();
-				loadTree(codeType);
+				if('<%=groupType%>'){
+					var codeType = $("#tree_id option[index=0]").val();
+					loadTree(codeType);
+				}else{
+					loadTree('<%=groupType%>');//如果传来类型，就默认显示
+				}
+				//如果有groupId就默认打开该报警页面
+				if('<%= groupId%>'){
+					parent.frames.mainf.location.href="<%= request.getContextPath() %>/nodes/event_queryEvents.sip?groupId=<%= groupId%>";
+					//var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+					//var node = zTree.getNodeByParam("id",'<--%= groupId%>',null);
+					//zTree.selectNode(node);
+				}
 			});
 			
 			

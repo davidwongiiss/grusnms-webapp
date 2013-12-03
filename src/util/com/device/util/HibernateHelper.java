@@ -339,6 +339,24 @@ public class HibernateHelper {
 		int deletedEntities = query.executeUpdate();
 
 	}
+	
+	public static void executeBatch(Session session , final String queryString , final Object[] values){
+		Connection con = session.connection();
+		try{
+			PreparedStatement pstmt=con.prepareStatement(queryString );
+			if (values != null && values.length != 0) { 
+				for (int i = 0; i < values.length; i++) {
+					pstmt.setString(1 , (String)values[i]);
+					pstmt.addBatch();//加入批处理，进行打包
+				}
+			}
+			pstmt.executeBatch();
+		}catch(Exception e)
+		{
+           e.printStackTrace();
+		}
+		
+	}
 	/***************************************************************************
 	 * 执行SQL,无分页
 	 * 

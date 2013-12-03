@@ -53,7 +53,7 @@
 			<tr> 
 				<td style="text-align: right" width="15%">ÓÃ»§Ãû:&nbsp;</td>
 				<td align="left" width='20%'  >
-					<%= LoginUtil.getUserId() %>
+					<%= LoginUtil.getUserId(request) %>
 				</td>
 			</tr>
 			<tr>

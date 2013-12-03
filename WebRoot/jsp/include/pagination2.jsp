@@ -31,10 +31,10 @@
   </div>
 </li>
 <li>每页30条,共1页</li>  
-<li><a href="#" class="page_btn" onMouseDown="this.className='page_btn_d'"><span><ins>末页</ins><img src="<%=request.getContextPath() %>/images/page/page_ico4.gif"/></span></a></li>
-<li><a href="#" class="page_btn" onMouseDown="this.className='page_btn_d'"><span><ins>下一页</ins><img src="<%=request.getContextPath() %>/images/page/page_ico3.gif"/></span></a></li>
-<li><a href="#" class="page_btn" onMouseDown="this.className='page_btn_d'"><span><img src="<%=request.getContextPath() %>/images/page/page_ico2.gif"/><ins>上一页</ins></span></a></li>
 <li><a href="#" class="page_btn" onMouseDown="this.className='page_btn_d'"><span><img src="<%=request.getContextPath() %>/images/page/page_ico1.gif"/><ins>首页</ins></span></a></li>
+<li><a href="#" class="page_btn" onMouseDown="this.className='page_btn_d'"><span><img src="<%=request.getContextPath() %>/images/page/page_ico2.gif"/><ins>上一页</ins></span></a></li>
+<li><a href="#" class="page_btn" onMouseDown="this.className='page_btn_d'"><span><ins>下一页</ins><img src="<%=request.getContextPath() %>/images/page/page_ico3.gif"/></span></a></li>
+<li><a href="#" class="page_btn" onMouseDown="this.className='page_btn_d'"><span><ins>末页</ins><img src="<%=request.getContextPath() %>/images/page/page_ico4.gif"/></span></a></li>
 </ul>
 </div>
 </div>

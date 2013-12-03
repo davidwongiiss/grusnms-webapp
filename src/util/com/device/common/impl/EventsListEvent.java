@@ -13,7 +13,7 @@ import com.device.common.BusinessEvent;
  * Preferences - Java - Code Style - Code Templates
  */
 public class EventsListEvent implements BusinessEvent {
-	private Boolean handle;
+	private Integer handle;
 
 	private Integer severity;
 	
@@ -31,11 +31,11 @@ public class EventsListEvent implements BusinessEvent {
 		this.severity = severity;
 	}
 
-	public Boolean getHandle() {
+	public Integer getHandle() {
 		return handle;
 	}
 
-	public void setHandle(Boolean handle) {
+	public void setHandle(Integer handle) {
 		this.handle = handle;
 	}
 

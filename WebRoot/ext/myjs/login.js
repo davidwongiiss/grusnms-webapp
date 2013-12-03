@@ -102,31 +102,16 @@ var LoginPanel = function() {
 	//==========提交表单
 	var login = function() {
 		if (loginForm.getForm().isValid()) {
-			Ext.MessageBox.show( {
-				msg : "正在登陆...",
-				width : 300,
-				progress : true,
-				closable : false
-			});
-			var f = function(v) {
-				return function() {
-					var i = v / 11;
-					Ext.MessageBox.updateProgress(i, "");
-				};
-			};
-			for ( var i = 1; i < 13; i++) {
-				setTimeout(f(i), i * 150);
-			}
 			Ext.Ajax.request( {
-				url : "LoginAction",
+				url : "nodes/n_login.sip",
 				method : "post",
 				params : { 
 					username : Ext.get("username").dom.value,
 					password : Ext.get("password").dom.value
 				},
 				success : function(response, options) {
-					var responseArray = Ext.util.JSON.decode(response.responseText);
-					if (responseArray.success == true) {
+					var resp_text = eval(response.responseText);
+					if (resp_text  == true) {
 						document.location = "index.jsp";
 					} else {
 						loginForm.form.reset();
@@ -147,8 +132,10 @@ var LoginPanel = function() {
 	//==========等待的加载信息
 	var loading = function(){
 		setTimeout(function(){
-			Ext.get('loading').remove();
-			Ext.get('loading-mask').fadeOut({remove:true});
+			try{
+				Ext.get('loading').remove();
+				Ext.get('loading-mask').fadeOut({remove:true});
+			}catch(e){}
 		}, 250);
 	};
 

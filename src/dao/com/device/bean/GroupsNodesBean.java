@@ -76,12 +76,31 @@ public class GroupsNodesBean {
 		Session session = null;
 		try {
 			session = PeakSessionFactory.instance().getCurrentSession();
-			String sql = "insert into groups_nodes (node_id , group_id) values (?,'"+gid+"')";
-			HibernateHelper.insertBatch(session, sql, nidArray);
+			String delSQL = "delete from GroupsNodes gn where gn.groupId = ? ";
+			HibernateHelper.delete(session, delSQL, new Object[]{gid});
+			if(nidArray != null){
+				String sql = "insert into groups_nodes (node_id , group_id) values (?,'"+gid+"')";
+				HibernateHelper.executeBatch(session, sql, nidArray);
+			}
 		} catch (HibernateException e) {
 			//to do something....
 			e.printStackTrace();
 		} finally {}
+	}
+	
+	public List getGroupNodeIps(String groupId){
+		List c = null;
+		Session session = null;
+		try {
+			session = PeakSessionFactory.instance().getCurrentSession();
+			String queryString = "select n.ip , n.id from nodes n , groups_nodes g where n.Id = g.node_id and g.group_id = ? ";
+			c = HibernateHelper.querySql(session, queryString, new String[]{groupId});
+			return c ;
+		} catch (HibernateException e) {
+			//to do something....
+			e.printStackTrace();
+		} finally {}
+		return null;
 	}
 	
 	public List getGroupIps(String groupId){
@@ -89,7 +108,7 @@ public class GroupsNodesBean {
 		Session session = null;
 		try {
 			session = PeakSessionFactory.instance().getCurrentSession();
-			String queryString = "select n.ip , n.id from nodes n , groups_nodes g where n.Id = g.node_id and g.group_id = ? ";
+			String queryString = "select n.ip from nodes n , groups_nodes g where n.Id = g.node_id and g.group_id = ? ";
 			c = HibernateHelper.querySql(session, queryString, new String[]{groupId});
 			return c ;
 		} catch (HibernateException e) {

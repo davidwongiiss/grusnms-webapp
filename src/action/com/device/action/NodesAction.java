@@ -39,17 +39,19 @@ public class NodesAction {
 	private Nodes node;
 	//添加结点
 	public String addNodes() {
+		HttpServletRequest request=org.apache.struts2.ServletActionContext.getRequest();
 		node.setId(UUIDGenerator.generate());
-		node.setCreator(LoginUtil.getUserId());
+		node.setCreator(LoginUtil.getUserId(request));
 		node.setCreateTime(new Date(System.currentTimeMillis()));
-		node.setUpdater(LoginUtil.getUserId());
+		node.setUpdater(LoginUtil.getUserId(request));
 		node.setUpdateTime(new Date(System.currentTimeMillis()));
 		NodesBean.getInstance().saveNode(node);
 		return "ok";
 	}
 	//修改结点
 	public String updateNodes() {
-		node.setUpdater(LoginUtil.getUserId());
+		HttpServletRequest request=org.apache.struts2.ServletActionContext.getRequest();
+		node.setUpdater(LoginUtil.getUserId(request));
 		node.setUpdateTime(new Date(System.currentTimeMillis()));
 		NodesBean.getInstance().updateNode(node);
 		return "ok";
@@ -87,7 +89,7 @@ public class NodesAction {
 		event.setName(name);
 		String deviceSn = ParamUtil.getString(request, "deviceSn");
 		event.setDeviceSn(deviceSn);
-		NodesListResult result = NodesBean.getInstance().list(event);
+		NodesListResult result = NodesBean.getInstance().list(event , LoginUtil.getUserId(request) , LoginUtil.checkAdmin(request));
 		request.setAttribute("result", result);
 		request.setAttribute("pagination", result.getPagination());
 		request.setAttribute("event", event);
@@ -99,11 +101,13 @@ public class NodesAction {
 	public String listNodes() {
 		try {
 			HttpServletRequest request=org.apache.struts2.ServletActionContext.getRequest();
-			NodesListEvent event = new NodesListEvent(ParamUtil.getString(request, "name"),
+			String name = ParamUtil.getString(request, "name");
+			NodesListEvent event = new NodesListEvent( name ,
 					ParamUtil.getInt(request, "pagination.pageNO", 1).intValue(),
 					ParamUtil.getInt(request, "pageCount", 10).intValue());
 			NodesListResult result = NodesBean.getInstance().listUnallocat(event);
 			request.setAttribute("result", result);
+			request.setAttribute("name", name);
 			request.setAttribute("pagination", result.getPagination());
 			if (result.getStatus() == 0)
 				return "listNodes";
@@ -159,10 +163,13 @@ public class NodesAction {
 	public String insertNodeToGroup(){
 		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
 		String ids = ParamUtil.getString(request, "ids");
-		String gid = ParamUtil.getString(request, "gid");
-		if(!StringUtils.isEmpty(ids) && !StringUtils.isEmpty(gid))
+		String gid = ParamUtil.getString(request, "groupId");
+		if( !StringUtils.isEmpty(gid))
 		{
-			String[] idArray = ids.split("_");
+			String[] idArray = null ;
+			if(!StringUtils.isEmpty(ids)){
+				idArray = ids.split(",");
+			}
 			GroupsNodesBean.getInstance().batchInsert(gid, idArray);
 		}
 		return "_forward"; 

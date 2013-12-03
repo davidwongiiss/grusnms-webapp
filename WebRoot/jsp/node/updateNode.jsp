@@ -58,14 +58,14 @@
 				<td class="font_text_right"  width="15%">设备名</td>
 				<td align="left" width='20%'  >
 					<div class="inpit2_bg" > 
-					<input  id="node.name"   name="node.name" value="<%= StringUtil.killNull(node.getName()) %>"  type="text" disabled="disabled"  readonly="readonly" />
+					<input  id="node.name"   name="node.name" value="<%= StringUtil.killNull(node.getName()) %>"  type="text"  readonly="readonly" />
 					</div>
 					<font color="red">*</font>
 				</td>
 				<td class="font_text_right"  width="15%">设备型号</td>
 				<td align="left" width='20%'  >
 					<div class="inpit2_bg" > 
-					<input type="text" name="node.deviceType" value="<%=Constant.DEVICETYPE %>" disabled="disabled"  readonly="readonly" />
+					<input type="text" name="node.deviceType" value="<%=Constant.DEVICETYPE %>" readonly="readonly" />
 					</div>
 					<font color="red">*</font>
 				</td>

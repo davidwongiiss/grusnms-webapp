@@ -39,15 +39,22 @@ public class EventsHandleAction {
 			int pageCount = ParamUtil.getInt(request, "pageCount", 10).intValue();
 			event.setPageCount(pageCount);
 			String handle = request.getParameter("handle");
-			if(handle != null){
-				event.setHandle(Boolean.getBoolean(handle));
+			if(handle != null && !"".equals(handle)){
+				event.setHandle(Integer.parseInt(handle));
+			}
+			String ip = ParamUtil.getString(request, "ip");
+			if(ip != null && !"".equals(ip)){
+				int index = ip.indexOf("*");
+				if(index != -1){
+					ip = ip.substring(0 , index);
+				}
+				event.setIp(ip);
 			}
 			
 			EventsListResult result = EventsBean.getInstance().list(event);
 			
 			String groupId = ParamUtil.getString(request, "groupId");
-			List ipList = GroupsNodesBean.getInstance().getGroupIps(groupId);
-			request.setAttribute("ipList", ipList);
+			request.setAttribute("ip", ip);
 			request.setAttribute("result", result);
 			request.setAttribute("groupId", groupId);
 			request.setAttribute("pagination", result.getPagination());
