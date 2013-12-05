@@ -25,7 +25,9 @@ define(function(require, exports) {
 		oTemp.xStrs = arrXString;
 		return oTemp;
 	};
-	var chart;
+
+	var chart = null;
+	
 	// 初始化图表，并保存到数组中
 	var refreshCharts = function(gbe) {
 		var oSlot = aGbes(gbe);
@@ -126,23 +128,34 @@ define(function(require, exports) {
 		$(".highcharts-button").css("display", "none");
 		$(".highcharts-legend").css("display", "none");
 	};
-	// 动态刷新图标中数据
-	function do_query() {
-		var data = gbe;
-		refreshCharts(data);
-		// 保证刷新完图后的3s后再次调用
-	//	setInterval(function() {
-	//		do_query();
-	//	}, 3000);
-	//	return data;
-	}
-	//do_query();
-	// ajax数据请求
-	/*
-	 * $.getJSON("URL",null, function(data){
-	 * 
-	 * });
-	 */
 	
-	exports.run = do_query;
+	refreshCharts(gbe);
+	
+	// 动态刷新图标中数据
+	function do_query(ip) {
+		var fn = function() {
+			return $jq.ajax({
+	      type: 'POST',
+	      url: exports.host + 'monitor_query_queryDevicesCurrentBitrates.sip',
+	      dataType: 'json',
+	      //data: '"nodeIds":"a89c0829-9d2d-4d1a-996e-07bbdcfdd246,a89c0829-9d2d-4d1a-996e-07bbdcfdd247","start":"2013/11/23 14:00","end":"2013/11/23 14:35","period":"0","chartType":"1"',
+	      data: {
+	        ipaddress: ip
+	      }
+	    });
+		}
+		
+		fn().done(function(data) {
+      if (data != null) {
+      	refreshCharts(data);
+      }
+    }).always(function() {
+    	setTimeout(fn, 5000);
+    });
+	}
+	
+	exports.host = '';
+	exports.run = function(ip) {
+		do_query(ip);
+	}
 });

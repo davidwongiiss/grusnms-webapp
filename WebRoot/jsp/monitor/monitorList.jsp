@@ -68,7 +68,7 @@
 							nodes.push('<%= item[0] %>');
 						</script>
 						<tr id="tr<%= item[0] %>">
-							<td><a href="javascript:top._addTab('id2','报警管理','<%= path %>/jsp/event/eventsFrame.jsp');void(0)"><%= item[1] %></a></td>
+							<td><a href="javascript:top._addTab('id2','流量监控','<%= path %>/jsp/monitor/monitorNodeBitrate.jsp?ipaddress=<%=item[1]%>');void(0)"><%= item[1] %></a></td>
 							<td><%= item[2] %></td>
 							<td></td>
 							<td><a href="javascript:top._addTab('id2','报警管理','<%= path %>/jsp/event/eventsFrame.jsp?groupType=<%= groupType %>&groupId=<%= groupId %>');void(0)">告警</a></td>

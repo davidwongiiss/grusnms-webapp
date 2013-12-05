@@ -2,23 +2,46 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@page import="com.device.util.Constant"%>
 <%
-	String path = request.getContextPath();
+String path = request.getContextPath();
+String extjs = request.getContextPath() + "/vendor/ext-4.2.1.883";
 %>
 <html>
 <head>
 <title>主页</title>
-<!-- system -->
+<!-- system 
+-->
+
+
 <link rel="stylesheet" type="text/css" href="<%=path%>/ext/resources/css/ext-all.css" />
 <link rel="stylesheet" type="text/css" href="<%=path%>/ext/resources/css/ext-patch.css" />
+<!-- 
+<link rel="stylesheet" type="text/css" href="<%=extjs%>/resources/ext-theme-classic/ext-theme-classic-all.css" />
+<link rel="stylesheet" type="text/css" href="<%=extjs%>/ext/resources/css/ext-patch.css" />
+<link rel="stylesheet" type="text/css" href="<%=extjs%>/resources/ext-theme-neptune/ext-theme-neptune-all.css" />
+ -->
+<!-- 
+<link id="theme" rel="stylesheet" type="text/css" href="" />
+<link rel="stylesheet" type="text/css" href="<%=path%>/ext/resources/css/ext-neptune.css" />
+ -->
+
 <link href="<%=path%>/css/menu.css?rand=v7" rel="stylesheet" type="text/css" />
 <!--[if lte IE 6]>
 <link href="<%=path%>/css/menu_ie.css" rel="stylesheet" type="text/css" />
 <![endif]-->
+
 <script type="text/javascript">
 	var path = '<%= path %>';
 </script>
+
+
 <script type="text/javascript" src="<%=path%>/ext/extjs/ext-base.js"></script>
 <script type="text/javascript" src="<%=path%>/ext/extjs/ext-all-debug.js"></script>
+
+<!-- 
+<script type="text/javascript" src="<%=extjs%>/ext-all-debug.js"></script>
+<script type="text/javascript" src="<%=path%>/vendor/ext-4.2.1.883/ext-all-debug.js"></script>
+ -->
+
 <!-- custom 
 <script type="text/javascript" src="<!%=path%>/ext/myjs/tab.js?rand=1115v14"></script>
 -->
@@ -79,10 +102,16 @@
 
 <!-- 
 <div id="center_context_desktop">
-
 </div>
-  -->
-
+ -->
+ 
+<!-- 
+<link id="theme" rel="stylesheet" type="text/css" href="" />
+<script type="text/javascript">
+Ext.util.CSS.swapStyleSheet('theme', '<%=path%>/vendor/ext-4.2.1.883/resources/css/ext-all-neptune-rtl.css');
+Ext.util.CSS.refreshCache();
+</script>
+ -->
 
 </body>
 </html>

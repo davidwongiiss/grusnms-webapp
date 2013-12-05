@@ -20,8 +20,11 @@
 </HEAD>
 <BODY class="tab">
 	<div style="margin: 5px">
-		<input id="qam" type="button" value="QAM" onclick="show(0)"> <input id="gbe" type="button" value="GBE" onclick="show(1)"> <input
-			id="event" type="button" value="事件" onclick="show(2)">
+		<input id="qam" type="button" value="QAM" onclick="show(0)"> 
+		<input id="gbe" type="button" value="GBE" onclick="show(1)">
+		<!-- 
+		<input id="event" type="button" value="事件" onclick="show(2)">
+		 --> 
 	</div>
 	<div id="qam-panel" class="mainDiv">
 		<center>
@@ -109,43 +112,47 @@
 		</div>
 		<div id="containergbe"></div>
 	</div>
+	<!-- 
 	<div id="event-panel" class="mainDiv">
 		<center>
 			<h2>事件</h2>
 		</center>
 	</div>
+	 -->
 
 	<script type="text/javascript">
+	function show(i) {
+		if (i == 0) {
+			$('#qam-panel').show();
+			$('#gbe-panel').hide();
+			$('#event-panel').hide();
+		}
+		else if (i == 1) {
+			$('#qam-panel').hide();
+			$('#gbe-panel').show();
+			$('#event-panel').hide();
+		}
+		else {
+			$('#qam-panel').hide();
+			$('#gbe-panel').hide();
+			$('#event-panel').show();
+		}
+	}
+	
 	show(0);
 	
 	var qamChart, gbeChart;
-	
 	seajs.use([
 		'<%=request.getContextPath()%>/jsp/monitor/chart.js', 
 		'<%=request.getContextPath()%>/jsp/monitor/gbe.js' ], function(qam, gbe) {
 			qamChart = qam;
 			gbeChart = gbe;
-			qamChart.run();
-			gbeChart.run();
+			
+			var ip = '<%=request.getParameter("ipaddress")%>';
+			qamChart.run(ip);
+			gbeChart.run(ip);
 		});
 
-		function show(i) {
-			if (i == 0) {
-				$('#qam-panel').show();
-				$('#gbe-panel').hide();
-				$('#event-panel').hide();
-			}
-			else if (i == 1) {
-				$('#qam-panel').hide();
-				$('#gbe-panel').show();
-				$('#event-panel').hide();
-			}
-			else {
-				$('#qam-panel').hide();
-				$('#gbe-panel').hide();
-				$('#event-panel').show();
-			}
-		}
 	</script>
 
 </BODY>

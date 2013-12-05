@@ -86,7 +86,7 @@
 				}
 				debugger
 				//默认加载第一个
-				if('<%=groupType%>'){
+				if('<%=groupType%>' == '') {
 					var codeType = $("#tree_id option[index=0]").val();
 					loadTree(codeType);
 				}else{
