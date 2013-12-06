@@ -17,9 +17,16 @@
 .menu {
 	width: 700px;
 	height: 78px;
-	padding:20px 20px;
+	padding:20px 20px 10px 20px;
 	float:left;
 	font-family: "Trebuchet MS", arial, verdana, sans-serif;	
+}
+.info {
+	float: right;
+	margin-right: 55px;
+	padding-top: 5px;
+	font-family: "Trebuchet MS", arial, verdana, sans-serif;
+	color: #fff;	
 }
 
 .menu ul {

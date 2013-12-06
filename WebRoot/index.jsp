@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@page import="com.device.util.Constant"%>
+<%@page import="com.device.util.LoginUtil"%>
 <%
 String path = request.getContextPath();
 String extjs = request.getContextPath() + "/vendor/ext-4.2.1.883";
@@ -24,7 +25,7 @@ String extjs = request.getContextPath() + "/vendor/ext-4.2.1.883";
 <link rel="stylesheet" type="text/css" href="<%=path%>/ext/resources/css/ext-neptune.css" />
  -->
 
-<link href="<%=path%>/css/menu.css?rand=v7" rel="stylesheet" type="text/css" />
+<link href="<%=path%>/css/menu.css?rand=v9" rel="stylesheet" type="text/css" />
 <!--[if lte IE 6]>
 <link href="<%=path%>/css/menu_ie.css" rel="stylesheet" type="text/css" />
 <![endif]-->
@@ -55,6 +56,7 @@ String extjs = request.getContextPath() + "/vendor/ext-4.2.1.883";
  -->
 	<div class="menucontainer" id="header">
 		<div class="logo"></div>
+		<div class="info">当前登录用户：<%= LoginUtil.getUserId(request) %> &nbsp;&nbsp;&nbsp; <a href="void(0)">退出</a></div>
 		<div class="menu">
 			<ul>
 <!-- 

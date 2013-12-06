@@ -1,0 +1,56 @@
+﻿/*------------------------------------------------------
+Filename:              common.css
+Version:               v1.0.0
+Update:                20091110T2200 
+Author:                Max
+------------------------------------------------------*/
+/*Reset*/
+:root{overflow-y:scroll;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}
+fieldset,img{border:0;}
+:focus{outline:0;}
+address,caption,cite,code,dfn,em,b,i,th,var,optgroup{font-style:normal;font-weight:normal;}
+h1,h2,h3,h4,h5,h6{font-size:100%;}
+abbr,acronym{border:0;font-variant:normal;}
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}
+textarea{*overflow:auto;}
+code,kbd,samp,tt{font-size:100%;}
+input,button,textarea,select{*font-size:100%;}
+ol,ul{list-style:none;}
+table{border-collapse:collapse;border-spacing:1;}
+caption,th{text-align:left;}
+sup,sub{font-size:100%;vertical-align:baseline;}
+:link,:visited,ins{text-decoration:none;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+/*Common*/
+.clearfix:after{content:"\0020";display:block;height:0;clear:both;visibility:hidden;overflow:hidden;}
+.clearfix{*zoom:1;}
+.fr{display:inline;float:right!important;}
+.fl{display:inline;float:left!important;}
+.show{display:block;}
+.hide{display:none;}
+.highlight{color:#F30!important;}
+.important{font-weight:bold!important;}
+.center{text-align:center!important;}
+/*Base*/
+body{font:12px/1.5 Verdana,sans-serif;color:#333;background:#eef2fb;}
+a:link, a:visited{text-decoration:none;color:#333;}
+a:hover, a:active{text-decoration:underline;color:#F40;}
+.ft { height:15px; clear:both; overflow:hidden; background:url(../img/bg_r.png) no-repeat 0 100%; }
+.ft b { display:block; float:right; height:15px; width:10px; overflow:hidden; background:url(../img/bg_r.png) no-repeat 100% 100%; }
+h2 { height:30px; line-height:30px; padding-left:20px; position:relative;top:-15px; left:-15px;}
+button { cursor:pointer; }
+input,textarea{padding:2px; border:1px inset #999;font-size:12px;}
+label input{border:none;}
+textarea{padding:4px;}
+h2 span{ width:auto;height:25px; line-height:25px; text-align:center; display:inline-block; margin-right:10px; padding-left:10px; position:relative;top:2px;*top:5px; cursor:pointer;}
+h2 span.hover{background:url(../img/hover_l.png) no-repeat 0 0;}
+h2 span b{display:inline-block;padding-right:10px;font-weight:bold;}
+h2 span.hover b{background:url(../img/hover_r.png) no-repeat 100% 0;}
+/*page number style*/
+td.page-number{text-align:right;}
+td.page-number span,td.page-number a{border:1px solid #ccc; display:inline-block; height:20px;line-height:20px;margin-right:2px;overflow:hidden;padding:0 6px;color:#0066FF;}
+td.page-number a:hover{border:1px solid #0066FF;background-color:#fff;}
+td.page-number a.hover{border:1px solid #0099CC;background-color:#0099CC;font-weight:bold; color:#FFF;}
+:root td.page-number select{ position:relative;top:-6px;}

@@ -28,14 +28,13 @@
 				每页<%= pagination.getPageCount() %>条,共<%=pagination.getPageSum()%>页
 			</li>
 			<li>
-				<a href="javascript:goPage(1)" class="page_btn" onMouseDown="this.className='page_btn_d'"><span><img	src="<%= request.getContextPath() %>/images/page/page_ico1.gif" />
+				<a href="javascript:goPage(1)" class="page_btn" onMouseDown="this.className='page_btn_d'"><span><img src="<%= request.getContextPath() %>/images/page/page_ico1.gif" />
 						<ins>
 							首页
 						</ins>
 				</span>
 				</a>
 			</li>
-			<li>
 			<li>
 			<%
  				if (pagination.getPageNO() > 1 && pagination.getPageNO() <= pagination.getPageSum()) {
@@ -56,7 +55,7 @@
 			</li>
 			<li>
 				 <%
-				 	if (pagination.getNextPageNO() < pagination.getPageSum()
+				 	if (pagination.getNextPageNO() <= pagination.getPageSum()
 				 			&& pagination.getPageNO() < pagination.getPageSum()) {
 				 %> 
 				<a href="javascript:goPage(<%=pagination.getNextPageNO()%>)" class="page_btn" onMouseDown="this.className='page_btn_d'"><span><ins>下一页</ins>
@@ -76,6 +75,7 @@
 				</span>
 				</a>
 			</li>
+			<li>
 			<span>
 				<form name="pageform" style="margin: 0px" onsubmit="javascript:return go(this)"><input type=text
 					name="pageNO" value="<%=pagination.getNextPageNO()%>" size=3> <input type=submit value="go">
@@ -89,7 +89,7 @@
 
 <script>
 <!--
-var baseurl='<%=baseurl%>';
+var baseurl='<%= request.getContextPath()%>/<%=baseurl%>';
     function goPage(pageNO){
       if(pageNO>0&&pageNO<=<%=pagination.getPageSum()%>&&pageNO!=<%=pagination.getPageNO()%>){
 				self.location=baseurl+pageNO;

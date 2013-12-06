@@ -95,7 +95,9 @@
 	<div class="table_header">
 		<h2>事件列表</h2>
 		<div class="table_list_right"></div>
-		<div class="table_header_r" id="groupdiv"></div>
+		<div class="table_header_r" id="groupdiv">
+			<a href="javascript:void(0);" onclick="exportExcel();" > <img src="<%= path %>/images/button/r129_c3.gif"  />导出execl</a>
+		</div>
 	</div>
 	<table width="99.6%" height="75%" border="0" cellpadding="0"
 		cellspacing="0" class="ls_list1">
@@ -119,9 +121,11 @@
 								value="_all" onclick="selectAll('checkAll','eventId')" />全选&nbsp;&nbsp;&nbsp;<a
 								href="javascript:handerAll();void(0)">处理</a></th>
 							<th scope="col">结点</th>
-							<th scope="col">分组类型</th>
+							<!-- <th scope="col">分组类型</th>-->
 							<th scope="col">等级</th>
 							<th scope="col">描述</th>
+							<th scope="col">来源</th>
+							<th scope="col">事件对象</th>
 							<th scope="col">创建时间</th>
 							<th scope="col" class="list_bor_no">操作</th>
 						</tr>
@@ -136,9 +140,11 @@
 							<td><input type="checkbox" name="eventId"
 								value="<%=item.getId()%>" /></td>
 							<td><%=item.getIp()%></td>
-							<td>分组类型</td>
+							<!-- <td>分组类型</td> -->
 							<td><%=item.getSeverity()%></td>
 							<td><%=item.getDescription()%></td>
+							<td><%= item.getEventObject() %></td>
+							<td><%= item.getPhysIdx() %></td>
 							<td><%=item.getEventTime()%></td>
 							<td id="td<%=item.getId()%>">
 								<%
@@ -177,6 +183,16 @@
 			$("#ids").val(ids);
 			$("#myform").attr("action","<%=path%>/nodes/event_batchHandleEvents.sip");
 			$("#myform").submit();
+		}
+		function exportExcel(){
+			var url = "<%=path%>/nodes/event_exportExcel.sip";
+			$.post(url , function(data){
+				if(data !== 'fail'){
+					alert("下载"+data+"成功");
+				}else{
+					alert("下载异常");
+				}
+			});
 		}
 		</script>
 </BODY>

@@ -1,11 +1,11 @@
 package com.device.po;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
-public class QamDayValue {
-
-	private String id;	
+public class QamCurValue {
 	private String nodeId;
+	private String ip;
 	private Integer blade;
 	
 	private boolean qam1;
@@ -25,40 +25,39 @@ public class QamDayValue {
 	private boolean qam15;
 	private boolean qam16;
 
-	private Long bitrate1;
-	private Long bitrate2;
-	private Long bitrate3;
-	private Long bitrate4;
-	private Long bitrate5;
-	private Long bitrate6;
-	private Long bitrate7;
-	private Long bitrate8;
-	private Long bitrate9;
-	private Long bitrate10;
-	private Long bitrate11;
-	private Long bitrate12;
-	private Long bitrate13;
-	private Long bitrate14;
-	private Long bitrate15;
-	private Long bitrate16;
+	private BigInteger bitrate1;
+	private BigInteger bitrate2;
+	private BigInteger bitrate3;
+	private BigInteger bitrate4;
+	private BigInteger bitrate5;
+	private BigInteger bitrate6;
+	private BigInteger bitrate7;
+	private BigInteger bitrate8;
+	private BigInteger bitrate9;
+	private BigInteger bitrate10;
+	private BigInteger bitrate11;
+	private BigInteger bitrate12;
+	private BigInteger bitrate13;
+	private BigInteger bitrate14;
+	private BigInteger bitrate15;
+	private BigInteger bitrate16;
 
-	private Long numOfServices1;
-	private Long numOfServices2;
-	private Long numOfServices3;
-	private Long numOfServices4;
-	private Long numOfServices5;
-	private Long numOfServices6;
-	private Long numOfServices7;
-	private Long numOfServices8;
-	private Long numOfServices9;
-	private Long numOfServices10;
-	private Long numOfServices11;
-	private Long numOfServices12;
-	private Long numOfServices13;
-	private Long numOfServices14;
-	private Long numOfServices15;
-	private Long numOfServices16;
-
+	private BigInteger numOfServices1;
+	private BigInteger numOfServices2;
+	private BigInteger numOfServices3;
+	private BigInteger numOfServices4;
+	private BigInteger numOfServices5;
+	private BigInteger numOfServices6;
+	private BigInteger numOfServices7;
+	private BigInteger numOfServices8;
+	private BigInteger numOfServices9;
+	private BigInteger numOfServices10;
+	private BigInteger numOfServices11;
+	private BigInteger numOfServices12;
+	private BigInteger numOfServices13;
+	private BigInteger numOfServices14;
+	private BigInteger numOfServices15;
+	private BigInteger numOfServices16;
 
 	private Timestamp createTime;
 
@@ -206,259 +205,259 @@ public class QamDayValue {
 		this.qam16 = qam16;
 	}
 
-	public Long getBitrate1() {
+	public BigInteger getBitrate1() {
 		return bitrate1;
 	}
 
-	public void setBitrate1(Long bitrate1) {
+	public void setBitrate1(BigInteger bitrate1) {
 		this.bitrate1 = bitrate1;
 	}
 
-	public Long getBitrate2() {
+	public BigInteger getBitrate2() {
 		return bitrate2;
 	}
 
-	public void setBitrate2(Long bitrate2) {
+	public void setBitrate2(BigInteger bitrate2) {
 		this.bitrate2 = bitrate2;
 	}
 
-	public Long getBitrate3() {
+	public BigInteger getBitrate3() {
 		return bitrate3;
 	}
 
-	public void setBitrate3(Long bitrate3) {
+	public void setBitrate3(BigInteger bitrate3) {
 		this.bitrate3 = bitrate3;
 	}
 
-	public Long getBitrate4() {
+	public BigInteger getBitrate4() {
 		return bitrate4;
 	}
 
-	public void setBitrate4(Long bitrate4) {
+	public void setBitrate4(BigInteger bitrate4) {
 		this.bitrate4 = bitrate4;
 	}
 
-	public Long getBitrate5() {
+	public BigInteger getBitrate5() {
 		return bitrate5;
 	}
 
-	public void setBitrate5(Long bitrate5) {
+	public void setBitrate5(BigInteger bitrate5) {
 		this.bitrate5 = bitrate5;
 	}
 
-	public Long getBitrate6() {
+	public BigInteger getBitrate6() {
 		return bitrate6;
 	}
 
-	public void setBitrate6(Long bitrate6) {
+	public void setBitrate6(BigInteger bitrate6) {
 		this.bitrate6 = bitrate6;
 	}
 
-	public Long getBitrate7() {
+	public BigInteger getBitrate7() {
 		return bitrate7;
 	}
 
-	public void setBitrate7(Long bitrate7) {
+	public void setBitrate7(BigInteger bitrate7) {
 		this.bitrate7 = bitrate7;
 	}
 
-	public Long getBitrate8() {
+	public BigInteger getBitrate8() {
 		return bitrate8;
 	}
 
-	public void setBitrate8(Long bitrate8) {
+	public void setBitrate8(BigInteger bitrate8) {
 		this.bitrate8 = bitrate8;
 	}
 
-	public Long getBitrate9() {
+	public BigInteger getBitrate9() {
 		return bitrate9;
 	}
 
-	public void setBitrate9(Long bitrate9) {
+	public void setBitrate9(BigInteger bitrate9) {
 		this.bitrate9 = bitrate9;
 	}
 
-	public Long getBitrate10() {
+	public BigInteger getBitrate10() {
 		return bitrate10;
 	}
 
-	public void setBitrate10(Long bitrate10) {
+	public void setBitrate10(BigInteger bitrate10) {
 		this.bitrate10 = bitrate10;
 	}
 
-	public Long getBitrate11() {
+	public BigInteger getBitrate11() {
 		return bitrate11;
 	}
 
-	public void setBitrate11(Long bitrate11) {
+	public void setBitrate11(BigInteger bitrate11) {
 		this.bitrate11 = bitrate11;
 	}
 
-	public Long getBitrate12() {
+	public BigInteger getBitrate12() {
 		return bitrate12;
 	}
 
-	public void setBitrate12(Long bitrate12) {
+	public void setBitrate12(BigInteger bitrate12) {
 		this.bitrate12 = bitrate12;
 	}
 
-	public Long getBitrate13() {
+	public BigInteger getBitrate13() {
 		return bitrate13;
 	}
 
-	public void setBitrate13(Long bitrate13) {
+	public void setBitrate13(BigInteger bitrate13) {
 		this.bitrate13 = bitrate13;
 	}
 
-	public Long getBitrate14() {
+	public BigInteger getBitrate14() {
 		return bitrate14;
 	}
 
-	public void setBitrate14(Long bitrate14) {
+	public void setBitrate14(BigInteger bitrate14) {
 		this.bitrate14 = bitrate14;
 	}
 
-	public Long getBitrate15() {
+	public BigInteger getBitrate15() {
 		return bitrate15;
 	}
 
-	public void setBitrate15(Long bitrate15) {
+	public void setBitrate15(BigInteger bitrate15) {
 		this.bitrate15 = bitrate15;
 	}
 
-	public Long getBitrate16() {
+	public BigInteger getBitrate16() {
 		return bitrate16;
 	}
 
-	public void setBitrate16(Long bitrate16) {
+	public void setBitrate16(BigInteger bitrate16) {
 		this.bitrate16 = bitrate16;
 	}
 
-	public Long getNumOfServices1() {
+	public BigInteger getNumOfServices1() {
 		return numOfServices1;
 	}
 
-	public void setNumOfServices1(Long numOfServices1) {
+	public void setNumOfServices1(BigInteger numOfServices1) {
 		this.numOfServices1 = numOfServices1;
 	}
 
-	public Long getNumOfServices2() {
+	public BigInteger getNumOfServices2() {
 		return numOfServices2;
 	}
 
-	public void setNumOfServices2(Long numOfServices2) {
+	public void setNumOfServices2(BigInteger numOfServices2) {
 		this.numOfServices2 = numOfServices2;
 	}
 
-	public Long getNumOfServices3() {
+	public BigInteger getNumOfServices3() {
 		return numOfServices3;
 	}
 
-	public void setNumOfServices3(Long numOfServices3) {
+	public void setNumOfServices3(BigInteger numOfServices3) {
 		this.numOfServices3 = numOfServices3;
 	}
 
-	public Long getNumOfServices4() {
+	public BigInteger getNumOfServices4() {
 		return numOfServices4;
 	}
 
-	public void setNumOfServices4(Long numOfServices4) {
+	public void setNumOfServices4(BigInteger numOfServices4) {
 		this.numOfServices4 = numOfServices4;
 	}
 
-	public Long getNumOfServices5() {
+	public BigInteger getNumOfServices5() {
 		return numOfServices5;
 	}
 
-	public void setNumOfServices5(Long numOfServices5) {
+	public void setNumOfServices5(BigInteger numOfServices5) {
 		this.numOfServices5 = numOfServices5;
 	}
 
-	public Long getNumOfServices6() {
+	public BigInteger getNumOfServices6() {
 		return numOfServices6;
 	}
 
-	public void setNumOfServices6(Long numOfServices6) {
+	public void setNumOfServices6(BigInteger numOfServices6) {
 		this.numOfServices6 = numOfServices6;
 	}
 
-	public Long getNumOfServices7() {
+	public BigInteger getNumOfServices7() {
 		return numOfServices7;
 	}
 
-	public void setNumOfServices7(Long numOfServices7) {
+	public void setNumOfServices7(BigInteger numOfServices7) {
 		this.numOfServices7 = numOfServices7;
 	}
 
-	public Long getNumOfServices8() {
+	public BigInteger getNumOfServices8() {
 		return numOfServices8;
 	}
 
-	public void setNumOfServices8(Long numOfServices8) {
+	public void setNumOfServices8(BigInteger numOfServices8) {
 		this.numOfServices8 = numOfServices8;
 	}
 
-	public Long getNumOfServices9() {
+	public BigInteger getNumOfServices9() {
 		return numOfServices9;
 	}
 
-	public void setNumOfServices9(Long numOfServices9) {
+	public void setNumOfServices9(BigInteger numOfServices9) {
 		this.numOfServices9 = numOfServices9;
 	}
 
-	public Long getNumOfServices10() {
+	public BigInteger getNumOfServices10() {
 		return numOfServices10;
 	}
 
-	public void setNumOfServices10(Long numOfServices10) {
+	public void setNumOfServices10(BigInteger numOfServices10) {
 		this.numOfServices10 = numOfServices10;
 	}
 
-	public Long getNumOfServices11() {
+	public BigInteger getNumOfServices11() {
 		return numOfServices11;
 	}
 
-	public void setNumOfServices11(Long numOfServices11) {
+	public void setNumOfServices11(BigInteger numOfServices11) {
 		this.numOfServices11 = numOfServices11;
 	}
 
-	public Long getNumOfServices12() {
+	public BigInteger getNumOfServices12() {
 		return numOfServices12;
 	}
 
-	public void setNumOfServices12(Long numOfServices12) {
+	public void setNumOfServices12(BigInteger numOfServices12) {
 		this.numOfServices12 = numOfServices12;
 	}
 
-	public Long getNumOfServices13() {
+	public BigInteger getNumOfServices13() {
 		return numOfServices13;
 	}
 
-	public void setNumOfServices13(Long numOfServices13) {
+	public void setNumOfServices13(BigInteger numOfServices13) {
 		this.numOfServices13 = numOfServices13;
 	}
 
-	public Long getNumOfServices14() {
+	public BigInteger getNumOfServices14() {
 		return numOfServices14;
 	}
 
-	public void setNumOfServices14(Long numOfServices14) {
+	public void setNumOfServices14(BigInteger numOfServices14) {
 		this.numOfServices14 = numOfServices14;
 	}
 
-	public Long getNumOfServices15() {
+	public BigInteger getNumOfServices15() {
 		return numOfServices15;
 	}
 
-	public void setNumOfServices15(Long numOfServices15) {
+	public void setNumOfServices15(BigInteger numOfServices15) {
 		this.numOfServices15 = numOfServices15;
 	}
 
-	public Long getNumOfServices16() {
+	public BigInteger getNumOfServices16() {
 		return numOfServices16;
 	}
 
-	public void setNumOfServices16(Long numOfServices16) {
+	public void setNumOfServices16(BigInteger numOfServices16) {
 		this.numOfServices16 = numOfServices16;
 	}
 
@@ -470,11 +469,11 @@ public class QamDayValue {
 		this.createTime = createTime;
 	}
 
-	public String getId() {
-		return id;
+	public String getIp() {
+		return ip;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
 }

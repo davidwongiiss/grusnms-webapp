@@ -1,5 +1,10 @@
 package com.grus.nms.monitor.action;
 
+import java.math.BigInteger;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,13 +16,10 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
-
-
 import com.device.bean.NodesBean;
 import com.device.common.impl.NodesListResult;
-import com.device.po.MonitorBean;
-import com.device.po.NodeStatus;
-import com.device.po.QamValue;
+import com.device.po.GbeCurValue;
+import com.device.po.QamCurValue;
 import com.device.util.HibernateHelper;
 import com.device.util.JSONUtil;
 import com.device.util.ParamUtil;
@@ -27,21 +29,22 @@ import com.device.util.Struts2Utils;
 public class MonitorAction {
 	private static Log logger = LogFactory.getLog(MonitorAction.class);
 	
-	private String addresses;
+	private String ids;
+	private String ips;
 	
 	@SuppressWarnings("unchecked")
-	public void queryDevicesCurrentBitrates() {
+	public void queryDevicesCurrentQamBitrates() {
 		logger.debug("queryDevicesCurrentBitrates-begin");
 		
 		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
-		String addresses = ParamUtil.getString(request, "addresses");
-		if (addresses == null || addresses.isEmpty()) {
-			addresses = this.addresses;
+		String ids = request.getParameter("ids");
+		if (ids == null || ids.isEmpty()) {
+			return;
 		}
 		
-		String addresses1[] = addresses.split(",");
+		String ids1[] = ids.split(",");
 		
-		Collection<QamValue> c = null;
+		Collection<QamCurValue> c = null;
 		Session session = null;
 		try {
 			session = PeakSessionFactory.instance().getCurrentSession();
@@ -49,25 +52,27 @@ public class MonitorAction {
 			StringBuffer sb = new StringBuffer();
 			sb.append("[");
 			
-			for (int i = 0; i < addresses1.length; i++) {
-				String hql = "select qam from QamValue qam where qam.nodeId = (select id from Nodes node where node.ip = '" + addresses1[i] + "') order by qam.blade asc";
+			for (int i = 0; i < ids1.length; i++) {
+				String hql = "select qam from QamCurValue qam where qam.nodeId = '" + ids1[i] + "') order by qam.blade asc";
 				c = HibernateHelper.getQueryResult(session, hql);
 				
 				if (c.size() == 0)
 					continue;
 				
-				logger.debug("获取c");
-
-				sb.append("{");
-				sb.append("\"nodeId\":\"\"");
-				sb.append(",\"ip\":\"");
-				sb.append(addresses1[i]);
-				sb.append("\"");
-				sb.append(",\"slots\":[");
-				
 				StringBuffer[] sbs = new StringBuffer[9];
 				
-				for (QamValue qam : c) {
+				boolean first = true;
+				for (QamCurValue qam : c) {
+					if (first) {
+						first = false;
+						sb.append("{");
+						sb.append("\"nodeId\":\"");
+						sb.append(qam.getNodeId());
+						sb.append("\",\"ip\":\"");
+						sb.append(qam.getIp());
+						sb.append("\",\"slots\":[");
+					}
+					
 					int n = qam.getBlade() - 1;
 					if (sbs[n] == null) {
 						sbs[n] = new StringBuffer();
@@ -185,13 +190,16 @@ public class MonitorAction {
 						continue;
 					
 					sb.append(sbs[j].toString());
-					sb.deleteCharAt(sb.length() - 1);
+					if (sb.charAt(sb.length() - 1) == ',')
+						sb.deleteCharAt(sb.length() - 1);
 					sb.append("]"); // slots
 				}
 				sb.append("},");
 			}
 			
-			sb.deleteCharAt(sb.length() - 1);
+			if (sb.charAt(sb.length() - 1) == ',')
+				sb.deleteCharAt(sb.length() - 1);
+			
 			sb.append("]");
 			
 			String s = sb.toString();
@@ -210,14 +218,18 @@ public class MonitorAction {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void queryDevicesCurrentStatus() {
-		logger.debug("queryDevicesCurrentStatus-begin");
+	public void queryDevicesCurrentGbeBitrates() {
+		logger.debug("queryDevicesCurrentGbeBitrates-begin");
 		
 		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
-		String addresses = ParamUtil.getString(request, "addresses");
-		String addresses1[] = addresses.split(",");
+		String ids = request.getParameter("ids");
+		if (ids == null || ids.isEmpty()) {
+			return;
+		}
 		
-		Collection<NodeStatus> c = null;
+		String ids1[] = ids.split(",");
+		
+		Collection<GbeCurValue> c = null;
 		Session session = null;
 		try {
 			session = PeakSessionFactory.instance().getCurrentSession();
@@ -225,47 +237,64 @@ public class MonitorAction {
 			StringBuffer sb = new StringBuffer();
 			sb.append("[");
 			
-			for (int i = 0; i < addresses1.length; i++) {
-				String hql = "select status from NodeStatus s where s.nodeId = (select id from Nodes node where node.ip = '" + addresses1[i] + "')";
+			for (int i = 0; i < ids1.length; i++) {
+				String hql = "select gbe from GbeCurValue gbe where gbe.nodeId = '" + ids1[i] + "') order by qam.blade asc";
 				c = HibernateHelper.getQueryResult(session, hql);
-				
 				if (c.size() == 0)
 					continue;
-
-				sb.append("{");
-				sb.append("\"nodeId\":\"\"");
-				sb.append(",\"ip\":\"");
-				sb.append(addresses1[i]);
-				sb.append("\"");
 				
-				for (NodeStatus status : c) {
-					sb.append(",\"gbeBitrate\":");
-					sb.append(status.getGbeBitrate());
-					sb.append(",\"gbeService\":");
-					sb.append(status.getGbeService());
-					sb.append(",\"qamBitrate\":");
-					sb.append(status.getQamBitrate());
-					sb.append(",\"qamService\":");
-					sb.append(status.getQamService());
-					sb.append(",\"eventCount\":");
-					sb.append(status.getEventCount());
-					sb.append(",\"alarmService\":");
-					sb.append(status.getAlarmCount());
-
-					// 防止IP有重复只处理一组
-					break;
+				for (GbeCurValue gbe : c) {
+					sb.append("{");
+					sb.append("\"nodeId\":\"\"");
+					sb.append(",\"ip\":\"");
+					sb.append(gbe.getIp());
+					sb.append("\",\"enabled\":[1,1,1,1,1,1,1,1]");					
+					sb.append(",\"bitrates\":[");
+					sb.append(gbe.getMulticastBitrate1());
+					sb.append(",");
+					sb.append(gbe.getMulticastBitrate2());
+					sb.append(",");
+					sb.append(gbe.getMulticastBitrate3());
+					sb.append(",");
+					sb.append(gbe.getMulticastBitrate4());
+					sb.append(",");
+					sb.append(gbe.getMulticastBitrate5());
+					sb.append(",");
+					sb.append(gbe.getMulticastBitrate6());
+					sb.append(",");
+					sb.append(gbe.getMulticastBitrate7());
+					sb.append(",");
+					sb.append(gbe.getMulticastBitrate8());
+					sb.append("]");
+					sb.append(",\"numOfServices\":[");
+					sb.append(gbe.getNumberOfServices1());
+					sb.append(",");
+					sb.append(gbe.getNumberOfServices2());
+					sb.append(",");
+					sb.append(gbe.getNumberOfServices3());
+					sb.append(",");
+					sb.append(gbe.getNumberOfServices4());
+					sb.append(",");
+					sb.append(gbe.getNumberOfServices5());
+					sb.append(",");
+					sb.append(gbe.getNumberOfServices6());
+					sb.append(",");
+					sb.append(gbe.getNumberOfServices7());
+					sb.append(",");
+					sb.append(gbe.getNumberOfServices8());					
+					sb.append("]},");
 				}
-				
-				sb.append("},");
 			}
 			
-			sb.deleteCharAt(sb.length() - 1);
-			sb.append("]"); 
+			if (sb.charAt(sb.length() - 1) == ',')
+				sb.deleteCharAt(sb.length() - 1);
+			
+			sb.append("]");
 			
 			String s = sb.toString();
 			Struts2Utils.renderJson(s);
 			
-			logger.debug("queryDevicesCurrentStatus:" + s);
+			logger.debug("queryDevicesCurrentGbeBitrates:" + s);
 		} 
 		catch (HibernateException e) {
 			//to do something....
@@ -273,9 +302,9 @@ public class MonitorAction {
 			logger.debug(e.getMessage());
 		} 
 		finally {
-			logger.debug("queryDevicesCurrentStatus-end");
+			logger.debug("queryDevicesCurrentGbeBitrates-end");
 		}
-	}
+	}	
 	
 	//设备监控列表
 	public String monitorList(){
@@ -288,30 +317,162 @@ public class MonitorAction {
 		return "monitorList";
 	}
 	
-	public void updateView(){
-		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
-		String ips = ParamUtil.getString(request, "ips");
-		String nodes = ParamUtil.getString(request, "nodes");
-		//测试数据
-		MonitorBean bean = new MonitorBean();
-		bean.setIp(ips);
-		bean.setStatus(1);
-		bean.setAlarm(true);
-		bean.setWarning(false);
-		List<MonitorBean> list = new ArrayList<MonitorBean>();
-		list.add(bean);
-		String json = JSONUtil.listToJson(list, new String[]{"nodeid","ip","status","alarm","warning"});//objectToJson(bean);
-		Struts2Utils.renderJson(json);
-		
+	public void updateView() {
+		queryNodeStatus();
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public String showNodeBitrate() {
-		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();		
-		this.addresses = ParamUtil.getString(request, "address");
-		return "monitorNodeBitrate";
-	}	
+	public class NodeStatus {
+		public String dummy;
+		public String id;
+		public String name;
+		public String ip;
+		public int status = 0;
+		public int alarmCount = 0;
+		public int eventCount = 0;
+		public BigInteger gbeb = BigInteger.ZERO;
+		public BigInteger gben = BigInteger.ZERO;
+		public BigInteger qamb = BigInteger.ZERO;
+		public BigInteger qamn = BigInteger.ZERO;
+	};
+	
+	public class GroupStatus {
+		public String dummy;		
+		public String id;
+		public String name;
+		public String x, y;
+		public int offlineCount;
+		public int alarmCount;
+		public int eventCount;
+	};
+	
+	public void queryGroupsStatus() {
+		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
+		String ids = ParamUtil.getString(request, "ids");		
+
+		Session session = null;
+		session = PeakSessionFactory.instance().getCurrentSession();
+
+		@SuppressWarnings("deprecation")
+		Connection conn = session.connection();
+		PreparedStatement stmt;
+		try {
+			String sql = "select gs.group_id, gs.name, gs.x, gs.y, gs.offline_count, gs.alarm_count, gs.event_count from group_status gs where 1=1";
+			if (ids != null && !ids.isEmpty()) {
+				sql += " and gs.group_id in(";
+
+				String[] ss = ids.split(",");
+				StringBuffer sb = new StringBuffer();
+				for (int i = 0; i < ss.length; ++i) {
+					sb.append("'").append(ss[i]).append("'").append(",");
+				}
+				
+				if (sb.length() > 0)
+					sb.deleteCharAt(sb.length() - 1);
+				
+				sql += sb.toString();
+				sql += ")";
+				stmt = (PreparedStatement) conn.prepareStatement(sql);
+			}
+			else {
+				stmt = (PreparedStatement) conn.prepareStatement(sql);
+			}
+			
+			ResultSet rs = stmt.executeQuery();
+
+			List<GroupStatus> nss = new ArrayList<GroupStatus>();
+			while (rs.next()) {
+				int i = 0;
+				GroupStatus r = new GroupStatus();
+				r.id = rs.getString(++i);
+				r.name = rs.getString(++i);
+				r.x = rs.getString(++i);
+				r.y = rs.getString(++i);
+				r.offlineCount = rs.getInt(++i);
+				r.alarmCount = rs.getInt(++i);
+				r.eventCount = rs.getInt(++i);
+
+				nss.add(r);
+			}
+			
+			String[] a = { "dummy" };
+			String s = JSONUtil.listToJson2(nss, a);
+			Struts2Utils.renderJson(s);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void queryNodeStatus() {
+		HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
+		String ids = ParamUtil.getString(request, "ids");		
+
+		Session session = null;
+		session = PeakSessionFactory.instance().getCurrentSession();
+
+		@SuppressWarnings("deprecation")
+		Connection conn = session.connection();
+		PreparedStatement stmt;
+		try {
+			String sql = "select ns.node_id, ns.ip, ns.name, ns.status, ns.alarm_count, ns.event_count from node_status ns where 1=1";
+			if (ids != null && !ids.isEmpty()) {
+				sql += " and ns.node_id in(";
+
+				String[] ss = ids.split(",");
+				StringBuffer sb = new StringBuffer();
+				for (int i = 0; i < ss.length; ++i) {
+					sb.append("'").append(ss[i]).append("'").append(",");
+				}
+				
+				if (sb.length() > 0)
+					sb.deleteCharAt(sb.length() - 1);
+				
+				sql += sb.toString();
+				sql += ")";
+				stmt = (PreparedStatement) conn.prepareStatement(sql);
+			}
+			else {
+				stmt = (PreparedStatement) conn.prepareStatement(sql);
+			}
+			
+			ResultSet rs = stmt.executeQuery();
+
+			List<NodeStatus> nss = new ArrayList<NodeStatus>();
+			while (rs.next()) {
+				int i = 0;
+				NodeStatus r = new NodeStatus();
+				r.id = rs.getString(++i);
+				r.ip = rs.getString(++i);
+				r.name = rs.getString(++i);
+				r.status = rs.getInt(++i);
+				r.alarmCount = rs.getInt(++i);
+				r.eventCount = rs.getInt(++i);
+
+				nss.add(r);
+			}
+			
+			String[] a = { "dummy" };
+			String s = JSONUtil.listToJson2(nss, a);
+			Struts2Utils.renderJson(s);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
+
+	public String getIps() {
+		return ips;
+	}
+
+	public void setIps(String ips) {
+		this.ips = ips;
+	}
 }

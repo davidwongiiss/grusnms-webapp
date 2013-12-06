@@ -18,6 +18,7 @@ public class EventsListEvent implements BusinessEvent {
 	private Integer severity;
 	
 	private String ip ;
+	private String groupId;
 
 	private int pageNO;
 
@@ -37,6 +38,14 @@ public class EventsListEvent implements BusinessEvent {
 
 	public void setHandle(Integer handle) {
 		this.handle = handle;
+	}
+
+	public String getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
 	}
 
 	public String toString() {

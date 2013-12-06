@@ -29,7 +29,6 @@
 		<!-- 查询设备状态的ajax请求 -->
     <action name="monitor_query_*" class="MonitorAction" method="{1}">
     	<result name="monitorList">/jsp/monitor/monitorList.jsp</result>
-    	<result name="monitorNodeBitrate">/jsp/monitor/monitorNodeBitrate.jsp</result>
     </action>
     
     <action name="report_*" class="ReportAction" method="{1}">

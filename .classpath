@@ -78,5 +78,6 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="D:/00-grus/grusnms/grusnms-webapp/WebRoot/WEB-INF/lib/poi-3.6-20091214.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

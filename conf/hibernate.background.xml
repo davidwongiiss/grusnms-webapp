@@ -43,11 +43,8 @@
 		<mapping resource="com/device/po/NodeEvents.hbm.xml" />
 		<mapping resource="com/device/po/Users.hbm.xml" />
 		<mapping resource="com/device/po/UsersNodes.hbm.xml" />
-		<mapping resource="com/device/po/QamValue.hbm.xml" /> 
-		<mapping resource="com/device/po/GbeValue.hbm.xml" />
-		<mapping resource="com/device/po/NodeStatus.hbm.xml" />
-		<mapping resource="com/device/po/QamDayValue.hbm.xml" />
-		<mapping resource="com/device/po/GbeDayValue.hbm.xml" />
+		<mapping resource="com/device/po/QamCurValue.hbm.xml" /> 
+		<mapping resource="com/device/po/GbeCurValue.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>
 

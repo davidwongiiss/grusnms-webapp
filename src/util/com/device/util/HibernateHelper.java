@@ -168,6 +168,44 @@ public class HibernateHelper {
 		}
 		return getRecordSum;
 	}
+	
+	public static int getSQLRecordSum(Session session, String queryString,
+			Object[] values) {
+		int getRecordSum = -1;
+		Connection con = session.connection();
+		try {
+			queryString = queryString.replace('\n', ' ').replace('\t', ' ')
+					.replace('\r', ' ').replaceFirst(" +order +by +.*", "");
+			// String pattern1 = " *select +([^ ]+)( +from +.*)";
+			String pattern1 = " *select +(.+)( +from +.*)";
+			Matcher matcher1 = Pattern.compile(pattern1).matcher(queryString);
+			if (matcher1.find()) {
+				queryString = "select count(*) " + matcher1.group(2);
+			} else {
+				queryString = "select count(*) " + queryString;
+			}
+			PreparedStatement pstmt=con.prepareStatement(queryString );
+			
+			if (values != null && values.length != 0) {
+				for (int i = 0; i < values.length; i++) {
+					pstmt.setObject(i, values[i]);
+				}
+			}
+			
+			ResultSet result = pstmt.executeQuery();
+			if (result.next()){
+				getRecordSum = result.getInt("count(*)");
+			} 
+			log.debug("countQuery=" + queryString);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			getRecordSum = -1;
+		}
+		return getRecordSum;
+	}
+
 
 	public static String getCountQueryStr(String queryString) {
 		try {
@@ -186,6 +224,8 @@ public class HibernateHelper {
 		}
 		return queryString;
 	}
+
+
 
 	public static int getQuerySum(Session session, String queryString) {
 		int getRecordSum = -1;
@@ -618,13 +658,15 @@ public class HibernateHelper {
 		}
 		
 		ResultSet result = pstmt.executeQuery();
-		
 		ResultSetMetaData metadata = (ResultSetMetaData) result.getMetaData();
 		List list = new ArrayList();
 		while (result.next()) {
-		    Object obj = getObject(result, clas);
-		    list.add(obj);
-		   }
+			Object obj = getObject(result, clas);
+			list.add(obj);
+		}
+		
+
+		
 
 		return list;
 

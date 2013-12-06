@@ -8,7 +8,7 @@
 }
 .module{
 	width:33%;
-	height:33%;
+	height:30%;
 	border:1px solid #000;
 	float:left;
 	position:relative;
@@ -17,7 +17,7 @@
 .title{
 	margin-left:45%;
 	width:100%;
-	height:10%;
+	height:5%;
 }
 .title a{
 	font-size:14px;

@@ -1,55 +1,40 @@
 define(function(require, exports) {
-	var qam = {
-		nodeId : '',
-		ip : '',
-		slots : [ // 9个slot数组(9个模块卡)
-		{
-			slotNo : '',
-			qams : [ [ 1, 1, 1, 1, 1, 1, 0, 0 ], [ 1, 1, 1, 1, 1, 1, 0, 0 ] ], // 16长的数组，为0的都不显示
-			bitrate : [ [ 7, 7, 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7, 7, 7 ] ],
-			numOfServices : [ [ 49, 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41, 46, 49, 44, 46, 55, 45 ] ]
-		}, {
-			slotNo : '',
-			qams : [ [ 1, 1, 1, 1, 1, 1, 0, 0 ], [ 1, 1, 1, 1, 1, 1, 0, 0 ] ], // 16长的数组，为0的都不显示
-			bitrate : [ [ 7, 7, 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7, 7, 7 ] ],
-			numOfServices : [ [ 49, 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41, 46, 49, 44, 46, 55, 45 ] ]
-		}, {
-			slotNo : '',
-			qams : [ [ 1, 1, 1, 1, 1, 1, 0, 0 ], [ 0, 0, 0, 1, 0, 1, 0, 0 ] ], // 16长的数组，为0的都不显示
-			bitrate : [ [ 7, 7, 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7, 7, 7 ] ],
-			numOfServices : [ [ 49, 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41, 46, 49, 44, 46, 55, 45 ] ]
-		}, {
-			slotNo : '',
-			qams : [ [ 1, 1, 1, 1, 1, 1, 0, 0 ], [ 0, 0, 0, 1, 0, 1, 0, 0 ] ], // 16长的数组，为0的都不显示
-			bitrate : [ [ 7, 7, 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7, 7, 7 ] ],
-			numOfServices : [ [ 49, 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41, 46, 49, 44, 46, 55, 45 ] ]
-		}, {
-			slotNo : '',
-			qams : [ [ 1, 1, 1, 1, 1, 1, 0, 0 ], [ 1, 1, 1, 1, 1, 1, 0, 0 ] ], // 16长的数组，为0的都不显示
-			bitrate : [ [ 7, 7, 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7, 7, 7 ] ],
-			numOfServices : [ [ 49, 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41, 46, 49, 44, 46, 55, 45 ] ]
-		}, {
-			slotNo : '',
-			qams : [ [ 1, 1, 0, 0, 0, 0, 0, 0 ], [ 1, 1, 0, 0, 0, 0, 0, 0 ] ], // 16长的数组，为0的都不显示
-			bitrate : [ [ 7, 7, 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7, 7, 7 ] ],
-			numOfServices : [ [ 49, 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41, 46, 49, 44, 46, 55, 45 ] ]
-		}, {
-			slotNo : '',
-			qams : [ [ 1, 1, 0, 0, 0, 0, 0, 0 ], [ 1, 1, 0, 0, 0, 0, 0, 0 ] ], // 16长的数组，为0的都不显示
-			bitrate : [ [ 7, 7, 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7, 7, 7 ] ],
-			numOfServices : [ [ 49, 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41, 46, 49, 44, 46, 55, 45 ] ]
-		}, {
-			slotNo : '',
-			qams : [ [ 1, 1, 0, 0, 0, 0, 0, 0 ], [ 1, 1, 0, 0, 0, 0, 0, 0 ] ], // 16长的数组，为0的都不显示
-			bitrate : [ [ 7, 7, 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7, 7, 7 ] ],
-			numOfServices : [ [ 49, 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41, 46, 49, 44, 46, 55, 45 ] ]
-		}, {
-			slotNo : '',
-			qams : [ [ 1, 1, 0, 0, 0, 0, 0, 0 ], [ 1, 1, 0, 0, 0, 0, 0, 0 ] ], // 16长的数组，为0的都不显示
-			bitrate : [ [ 7, 7, 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7, 7, 7 ] ],
-			numOfServices : [ [ 49, 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41, 46, 49, 44, 46, 55, 45 ] ]
-		} ]
-	};
+
+	/*
+	 * var qam = { nodeId : '', ip : '', slots : [ // 9个slot数组(9个模块卡) { slotNo :
+	 * '', qams : [ [ 1, 1, 1, 1, 1, 1, 0, 0 ], [ 1, 1, 1, 1, 1, 1, 0, 0 ] ], //
+	 * 16长的数组，为0的都不显示 bitrate : [ [ 7, 7, 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7,
+	 * 7, 7 ] ], numOfServices : [ [ 49, 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41,
+	 * 46, 49, 44, 46, 55, 45 ] ] }, { slotNo : '', qams : [ [ 1, 1, 1, 1, 1, 1,
+	 * 0, 0 ], [ 1, 1, 1, 1, 1, 1, 0, 0 ] ], // 16长的数组，为0的都不显示 bitrate : [ [ 7, 7,
+	 * 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7, 7, 7 ] ], numOfServices : [ [ 49,
+	 * 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41, 46, 49, 44, 46, 55, 45 ] ] }, {
+	 * slotNo : '', qams : [ [ 1, 1, 1, 1, 1, 1, 0, 0 ], [ 0, 0, 0, 1, 0, 1, 0, 0 ] ], //
+	 * 16长的数组，为0的都不显示 bitrate : [ [ 7, 7, 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7,
+	 * 7, 7 ] ], numOfServices : [ [ 49, 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41,
+	 * 46, 49, 44, 46, 55, 45 ] ] }, { slotNo : '', qams : [ [ 1, 1, 1, 1, 1, 1,
+	 * 0, 0 ], [ 0, 0, 0, 1, 0, 1, 0, 0 ] ], // 16长的数组，为0的都不显示 bitrate : [ [ 7, 7,
+	 * 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7, 7, 7 ] ], numOfServices : [ [ 49,
+	 * 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41, 46, 49, 44, 46, 55, 45 ] ] }, {
+	 * slotNo : '', qams : [ [ 1, 1, 1, 1, 1, 1, 0, 0 ], [ 1, 1, 1, 1, 1, 1, 0, 0 ] ], //
+	 * 16长的数组，为0的都不显示 bitrate : [ [ 7, 7, 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7,
+	 * 7, 7 ] ], numOfServices : [ [ 49, 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41,
+	 * 46, 49, 44, 46, 55, 45 ] ] }, { slotNo : '', qams : [ [ 1, 1, 0, 0, 0, 0,
+	 * 0, 0 ], [ 1, 1, 0, 0, 0, 0, 0, 0 ] ], // 16长的数组，为0的都不显示 bitrate : [ [ 7, 7,
+	 * 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7, 7, 7 ] ], numOfServices : [ [ 49,
+	 * 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41, 46, 49, 44, 46, 55, 45 ] ] }, {
+	 * slotNo : '', qams : [ [ 1, 1, 0, 0, 0, 0, 0, 0 ], [ 1, 1, 0, 0, 0, 0, 0, 0 ] ], //
+	 * 16长的数组，为0的都不显示 bitrate : [ [ 7, 7, 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7,
+	 * 7, 7 ] ], numOfServices : [ [ 49, 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41,
+	 * 46, 49, 44, 46, 55, 45 ] ] }, { slotNo : '', qams : [ [ 1, 1, 0, 0, 0, 0,
+	 * 0, 0 ], [ 1, 1, 0, 0, 0, 0, 0, 0 ] ], // 16长的数组，为0的都不显示 bitrate : [ [ 7, 7,
+	 * 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7, 7, 7 ] ], numOfServices : [ [ 49,
+	 * 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41, 46, 49, 44, 46, 55, 45 ] ] }, {
+	 * slotNo : '', qams : [ [ 1, 1, 0, 0, 0, 0, 0, 0 ], [ 1, 1, 0, 0, 0, 0, 0, 0 ] ], //
+	 * 16长的数组，为0的都不显示 bitrate : [ [ 7, 7, 7, 7, 7, 7, 7, 7 ], [ 7, 7, 7, 7, 7, 7,
+	 * 7, 7 ] ], numOfServices : [ [ 49, 41, 46, 49, 44, 46, 55, 45 ], [ 49, 41,
+	 * 46, 49, 44, 46, 55, 45 ] ] } ] };
+	 */
 
 	// 解析slots中的数据
 	// oData为slots中的每个对象
@@ -60,7 +45,7 @@ define(function(require, exports) {
 		for (var i = 0; i < 2; i++) {
 			for (var j = 0; j < 8; j++) {
 				if (1 == oData.qams[i][j]) {
-					arrTemp.push(oData.bitrate[i][j]);
+					arrTemp.push(oData.bitrates[i][j]);
 					arrTemp1.push(oData.numOfServices[i][j]);
 					arrXString.push(iData + '.' + (i + 1) + '.' + (j + 1));
 				}
@@ -72,7 +57,7 @@ define(function(require, exports) {
 				arrXString.push('      ');
 			}
 		}
-		oTemp.bitrate = arrTemp;
+		oTemp.bitrates = arrTemp;
 		oTemp.numOfServices = arrTemp1;
 		// 横轴坐标值
 		oTemp.xStrs = arrXString;
@@ -88,8 +73,9 @@ define(function(require, exports) {
 			var oSlot = aSlots(qam.slots[i], i + 1);
 			if (chartsArr.length == 9) {
 				try {
-					chartsArr[i].series[0].setData(oSlot.numOfServices);
-					chartsArr[i].series[1].setData(oSlot.bitrate);
+					chartsArr[i].series[1].setData(oSlot.bitrates, false);
+					chartsArr[i].series[0].setData(oSlot.numOfServices, false);
+					chartsArr[i].redraw();
 				}
 				catch (e) {
 				}
@@ -117,14 +103,14 @@ define(function(require, exports) {
 					yAxis : [ { // Primary yAxis
 						labels : {
 							formatter : function() {
-								return this.value + 'k';
+								return (this.value / 1000) + 'k';
 							},
 							style : {
 								color : '#89A54E'
 							}
 						},
 						title : {
-							text : '',
+							text : 'Birate',
 							style : {
 								color : '#89A54E'
 							}
@@ -133,19 +119,20 @@ define(function(require, exports) {
 					}, { // Secondary yAxis
 						gridLineWidth : 0,
 						title : {
-							text : '',
+							text : 'Services',
 							style : {
 								color : '#4572A7'
 							}
 						},
 						labels : {
 							formatter : function() {
-								return this.value + 'g';
+								return this.value;
 							},
 							style : {
 								color : '#4572A7'
 							}
-						}
+						},
+						opposite : false
 					} ],
 					tooltip : {
 						shared : false
@@ -168,16 +155,15 @@ define(function(require, exports) {
 						yAxis : 1,
 						data : oSlot.numOfServices,
 						tooltip : {
-							valueSuffix : 'g'
+							valueSuffix : ''
 						}
-
 					}, {
 						name : 'Bitrate',
 						color : '#89A54E',
 						type : 'column',
-						data : oSlot.bitrate,
+						data : oSlot.bitrates,
 						tooltip : {
-							valueSuffix : 'k'
+							valueSuffix : ''
 						}
 					} ]
 				});
@@ -186,30 +172,30 @@ define(function(require, exports) {
 		$(".highcharts-button").css("display", "none");
 	};
 
-	// 动态刷新图标中数据
-	function do_query() {
-		var data = qam;
-		refreshCharts(data);
-		/*
-		 * // 保证刷新完图后的3s后再次调用 setInterval(function() { // do_query();
-		 * $.getJSON("URL", null, function(data) { refreshCharts(data); }); //
-		 * refreshCharts(oData); }, 3000);
-		 */
-		setTimeout(function() {
-			do_query();
-		}, 3000);
-		// return data;
-	}
+	exports.host = '';
+	exports.run = function(ids) {
+	  var fn = function() {
+	    $.ajax({
+	      type: 'POST',
+	      url: exports.host + '/nodes/monitor_query_queryDevicesCurrentQamBitrates.sip',
+	      dataType: 'json',
+	      data: {
+	        ids: ids
+	      }
+	    }).done(function(data) {
+	      if (data != null && $.isArray(data) && data.length > 0) {
+	        try {
+	          refreshCharts(data[0]);
+	        }
+	        catch (ex) {
+	          console.log(ex.message);
+	        }
+	      }	      
+	    }).always(function() {
+	    	setTimeout(fn, 5000);
+	    });
+	  };
 
-	// do_query(qam);
-	// ajax数据请求
-	/*
-	 * $.getJSON("URL",null, function(data){
-	 * 
-	 * });
-	 */
-
-	exports.run = function() {
-		do_query();
+	  fn();
 	};
 });

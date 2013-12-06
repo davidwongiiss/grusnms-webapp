@@ -77,6 +77,7 @@
 					$.ajax({
 						type: "GET",
 				  		url: "<%= request.getContextPath() %>/nodes/nodeGroup_bulidGroupTree.sip?type="+ctype,
+				  		async:false,       //同步方式加载树，方便后面对树进行初始化                                                                 
 						success: function(msg){
 									var array = eval(msg);
 									var zNodes = array || [];
@@ -84,20 +85,19 @@
 						}
 					});
 				}
-				debugger
 				//默认加载第一个
-				if('<%=groupType%>' == '') {
+				if('<%=groupType%>' === '') {
 					var codeType = $("#tree_id option[index=0]").val();
 					loadTree(codeType);
 				}else{
 					loadTree('<%=groupType%>');//如果传来类型，就默认显示
 				}
 				//如果有groupId就默认打开该报警页面
-				if('<%= groupId%>'){
+				if(!!'<%= groupId%>'){
 					parent.frames.mainf.location.href="<%= request.getContextPath() %>/nodes/event_queryEvents.sip?groupId=<%= groupId%>";
-					//var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-					//var node = zTree.getNodeByParam("id",'<--%= groupId%>',null);
-					//zTree.selectNode(node);
+					var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+					var node = zTree.getNodeByParam("id",'<%= groupId%>',null);
+					zTree.selectNode(node);
 				}
 			});
 			

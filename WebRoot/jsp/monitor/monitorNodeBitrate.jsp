@@ -148,9 +148,12 @@
 			qamChart = qam;
 			gbeChart = gbe;
 			
-			var ip = '<%=request.getParameter("ipaddress")%>';
-			qamChart.run(ip);
-			gbeChart.run(ip);
+			qamChart.host = '<%=request.getContextPath()%>';
+			gbeChart.host = '<%=request.getContextPath()%>';
+			
+			var ids = '<%=request.getParameter("ids")%>';
+			qamChart.run(ids);
+			gbeChart.run(ids);
 		});
 
 	</script>

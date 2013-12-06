@@ -27,11 +27,16 @@ public class UsersAction {
 			//≤È—Ø¡–±Ì
 			HttpServletRequest request = org.apache.struts2.ServletActionContext.getRequest();
 			UsersEvent event = new UsersEvent(); 
+			Integer pageNo = ParamUtil.getInt(request, "pagination.pageNO", 1).intValue();
+			event.setPageNO(pageNo);
+			Integer pageCount = ParamUtil.getInt(request, "pageCount", 10).intValue();
+			event.setPageCount(pageCount);
 			event.setUserName(ParamUtil.getString(request, "name"));
 			event.setMobileNo(ParamUtil.getString(request, "mobileNo"));
 			event.setIsAdmin(ParamUtil.getInt(request, "isAdmin"));
 			String beginTime = ParamUtil.getString(request, "beginTime");
 			String endTime = ParamUtil.getString(request, "endTime");
+			
 			if(!"".equals(beginTime)&&!"".equals(endTime)){
 				event.setBeginTime(beginTime);
 				event.setEndTime(endTime);
