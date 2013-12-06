@@ -6,28 +6,24 @@
  */
 package com.device.action;
 
-import java.util.Collection;
+
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.device.bean.GroupsNodesBean;
-import com.device.bean.NodeGroupsBean;
 import com.device.bean.NodesBean;
 import com.device.common.impl.NodesListEvent;
 import com.device.common.impl.NodesListResult;
-import com.device.po.NodeGroups;
 import com.device.po.Nodes;
 import com.device.util.LoginUtil;
 import com.device.util.ParamUtil;
 import com.device.util.Struts2Utils;
 import com.device.util.UUIDGenerator;
-
 
 /**
  *
@@ -36,6 +32,10 @@ import com.device.util.UUIDGenerator;
  */
 public class NodesAction {
 	private static Log log = LogFactory.getLog(NodesAction.class);
+	
+	private String groupId;
+	private String groupName;
+	
 	private Nodes node;
 	//Ìí¼Ó½áµã
 	public String addNodes() {
@@ -174,9 +174,6 @@ public class NodesAction {
 		}
 		return "_forward"; 
 	}
-	
-	
-	
 
 	public Nodes getNode() {
 		return node;
@@ -191,5 +188,16 @@ public class NodesAction {
 	public String failure() {
 		return "failure";
 	}
-
+	public String getGroupId() {
+		return groupId;
+	}
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+	public String getGroupName() {
+		return groupName;
+	}
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
 }

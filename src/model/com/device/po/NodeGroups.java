@@ -24,7 +24,7 @@ public class NodeGroups implements java.io.Serializable {
 	private String creator ;
 	private String updater ;
 	private Integer isSystem ;
-	private Boolean open = false ;
+	private Boolean open = true ;
 	
 	
 	public Boolean getOpen() {

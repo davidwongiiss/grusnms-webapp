@@ -25,7 +25,7 @@ String extjs = request.getContextPath() + "/vendor/ext-4.2.1.883";
 <link rel="stylesheet" type="text/css" href="<%=path%>/ext/resources/css/ext-neptune.css" />
  -->
 
-<link href="<%=path%>/css/menu.css?rand=v9" rel="stylesheet" type="text/css" />
+<link href="<%=path%>/css/menu.css?rand=v10" rel="stylesheet" type="text/css" />
 <!--[if lte IE 6]>
 <link href="<%=path%>/css/menu_ie.css" rel="stylesheet" type="text/css" />
 <![endif]-->
@@ -56,7 +56,7 @@ String extjs = request.getContextPath() + "/vendor/ext-4.2.1.883";
  -->
 	<div class="menucontainer" id="header">
 		<div class="logo"></div>
-		<div class="info">当前登录用户：<%= LoginUtil.getUserId(request) %> &nbsp;&nbsp;&nbsp; <a href="void(0)">退出</a></div>
+		<div class="info">当前登录用户：<%= LoginUtil.getUserId(request) %> &nbsp;&nbsp;&nbsp; <a href="<%= request.getContextPath()%>/logout.jsp">退出</a></div>
 		<div class="menu">
 			<ul>
 <!-- 
@@ -69,8 +69,8 @@ String extjs = request.getContextPath() + "/vendor/ext-4.2.1.883";
 <table><tr><td>
 <ul class="on_on ul_on" ><li>
 <a href="javascript:void(0)" onclick="_addTab('id31','按设备统计','<%=path%>/jsp/statistics/statStep.jsp')">按设备统计</a></li>
-<li><a href="javascript:void(0)" onclick="_addTab('id33','按部门统计','<%=path%>/jsp/statistics/groupStatStep.jsp?type=<%= Constant.DEPT %>')">按部门统计</a></li>
 <li><a href="javascript:void(0)" onclick="_addTab('id32','按地域统计','<%=path%>/jsp/statistics/groupStatStep.jsp?type=<%= Constant.AREA %>')" >按地域统计</a></li>
+<li><a href="javascript:void(0)" onclick="_addTab('id33','按部门统计','<%=path%>/jsp/statistics/groupStatStep.jsp?type=<%= Constant.DEPT %>')">按部门统计</a></li>
 <li><a href="javascript:void(0)" onclick="_addTab('id34','按自定义统计','<%=path%>/jsp/statistics/groupStatStep.jsp?type=<%= Constant.DEFINE %>')">按自定义统计</a></li>
 </ul></td></tr></table>
 
@@ -79,12 +79,12 @@ String extjs = request.getContextPath() + "/vendor/ext-4.2.1.883";
 <li><a href="javascript:void(0)" onclick="_addTab('id4','设备管理','<%= path %>/nodes/nodes_searchNodes.sip')">设备管理</a></li>
 <li><a class="on_on menu_on" href="#" >分组管理</a>
 <table><tr><td>
-<ul class="on_on ul_on" ><li>
-<a href="javascript:void(0)" onclick="_addTab('id52','部门组','<%=path%>/jsp/group/groupEdit.jsp?type=<%= Constant.DEPT %>')" >部门组</a></li>
+<ul class="on_on ul_on" >
 <li><a href="javascript:void(0)" onclick="_addTab('id51','地域组','<%=path%>/jsp/group/groupEdit.jsp?type=<%= Constant.AREA %>')">地域组</a></li>
+<li><a href="javascript:void(0)" onclick="_addTab('id52','部门组','<%=path%>/jsp/group/groupEdit.jsp?type=<%= Constant.DEPT %>')" >部门组</a></li>
 <li><a href="javascript:void(0)" onclick="_addTab('id53','自定义组','<%=path%>/jsp/group/groupEdit.jsp?type=<%= Constant.DEFINE %>')">自定义组</a></li>
-<li><a href="javascript:void(0)" onclick="_addTab('id55','部门分组','<%=path%>/jsp/group/groupNodesFrame.jsp?type=<%= Constant.DEPT %>')" >部门分组</a></li>
 <li><a href="javascript:void(0)" onclick="_addTab('id54','地域分组','<%=path%>/jsp/group/groupNodesFrame.jsp?type=<%= Constant.AREA %>')">地域分组</a></li>
+<li><a href="javascript:void(0)" onclick="_addTab('id55','部门分组','<%=path%>/jsp/group/groupNodesFrame.jsp?type=<%= Constant.DEPT %>')" >部门分组</a></li>
 <li><a href="javascript:void(0)" onclick="_addTab('id56','自定义分组','<%=path%>/jsp/group/groupNodesFrame.jsp?type=<%= Constant.DEFINE %>')" >自定义分组</a></li>
 </ul></td></tr></table>
 

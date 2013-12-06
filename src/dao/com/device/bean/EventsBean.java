@@ -203,7 +203,7 @@ public class EventsBean {
 		cell.setCellStyle(style);
 		cell.setCellStyle(style);
 		cell = row.createCell((short) 4);
-		cell.setCellValue("来源");
+		cell.setCellValue("事件对象");
 		cell.setCellStyle(style);
 		cell = row.createCell((short) 5);
 		cell.setCellValue("时间");
@@ -223,7 +223,7 @@ public class EventsBean {
 			row.createCell((short) 1).setCellValue(event.getSeverity());
 			row.createCell((short) 2).setCellValue(event.getDescription());
 			row.createCell((short) 3).setCellValue(event.getEventObject());
-			row.createCell((short) 3).setCellValue(event.getPhysIdx());
+			row.createCell((short) 4).setCellValue(event.getPhysIdx());
 			row.createCell((short) 5).setCellValue(DateUtil.date2Str(event.getCreateTime(),"yyyy-MM-dd HH:mm:ss"));
 			cell = row.createCell((short) 6);
 			if("1".equals(event.getHandled())){

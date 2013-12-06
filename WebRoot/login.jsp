@@ -100,12 +100,6 @@ body {
 </form>
 </div>
 
-<!--
-<script type="text/javascript" src="<%=path%>/ext/extjs/ext-base.js"></script>
-<script type="text/javascript" src="<%=path%>/ext/extjs/ext-all.js"></script>
-
-<script type="text/javascript" src="<%=path%>/ext/myjs/login.js?rand=1135"></script>
-  -->
 
 </body>
 </html>

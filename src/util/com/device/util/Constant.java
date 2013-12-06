@@ -19,8 +19,8 @@ public class Constant {
 	//部门名称
 	public static Map<String,String> deptMaps = new LinkedHashMap<String,String>();
 	static {
-		groupTypes.put("dept", "部门");
 		groupTypes.put("area", "地域");
+		groupTypes.put("dept", "部门");
 		groupTypes.put("define", "自定义");
 		
 		

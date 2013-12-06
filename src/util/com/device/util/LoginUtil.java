@@ -14,7 +14,7 @@ public class LoginUtil {
 			return result.getUserName();
 		}
 		if(!enabled){
-			return "rainbow";
+			return "admin";
 		}else{
 			return null;
 		}
@@ -35,7 +35,7 @@ public class LoginUtil {
 	
 	public static boolean clearSession(HttpServletRequest request){
 		HttpSession session = request.getSession();
-		session.removeAttribute("userId");
+		session.removeAttribute("ur");
 		return true;
 	}
 

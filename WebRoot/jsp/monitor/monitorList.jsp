@@ -20,11 +20,9 @@
 .alarm {
 	background-color: #FFC0CB;
 }
-
 .warning {
 	background-color: #FFFF00
 }
-
 .normal {
 	background-color: #90EE90
 }
@@ -59,10 +57,11 @@
               <th scope="col">名称</th>
               <th scope="col">状态</th>
               <th scope="col">告警</th>
-              <th scope="col">gbe流量</th>
-              <th scope="col">gbe服务数</th>
-              <th scope="col">qam流量</th>
-              <th scope="col">qam服务数</th>
+              <th scope="col">事件</th>
+              <th scope="col" style="display: none">gbe流量</th>
+              <th scope="col" style="display: none">gbe服务数</th>
+              <th scope="col" style="display: none">qam流量</th>
+              <th scope="col"style="display: none">qam服务数</th>
             </tr>
             <script>
 							var ips = new Array();
@@ -81,12 +80,14 @@
             <tr id="tr<%=item[0]%>">
               <td><a href="javascript:top._addTab('id2-' + '<%=item[0]%>','流量监控-' + '<%=item[1]%>','<%=path%>/jsp/monitor/monitorNodeBitrate.jsp?ids=<%=item[0]%>');void(0)"><%=item[1]%></a></td>
               <td><%=item[2]%></td>
-              <td></td>
-              <td><a href="javascript:top._addTab('id2','报警管理','<%=path%>/jsp/event/eventsFrame.jsp?groupType=<%=groupType%>&groupId=<%=groupId%>');void(0)">告警</a></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td id="tr<%=item[0]%>status"></td>
+              <td id="tr<%=item[0]%>alarm"><a href="javascript:top._addTab('id2','报警管理','<%=path%>/jsp/event/eventsFrame.jsp?groupType=<%=groupType%>&groupId=<%=groupId%>');void(0)"></a></td>
+              <td id="tr<%=item[0]%>event"></td>
+
+              <td style="display: none"></td>
+              <td style="display: none"></td>
+              <td style="display: none"></td>
+              <td style="display: none"></td>
             </tr>
             <%
                 }
@@ -99,65 +100,71 @@
     </tr>
   </table>
   <script type="text/javascript">
-			$(document).ready(function() {
-				var _ips = ips.join(",");
-				var _nodes = nodes.join(",");
-				if (_ips && _nodes) {
-					poll();
-				}
-				
-				function poll() {
-					$.ajax({
-						type : "POST",
-						url : '<%=request.getContextPath()%>/nodes/monitor_query_updateView.sip',
-						dataType : "json",
-						timeout : 5000,
-						data : {
-							ips : _ips,
-							ids : _nodes
-						},
-						success : function(data, textStatus) {
-							handlerMessage(data);
-						},
-						error: function() {
-							setTimeout(poll, 5000);
-						}
-					});
-				}
-				
-				function handlerMessage(data) {
-					if (data == null || !$.isArray(data)) {
-						setTimeout(poll, 5000);
-						return;
-					}
-					
-					for (var i = 0; i < data.length; i++) {
-						var obj = data[i];
-						var otd = $("#tra89c0829-9d2d-4d1a-996e-07bbdcfdd246");
-						var offline = (obj.status != 0);
-						var alarm = obj.alarmCount;
-						var event = obj.eventCount;
-						
-						if (offline != 0) {
-							otd.css("background-color", "#800080");
-						}
-						
-						if (alarm > 0) {
-							otd.css("background-color", "#FFC0CB");
-						}
-						else if (event > 0) {
-							otd.css("background-color", "#FFFF00");
-						}
-						else {
-							//normal
-							otd.css("background-color", "#90EE90");
-						}
-						//if("#"+tid)
-					}
-					
-					setTimeout(poll, 5000);
-				}
-			});
-		</script>
+  	$(document).ready(function() {
+  		var _ips = ips.join(",");
+  		var _nodes = nodes.join(",");
+  		if (_ips && _nodes) {
+  			poll();
+  		}
+  		
+  		function poll() {
+  			$.ajax({
+  				type : "POST",
+  				url : '<%=request.getContextPath()%>/nodes/monitor_query_updateView.sip',
+  				dataType : "json",
+  				timeout : 5000,
+  				data : {
+  					ips : _ips,
+  					ids : _nodes
+  				},
+  				success : function(data, textStatus) {
+  					handlerMessage(data);
+  				},
+  				error: function() {
+  					setTimeout(poll, 5000);
+  				}
+  			});
+  		}
+  		
+  		function handlerMessage(data) {
+  			if (data == null || !$.isArray(data)) {
+  				setTimeout(poll, 5000);
+  				return;
+  			}
+  			
+  			for (var i = 0; i < data.length; i++) {
+  				var obj = data[i];
+  				//var otd = $("#tra89c0829-9d2d-4d1a-996e-07bbdcfdd246");
+  				var otd = $('#tr' + obj.id);
+  				
+  				var offline = (obj.status != 0);
+  				var alarm = obj.alarmCount;
+  				var event = obj.eventCount;
+  				
+  				$('#tr' + obj.id + 'status').html(offline ? '离线' : '在线');
+  				$('#tr' + obj.id + 'alarm').find('a').html(alarm);
+  				$('#tr' + obj.id + 'event').html(event);
+  				
+  				if (offline != 0) {
+  					otd.css("background-color", "#800080");
+  				}
+  				
+  				if (alarm > 0) {
+  					otd.css("background-color", "#FFC0CB");
+  				}
+  				else if (event > 0) {
+  					otd.css("background-color", "#FFFF00");
+  				}
+  				else {
+  					//normal
+  					otd.css("background-color", "#90EE90");
+  				}
+  				//if("#"+tid)
+  			}
+  			
+  			setTimeout(poll, 5000);
+  		}
+  	});
+	</script>
 </BODY>
 </HTML>

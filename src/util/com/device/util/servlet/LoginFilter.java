@@ -50,8 +50,9 @@ public class LoginFilter implements Filter {
         HttpServletResponse httpResponse=(HttpServletResponse)response;
         httpRequest.setCharacterEncoding("GBK");
         HttpSession session = httpRequest.getSession();
+        String requestUrl = httpRequest.getServletPath();
         
-        if(session.getAttribute("user")==null ){
+        if(session.getAttribute("ur")==null && requestUrl.indexOf("n_login.sip") == -1){
         	httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.jsp"); 
         	return ;
         }else{
